@@ -3,8 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>myTrafficWizard</title>
 <style>
+    * {
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1rem;
+        line-height: 1.2rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    div {
+        margin: 0.25rem;
+    }
+
+    section {
+        margin: 1rem;
+    }
+
+    input[type="datetime-local"],
+    input[type="text"],
+    select {
+        width: 20rem;
+        padding: 0.25rem;
+    }
+
+    label {
+        margin-top: 0.75rem;
+    }
+
+    button {
+        margin: 1rem;
+        padding: 0.5rem;
+    }
+
+    .image {
+        width: 100%;
+        height: 25vh;
+        border: 1px solid;
+        margin: auto;
+    }
+
+    .horizontal-center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .vertical-center {
+        height: 100vh;
+    }
+    
     .address {
         display: block;
     }
@@ -14,64 +74,99 @@
     }
 </style>
 </head>
-<body>
-    <div>
-        <label class="address" for="departureDateTime">Departure Date and Time</label>
-        <input class="address" type="datetime-local" id="departureDateTime" name="departureDateTime" required>
+<body class="horizontal-center">
+    <h1 class="horizontal-center">myTrafficWizard</h1>
+    <div class="image horizontal-center">
+        <img src="">
+        <h3>Map Image Here</h3>
     </div>
-    <div>
-        <h2>Departure</h2>
-        <label class="address" for="departureAddress1">Street Address</label>
-        <input class="address" type="text" id="departureAddress1" name="departureAddress1" required>
-        <label class="address" for="departureAddress2">Apt., Suite, Etc. (Optional)</label>
-        <input class="address" type="text" id="departureAddress2" name="departureAddress2">
-        <label class="address" for="departureCity">City</label>
-        <input class="address" type="text" id="departureCity" name="departureCity" required>
-        <label class="address" for="departureState">State</label>
-        <input class="address" type="text" id="departureState" name="departureState" required>
-        <label class="address" for="departureZipCode">Zip Code (Optional)</label>
-        <input class="address" type="text" id="departureZipCode" name="departureZipCode">
-    </div>
-    <div>
-        <h2>Destination</h2>
-        <label class="address" for="destinationAddress1">Street Address</label>
-        <input class="address" type="text" id="destinationAddress1" name="destinationAddress1" required>
-        <label class="address" for="destinationAddress2">Apt., Suite, Etc. (Optional)</label>
-        <input class="address" type="text" id="destinationAddress2" name="destinationAddress2">
-        <label class="address" for="destinationCity">City</label>
-        <input class="address" type="text" id="destinationCity" name="destinationCity" required>
-        <label class="address" for="destinationState">State</label>
-        <input class="address" type="text" id="destinationState" name="destinationState" required>
-        <label class="address" for="destinationZipCode">Zip Code (Optional)</label>
-        <input class="address" type="text" id="destinationZipCode" name="destinationZipCode">
-    </div>
-    <div>
-        <label class="address" for="arrivalDateTime">Arrival Date and Time</label>
-        <input class="address" type="datetime-local" id="arrivalDateTime" name="arrivalDateTime">
-    </div>
-    <div>
-        <h2>Notifications</h2>
-        <div>
-            <input class="notification" type="checkbox" id="emailCheckBox" name="emailCheckBox">
-            <label class="notification" for="emailAddress">E-mail</label>
-            <input class="notification" type="text" id="emailAddress" name="emailAddress" disabled>
+    <form class="horizontal-center">
+        <section class="horizontal-center">
+                <label class="address" for="departureDateTime"><h2>Departure Date and Time</h2></label>
+            <input class="address" type="datetime-local" id="departureDateTime" name="departureDateTime" required>
+        </section>
+        <section class="horizontal-center">
+            <h2>Departure</h2>
+            <label class="address" for="departureAddress1">Street Address</label>
+            <input class="address" type="text" id="departureAddress1" name="departureAddress1" required>
+            <label class="address" for="departureAddress2">Apt., Suite, Etc. (Optional)</label>
+            <input class="address" type="text" id="departureAddress2" name="departureAddress2">
+            <label class="address" for="departureCity">City</label>
+            <input class="address" type="text" id="departureCity" name="departureCity" required>
+            <label class="address" for="departureState">State</label>
+            <select class="address" type="text" id="departureState" name="departureState" required>
+                <option>KS</option>
+                <option>MO</option>
+            </select>
+            <label class="address" for="departureZipCode">Zip Code (Optional)</label>
+            <input class="address" type="text" id="departureZipCode" name="departureZipCode">
+        </section>
+        <section class="horizontal-center">
+            <h2>Destination</h2>
+            <label class="address" for="destinationAddress1">Street Address</label>
+            <input class="address" type="text" id="destinationAddress1" name="destinationAddress1" required>
+            <label class="address" for="destinationAddress2">Apt., Suite, Etc. (Optional)</label>
+            <input class="address" type="text" id="destinationAddress2" name="destinationAddress2">
+            <label class="address" for="destinationCity">City</label>
+            <input class="address" type="text" id="destinationCity" name="destinationCity" required>
+            <label class="address" for="destinationState">State</label>
+            <select class="address" type="text" id="destinationState" name="destinationState" required>
+                <option>KS</option>
+                <option>MO</option>
+            </select>
+            <label class="address" for="destinationZipCode">Zip Code (Optional)</label>
+            <input class="address" type="text" id="destinationZipCode" name="destinationZipCode">
+        </section>
+        <section class="horizontal-center">
+            <label class="address" for="arrivalDateTime"><h2>Estimated Arrival</h2></label>
+            <input class="address" type="datetime-local" id="arrivalDateTime" name="arrivalDateTime">
+        </section>
+        <section class="horizontal-center">
+            <h2>Notifications</h2>
+            <div>
+                <label class="notification" for="emailAddress">
+                    <span><input class="notification" type="checkbox" id="emailCheckBox" name="emailCheckBox"></span>
+                    E-mail
+                </label>
+                <input class="notification" type="text" id="emailAddress" name="emailAddress" disabled>
+            </div>
+            <div>
+                <div>
+                    <label class="notification" for="smsAddress">
+                        <span><input class="notification" type="checkbox" id="smsCheckBox" name="smsCheckBox"></span>
+                        Text Number
+                    </label>
+                    <input class="notification" type="text" id="smsAddress" name="smsAddress" disabled>
+                </div>
+                <div>
+                    <label for="smsProvider">
+                        Cell Provider
+                    </label>
+                    <select type="text" id="smsProvider" name="smsProvider" disabled>
+                        <option>AT & T</option>
+                        <option>Verizon</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="notification" for="discordUser">
+                    <span><input class="notification" type="checkbox" id="discordCheckbox" name="discordCheckbox"></span>
+                    Discord
+                </label>
+                <input class="notification" type="text" id="discordUser" name="discordUser" disabled>
+            </div>
+            <div>
+                <label class="notification" for="slackUser">
+                    <span><input class="notification" type="checkbox" id="slackCheckBox" name="slackCheckBox"></span>
+                    Slack
+                </label>
+                <input class="notification" type="text" id="slackUser" name="slackUser" disabled>
+            </div>
+        </section>
+        <div class="horizontal-center">
+            <button>Submit</button>
         </div>
-        <div>
-            <input class="notification" type="checkbox" id="smsCheckBox" name="smsCheckBox">
-            <label class="notification" for="smsAddress">Text</label>
-            <input class="notification" type="text" id="smsAddress" name="smsAddress" disabled>
-        </div>
-        <div>
-            <input class="notification" type="checkbox" id="discordCheckbox" name="discordCheckbox">
-            <label class="notification" for="discordUser">Discord</label>
-            <input class="notification" type="text" id="discordUser" name="discordUser" disabled>
-        </div>
-        <div>
-            <input class="notification" type="checkbox" id="slackCheckBox" name="slackCheckBox">
-            <label class="notification" for="slackUser">Slack</label>
-            <input class="notification" type="text" id="slackUser" name="slackUser" disabled>
-        </div>
-    </div>
+    </form>
 </body>
 <script>
     const toISOLocalDateTime = (utcDateTime) => {
