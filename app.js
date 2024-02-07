@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch-npm');
 const app = express();
 
 // use __dirname when run locally, '.' when run on Render
