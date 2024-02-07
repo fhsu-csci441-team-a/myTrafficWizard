@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const fetch = require('node-fetch');
 const app = express();
 
 app.use(express.static(__dirname));
@@ -34,6 +35,6 @@ app.get('/postMessage', async (req, res) => {
   res.json(data);
 });
 
-app.listen(3000, () => {
-  console.log('App is listening on port 3000');
+app.listen(process.env.PORT || 3000, () => {
+  console.log('App is listening on port ' + (process.env.PORT || 3000));
 });
