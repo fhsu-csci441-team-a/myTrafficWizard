@@ -4,7 +4,8 @@ const path = require('path');
 const fetch = require('node-fetch');
 const app = express();
 
-app.use(express.static(__dirname));
+// use __dirname when run locally, '.' when run on Render
+app.use(express.static('.'));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
