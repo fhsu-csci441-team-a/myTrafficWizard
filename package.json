@@ -1,0 +1,35 @@
+{
+  "name": "mytrafficwizard",
+  "version": "1.0.0",
+  "description": "My Traffic Wizard",
+  "main": "slack_bot.js",
+  "dependencies": {
+    "asynckit": "^0.4.0",
+    "axios": "^1.6.7",
+    "combined-stream": "^1.0.8",
+    "delayed-stream": "^1.0.0",
+    "dotenv": "^16.4.1",
+    "eventemitter3": "^5.0.1",
+    "express": "^4.18.2",
+    "follow-redirects": "^1.15.5",
+    "form-data": "^4.0.0",
+    "is-electron": "^2.2.2",
+    "is-stream": "^2.0.1",
+    "mime-db": "^1.52.0",
+    "mime-types": "^2.1.35",
+    "node-fetch": "^3.3.2",
+    "p-finally": "^1.0.0",
+    "p-queue": "^6.6.2",
+    "p-retry": "^4.6.2",
+    "p-timeout": "^3.2.0",
+    "proxy-from-env": "^1.1.0",
+    "retry": "^0.13.1",
+    "undici-types": "^5.26.5"
+  },
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
