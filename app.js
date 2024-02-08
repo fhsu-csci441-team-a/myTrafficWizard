@@ -3,14 +3,18 @@ const express = require('express');
 const path = require('path');
 const fetch = require('node-fetch-npm');
 const app = express();
+const slackBotRouter = require('./slack_bot_server');
 
-// use __dirname when run locally, '.' when run on Render
-app.use(express.static('.'));
+// finds current directory (local or hosted): __dirname or "."
+app.use(express.static('__dirname'));
+app.use(express.json()); 
 
+// route of home page directs to index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// route of slack_bot directs to slack_bot.html
 app.get('/slack_bot', (req, res) => {
   res.sendFile(path.join(__dirname, 'slack_bot.html'));
 });
@@ -19,22 +23,7 @@ app.get('/slack_bot.js', (req, res) => {
   res.sendFile(path.join(__dirname, 'slack_bot.js'));
 });
 
-app.get('/postMessage', async (req, res) => {
-  const response = await fetch('https://slack.com/api/chat.postMessage', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `Bearer ${process.env.SLACK_API_TOKEN}`
-    },
-    body: JSON.stringify({
-      channel: 'U06HQP5JN1X',
-      text: 'Hello, world!'
-    })
-  });
-
-  const data = await response.json();
-  res.json(data);
-});
+app.use('/postMessage', slackBotRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('App is listening on port ' + (process.env.PORT || 3000));
