@@ -14,6 +14,9 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+// route to static files like images, css
+app.use('/static', express.static('static'));
+
 // route of slack_bot directs to slack_bot.html
 app.get('/slack_bot', (req, res) => {
   res.sendFile(path.join(__dirname, 'slack_bot.html'));
