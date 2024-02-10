@@ -10,7 +10,7 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
   };
 
   // use '/postMessage' for local run or full URL for deployed app
-  fetch('https://my-traffic-wizard-node-js-2.onrender.com/postMessage', {
+  fetch('https://mytrafficwizard-virs.onrender.com/postMessage', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
