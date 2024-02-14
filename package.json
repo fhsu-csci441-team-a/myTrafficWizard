@@ -18,6 +18,7 @@
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
     "node-fetch-npm": "^2.0.4",
+    "pg":"^8.11.3",
     "p-finally": "^1.0.0",
     "p-queue": "^6.6.2",
     "p-retry": "^4.6.2",
