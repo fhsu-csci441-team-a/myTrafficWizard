@@ -16,9 +16,9 @@ const discordRoutes = require('./routes/discordRoutes');
 
 // Use route files based on relative path
 app.use('/', homeRoutes);
-app.use('/', gmailRoutes);
-app.use('/', slackRoutes);
-app.use('/', discordRoutes);
+app.use('/gmail', gmailRoutes);
+app.use('/slack', slackRoutes);
+app.use('/discord', discordRoutes);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log('App is listening on port ' + (process.env.PORT || 3000));
