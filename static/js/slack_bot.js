@@ -10,8 +10,8 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
   };
 
   try {
-    // use '/postMessage' for local run or full URL for deployed app
-    const response = await fetch('https://mytrafficwizard.onrender.com/postMessage', {
+    // use '/slack/postMessage' for local run or full URL for deployed app
+    const response = await fetch('https://mytrafficwizard.onrender.com/slack/postMessage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
