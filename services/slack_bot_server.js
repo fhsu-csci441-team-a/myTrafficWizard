@@ -1,10 +1,13 @@
+// Processes postMessage requests
+// Expected input parameter format:
+// { "slackId": "C12345678",
+//  "name": "Sample message!"}
+
 const express = require('express');
-const fetch = require('node-fetch-npm');
 const router = express.Router();
+const fetch = require('node-fetch-npm');
 
-router.post('/', async (req, res) => {
-  const { slackId, name } = req.body;
-
+exports.postMessage = async (slackId, message) => {
   const response = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'POST',
     headers: {
@@ -13,12 +16,10 @@ router.post('/', async (req, res) => {
     },
     body: JSON.stringify({
       channel: slackId,
-      text: `Hello, ${name}!`
+      text: `${message}`
     })
   });
 
   const data = await response.json();
-  res.json(data);
-});
-
-module.exports = router;
+  return data;
+};

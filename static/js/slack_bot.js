@@ -2,16 +2,15 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
   event.preventDefault();
 
   const slackId = document.getElementById('slackId').value;
-  const name = document.getElementById('name').value;
+  const message = document.getElementById('message').value;
 
   const payload = {
     slackId: slackId,
-    name: name,
+    message: message,
   };
 
   try {
-    // use '/slack/postMessage' for local run or full URL for deployed app
-    const response = await fetch('https://mytrafficwizard.onrender.com/slack/postMessage', {
+    const response = await fetch('/slack/postMessage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -19,7 +18,12 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
       body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
+    let data;
+    if (response.headers.get('content-type').includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = await response.text();
+    }
     console.log(data);
   } catch (error) {
     console.error('Error:', error);

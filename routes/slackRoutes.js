@@ -6,6 +6,6 @@ const slackBotController = require('../controllers/slackBotController');
 
 router.get('/slack_bot', slackBotController.index);
 router.get('/slack_bot.js', slackBotController.js);
-router.use('/postMessage', slackBotController.postMessage);
+router.post('/postMessage', slackBotController.postMessage);
 
 module.exports = router;
