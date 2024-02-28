@@ -1,7 +1,7 @@
 // slackBotController responsible for controlling messages to Slack
 
 const path = require('path');
-const SlackBotModel = require('../services/slack_bot_server');
+const SlackBotModel = require('../model/slackBotModel');
 
 class SlackBotController {
   constructor() {
@@ -12,7 +12,7 @@ class SlackBotController {
   index(req, res) {
     res.sendFile(path.join(__dirname, '../views/slack_bot.html'));
   }
-  
+
   // serves the slack_bot.js file to process user input
   js(req, res) {
     res.sendFile(path.join(__dirname, '../static/js/slack_bot.js'));
