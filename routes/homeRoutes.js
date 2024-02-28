@@ -2,9 +2,12 @@
 
 const express = require('express');
 const router = express.Router();
-const homeController = require('../controllers/homeController');
+const HomeController = require('../controllers/homeController');
 
-router.get('/', homeController.index);
-router.use('/static', homeController.static);
+// create HomeController object
+const homeController = new HomeController();
+
+router.get('/', (req, res) => homeController.index(req, res));
+router.use('/static', (req, res, next) => homeController.static(req, res, next));
 
 module.exports = router;
