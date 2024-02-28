@@ -1,3 +1,5 @@
+// The app.js file contains the top-level routes */
+
 const dotenv = require('dotenv').config();
 const express = require('express');
 const app = express();

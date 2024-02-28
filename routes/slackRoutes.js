@@ -2,10 +2,11 @@
 
 const express = require('express');
 const router = express.Router();
-const slackBotController = require('../controllers/slackBotController');
+const SlackBotController = require('../controllers/slackBotController');
+const slackBotController = new SlackBotController();
 
-router.get('/slack_bot', slackBotController.index);
-router.get('/slack_bot.js', slackBotController.js);
-router.post('/postMessage', slackBotController.postMessage);
+router.get('/slack_bot', slackBotController.index.bind(slackBotController));
+router.get('/slack_bot.js', slackBotController.js.bind(slackBotController));
+router.post('/postMessage', slackBotController.postMessage.bind(slackBotController));
 
 module.exports = router;

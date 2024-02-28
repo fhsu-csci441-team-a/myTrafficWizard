@@ -3,8 +3,8 @@
 const http = require('http');
 
 const data = JSON.stringify({
-  slackId: 'U06HQP5JN1X',
-  message: 'Updated message!'
+  userID: 'U06HQP5JN1X',
+  formattedMessage: 'Sample Message!'
 });
 
 const options = {
