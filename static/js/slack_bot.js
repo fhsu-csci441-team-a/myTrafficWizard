@@ -5,8 +5,8 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
   const message = document.getElementById('message').value;
 
   const payload = {
-    slackId: slackId,
-    message: message,
+    userID: slackId,
+    formattedMessage: message,
   };
 
   try {

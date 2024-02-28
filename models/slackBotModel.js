@@ -1,12 +1,12 @@
 // Processes postMessage requests to Slack
 // Expected input parameter format:
-// { "userId": "U12345678",
+// { "userID": "U12345678",
 //  "formattedMessage": "Sample message!"}
 
 const fetch = require('node-fetch-npm');
 
 class SlackBotModel {
-  async postMessage(userId, formattedMessage) {
+  async postMessage(userID, formattedMessage) {
     const response = await fetch('https://slack.com/api/chat.postMessage', {
       method: 'POST',
       headers: {
@@ -14,7 +14,7 @@ class SlackBotModel {
         'Authorization': `Bearer ${process.env.SLACK_API_TOKEN}`
       },
       body: JSON.stringify({
-        channel: userId,
+        channel: userID,
         text: `${formattedMessage}`
       })
     });
