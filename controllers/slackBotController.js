@@ -1,7 +1,7 @@
 // slackBotController responsible for controlling messages to Slack
 
 const path = require('path');
-const SlackBotModel = require('../model/slackBotModel');
+const SlackBotModel = require('../models/slackBotModel');
 
 class SlackBotController {
   constructor() {
