@@ -6,6 +6,7 @@
 
 .address {
     display: block;
+    margin-top: 1vh;
 }
 
 body, html {
@@ -22,6 +23,23 @@ button {
     margin: 1rem 0;
     padding: 0.4rem;
     border-radius: 6px;
+}
+
+.departureDateTimeLabel {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+.departure-date-block {
+    margin-top: 5vh;
+}
+
+.departure-block {
+    margin-top: 5vh;
+}
+
+.destination-block {
+    margin-top: 5vh;
 }
 
 footer {
@@ -124,8 +142,18 @@ main {
     display: inline;
 }
 
+.notifications-container {
+    margin-top: 3vh;
+    margin-left: 1.5%;
+}
+
 .notification-input {
     display: block;
+}
+
+.trip-details-container {
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 
@@ -143,6 +171,13 @@ main {
 /* Styles for screens with a minimum width of 601px (desktops and laptops) */
 @media only screen and (min-width: 1024px) {
 
+    .address-container {
+        margin-right: 5%;
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+    }
+    
     button {
         margin: 0.2rem 0;
         border-radius: 6px;
@@ -152,7 +187,8 @@ main {
 
     .button-container {
         display: flex;
-        justify-content: space-between;
+        margin-left: 1.5%;
+        margin-top: 1vh;
         width: 100%;
         padding-left: 0.3rem;
         padding-bottom: 0.2rem;
@@ -162,26 +198,27 @@ main {
         display: block;
         justify-content: space-between;
         max-width: 100%;
+        margin-top: 0.5vh;
     }
 
     .departure-block {
         display: block;
         justify-content: space-between;
         max-width: 100%;
-    }
-
-    .departure-container {
-        margin-right: 5%;
+        margin-top: 4vh;
     }
 
     .destination-block {
-        display: block;
+        display: flex;
+        flex-direction: column;
         justify-content: space-between;
         max-width: 100%;
+        margin-top: 4vh;
     }
 
-    .destination-container {
-        margin-right: 5%;
+    .departureDateTimeLabel {
+        margin-top: 3vh;
+        margin-bottom: 2vh;
     }
 
     .estimated-arrival {
@@ -190,8 +227,16 @@ main {
         max-width: 100%;
     }
 
+    footer {
+        height: 7vh;
+    }
+
     .footer-copyright {
         padding: 0.85rem;
+    }
+
+    .form-container {
+        display: block;
     }
 
     h1 {
@@ -207,6 +252,10 @@ main {
     h3 {
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
+    }
+
+    header {
+        height: 10vh;
     }
 
     input[type="datetime-local"],
@@ -230,12 +279,13 @@ main {
 
     main {
         padding: 0 2rem;
+        height: 83vh;
     }
 
     .map-image-desktop {
         display: flex;
         padding: 1rem 0;
-        margin: 0;
+        margin-top: 2vh;
         width: 70%;
     }
 
@@ -245,33 +295,28 @@ main {
 
     .notifications-block {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 84%
+        width: 100%;
     }
 
     .notifications-block .input-group {
-        max-width: 40%;
+        max-width: 70%;
+    }
+
+    .notifications-container {
+        width: 50%;
+        margin-top: 1vh;
     }
 
     .trip-details-container {
         display: flex;
         width: 100%;
+        flex-direction: row;
     }
 }
 
 @media only screen and (min-width: 1260px) {
 
-    header {
-        height: 10vh;
-    }
-
-    footer {
-        height: 7vh;
-    }
-
-    main {
-        height: 83vh;
-    }
 }
