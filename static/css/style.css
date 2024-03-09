@@ -25,6 +25,10 @@ button {
     border-radius: 6px;
 }
 
+.button-container {
+    margin-left: 2.3vw;
+}
+
 .departureDateTimeLabel {
     margin-top: 1vh;
     margin-bottom: 1vh;
@@ -151,12 +155,6 @@ main {
     display: block;
 }
 
-.trip-details-container {
-    display: flex;
-    flex-direction: column-reverse;
-}
-
-
 @media only screen and (min-width: 601px) {
     h1 {
         font-size: 2.2rem;
@@ -187,8 +185,8 @@ main {
 
     .button-container {
         display: flex;
-        margin-left: 1.5%;
-        margin-top: 1vh;
+        margin-left: 0.1vw;
+        margin-top: 3vh;
         width: 100%;
         padding-left: 0.3rem;
         padding-bottom: 0.2rem;
@@ -205,7 +203,7 @@ main {
         display: block;
         justify-content: space-between;
         max-width: 100%;
-        margin-top: 4vh;
+        margin-top: 4.8vh;
     }
 
     .destination-block {
@@ -213,7 +211,7 @@ main {
         flex-direction: column;
         justify-content: space-between;
         max-width: 100%;
-        margin-top: 4vh;
+        margin-top: 4.8vh;
     }
 
     .departureDateTimeLabel {
@@ -307,7 +305,7 @@ main {
 
     .notifications-container {
         width: 50%;
-        margin-top: 1vh;
+        margin-top: 1.3vh;
     }
 
     .trip-details-container {
