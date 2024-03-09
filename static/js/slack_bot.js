@@ -2,11 +2,11 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
   event.preventDefault();
 
   const slackId = document.getElementById('slackId').value;
-  const name = document.getElementById('name').value;
+  const message = document.getElementById('message').value;
 
   const payload = {
-    slackId: slackId,
-    name: name,
+    userID: slackId,
+    formattedMessage: message,
   };
 
   try {
@@ -19,7 +19,12 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
       body: JSON.stringify(payload),
     });
 
-    const data = await response.json();
+    let data;
+    if (response.headers.get('content-type').includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = await response.text();
+    }
     console.log(data);
   } catch (error) {
     console.error('Error:', error);
