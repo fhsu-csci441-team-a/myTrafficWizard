@@ -1,3 +1,5 @@
+// The app.js file contains the top-level routes */
+
 const dotenv = require('dotenv').config();
 const express = require('express');
 const app = express();
@@ -5,8 +7,8 @@ const path = require('path');
 const fetch = require('node-fetch-npm');
 
 // finds current directory (local or hosted): __dirname or "."
-app.use(express.static('__dirname'));
-app.use(express.json()); 
+app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.json());
 
 // Import individual route files
 const homeRoutes = require('./routes/homeRoutes');
