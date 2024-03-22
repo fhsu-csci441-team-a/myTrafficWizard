@@ -1,6 +1,19 @@
-// responsible for controlling request for Discord messages
+const { Client, IntentsBitField } = require('discord.js');
+const express = require('express');
+const bodyParser = require('body-parser');
+const Discord = require('discord.js');
+const app = express();
+const PORT = 3000;
+const client = new Client({
+    intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.MessageContent,
+        IntentsBitField.Flags.DirectMessages,
+    ],
+});
 
-<<<<<<< HEAD
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -28,7 +41,7 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
 });
 
-client.login('abc');
+client.login(process.env.DISCORD_API_TOKEN);
 
 
 
@@ -47,8 +60,3 @@ async function sendToDiscordBot(discordId, name) {
         console.error(`Error sending message to user with Discord ID ${discordId}:`, error);
     }
 }
-=======
-exports.sendMessage = (req, res) => {
-    // code to send message through Discord here
-  };
->>>>>>> parent of 6633ef9 (Update discordBotController.js)
