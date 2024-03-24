@@ -5,6 +5,11 @@
 // import path module to work with file/directory paths
 const path = require('path');
 
+// import files for other classes
+// const InputValidation = require('./InputValidation');
+// const FormData = require('./FormData');
+// const DatabaseConnection = require('./DatabaseConnection');
+
 // import express module for Express app
 const express = require('express');
 
@@ -13,11 +18,19 @@ class HomeController {
 
   // declare private class attribute
   #staticPath;
+  // #formSubmissionObject;
+  // #inputValidationObject;
+  // #scheduledTripsObject;
 
   constructor() {
     // assigns middleware function to attribute for serving static files
     // initial set up process makes it more efficient to create attribute
     this.#staticPath = express.static(path.join(__dirname, '../static'));
+    
+    // create FormData, InputValidation, and DatabaseConnection objects
+    // this.#formSubmissionObject = new FormData();
+    // this.#inputValidationObject = new InputValidation();
+    // this.#scheduledTripsObject = new DatabaseConnection();
   }
 
   // serves the index.html home page in response to GET request
@@ -29,6 +42,29 @@ class HomeController {
   serveStatic(req, res, next) {
     this.#staticPath(req, res, next);
   }
+
+  // async formSubmission(formSubmissionObject) {
+  //   // validate form data input
+  //   // if all validations pass, submit form data to the database
+  //   try {
+  //       const isAddressValid = await this.#inputValidationObject.checkAddress(formSubmissionObject.address);
+  //       const isEmailValid = await this.#inputValidationObject.checkEmail(formSubmissionObject.email);
+  //       const isPhoneValid = await this.#inputValidationObject.checkPhone(formSubmissionObject.phone);
+  //       const isSlackIdValid = await this.#inputValidationObject.checkSlackId(formSubmissionObject.slackId);
+  //       const isDiscordIdValid = await this.#inputValidationObject.checkDiscordId(formSubmissionObject.discordId);
+
+  //       if (isAddressValid && isEmailValid && isPhoneValid 
+  //         && isSlackIdValid && isDiscordIdValid) {
+  //           // submit form data for trip to the database
+  //           await this.#scheduledTripsObject.createTrip(formSubmissionObject);
+  //       } else {
+  //           // handle validation errors
+  //           console.error('Form validation failed');
+  //       }
+  //   } catch (error) {
+  //       console.error('Error during form submission:', error);
+  //   }
+  // }
 }
 
 // export class so other modules can create HomeController objects

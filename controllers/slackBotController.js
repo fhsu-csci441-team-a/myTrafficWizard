@@ -27,19 +27,50 @@ class SlackBotController {
   }
 
   // sends a message to Slack
-  async postMessage(req, res) {
-    
-    // uses the parameters passed in request body
-    const userID = req.body.userID;
-    const formattedMessage = req.body.formattedMessage;
+  async postMessage(...args) {
+
+    var userID, formattedMessage;
+
+    // if first argument is object, assume (req, res)
+    if (typeof args[0] === 'object' && args[0].body) {
+        userID = args[0].body.userID;
+        formattedMessage = args[0].body.formattedMessage;
+    }
+
+    // elif first argument has no body, assume (userID, formattedMessage)
+    else if (args.length === 2) {
+        userID = args[0];
+        formattedMessage = args[1];
+    }
+
+    // otherwise, throw an error
+    else {
+        throw new Error('Invalid arguments');
+    }
 
     // try/catch to handle any errors
     try {
-      // Use the postMessage function from SlackBotModel to send the message to Slack
+      // use postMessage to send the message to Slack
       const response = await this.#slackBotModel.postMessage(userID, formattedMessage);
-      res.status(200).send(response);
+
+      // if (req, res) were passed, send the response
+      // if (req, res) were passed, send the response
+      if (typeof args[0] === 'object' && args[0].body) {
+        args[1].status(200).send(response);
+      }
+      // otherwise, return the response
+      else {
+        return response;
+      }
     } catch (err) {
-      res.status(500).send(err.message);
+      // If (req, res) were passed, send the error message
+      if (typeof args[0] === 'object' && args[0].body) {
+        args[1].status(500).send(err.message);
+      }
+      // Otherwise, throw the error
+      else {
+        throw err;
+      }
     }
   }
 }
