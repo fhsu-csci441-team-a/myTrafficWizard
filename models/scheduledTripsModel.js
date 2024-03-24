@@ -217,6 +217,31 @@ class ScheduledTripsModel {
     }
 
     /**
+    * Retrieves a specific trip by its tripID.
+    * @param {number} id - The ID of the trip to update.
+    * @param {string} status - New notification status
+    * @returns {Promise<Object>} The trip details or an error message.
+    */
+    async updateNotificationStatus(id, status) {
+        const query = `
+        update scheduled_trips 
+        set notification_status = $2
+        where trip_id = $1
+        RETURNING *;
+        `;
+
+        const queryParams = [id, status]
+
+        try {
+            const queryResultRows = await this.#connection.query(query, queryParams);
+            return this.#messageOperationSuccess(queryResultRows);
+        }
+        catch (error) {
+            return this.#messageOperationFailure(error);
+        }
+    }
+
+    /**
      * Closes the database connection.
      */
     async close() {
