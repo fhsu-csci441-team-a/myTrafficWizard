@@ -220,7 +220,7 @@ class ScheduledTripsModel {
     * Updates the notification status for a specific trip.
     * @param {number} id - The ID of the trip to update.
     * @param {string} status - New notification status
-    * @returns {Promise<Object>} The trip details or an error message.
+    * @returns {Promise<Object>} The updated trip or an error message.
     */
     async updateNotificationStatus(id, status) {
         const query = `
