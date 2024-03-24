@@ -24,7 +24,7 @@ require('dotenv').config();
  *   mobile_provider: 'Provider 1',
  *   user_id_discord: 'discord123',
  *   user_id_slack: 'slack456',
- *   notification_status: 'pending'
+ *   notification_status: null
  * };
  *
  * async function createTrip() {
