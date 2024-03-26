@@ -12,12 +12,16 @@ app.use(express.json());
 
 // Import individual route files
 const homeRoutes = require('./routes/homeRoutes');
+const addressRoutes = require('./routes/addressRoutes');
+const testAddressModel = require('./tests/testAddressModel');
 const gmailRoutes = require('./routes/gmailRoutes');
 const slackRoutes = require('./routes/slackRoutes');
 const discordRoutes = require('./routes/discordRoutes');
 
 // Use route files based on relative path
 app.use('/', homeRoutes);
+app.use('/address', addressRoutes);
+app.use('/testaddress', testAddressModel);
 app.use('/gmail', gmailRoutes);
 app.use('/slack', slackRoutes);
 app.use('/discord', discordRoutes);

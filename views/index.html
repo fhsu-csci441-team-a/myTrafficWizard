@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Traffic Wizard</title>
     <link rel="stylesheet" href="static/css/style.css"></link>
+    <script src="js/userInterface.js" defer></script>
 </head>
 <body class="horizontal-center">
     <header class="home-page-header">
@@ -28,7 +29,7 @@
                                 <input class="address" type="datetime-local" id="departureDateTime" name="departureDateTime" required>
                             </div>
                         </section>
-                        <section class="horizontal-center departure-block">
+                        <section id="departureDetails" class="horizontal-center departure-block">
                             <div class="input-group">
                                 <h2>Departure</h2>
                                 <label class="address" for="departureAddress1">Enter Address</label>
@@ -54,7 +55,7 @@
                                 <input class="address" type="text" id="departureZipCode" name="departureZipCode">
                             </div> -->
                         </section>
-                        <section class="horizontal-center destination-block">
+                        <section id="destinationDetails" class="horizontal-center destination-block">
                             <div class="input-group">
                                 <h2>Destination</h2>
                                 <label class="address" for="destinationAddress1">Enter Address</label>
@@ -138,12 +139,6 @@
     </footer>
 </body>
 <script>
-    const toISOLocalDateTime = (utcDateTime) => {
-        localDateTime = new Date(utcDateTime - utcDateTime.getTimezoneOffset() * 60000);
-        return localDateTime.toISOString().slice(0,-8);
-    }
-    const dateControl = document.getElementById("departureDateTime");
-    dateControl.value = toISOLocalDateTime(new Date());
-    console.log(dateControl.value);
+
 </script>
 </html>
