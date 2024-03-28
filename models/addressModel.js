@@ -71,7 +71,7 @@ class AddressModel {
         this.#address = encodeURIComponent(address);
 
         const url = `https://api.tomtom.com/search/${AddressModel.#versionNumber}/search/
-                    ${encodeURIComponent(this.#address)}.json
+                    ${this.#address}.json
                     ?key=${this.#apiKey}`;
 
         console.log(url);
