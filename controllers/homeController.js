@@ -7,8 +7,7 @@ const path = require('path');
 
 // import files for other classes
 // const InputValidation = require('./InputValidation');
-// const FormData = require('./FormData');
-// const DatabaseConnection = require('./DatabaseConnection');
+const ScheduledTripsModel = require('../models/scheduledTripsModel');
 
 // import express module for Express app
 const express = require('express');
@@ -18,7 +17,6 @@ class HomeController {
 
   // declare private class attribute
   #staticPath;
-  #formSubmissionObject;
   // #inputValidationObject;
   #scheduledTripsObject;
 
@@ -27,10 +25,9 @@ class HomeController {
     // initial set up process makes it more efficient to create attribute
     this.#staticPath = express.static(path.join(__dirname, '../static'));
     
-    // create FormData, InputValidation, and DatabaseConnection objects
-    this.#formSubmissionObject = new FormData();
+    // create InputValidation and ScheduledTripsModel objects
     // this.#inputValidationObject = new InputValidation();
-    // this.#scheduledTripsObject = new DatabaseConnection();
+    this.#scheduledTripsObject = new ScheduledTripsModel();
   }
 
   // serves the index.html home page in response to GET request
