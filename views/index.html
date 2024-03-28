@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Traffic Wizard</title>
     <link rel="stylesheet" href="static/css/style.css"></link>
+    <script src="js/userInterface.js" defer></script>
 </head>
 <body class="horizontal-center">
     <header class="home-page-header">
@@ -16,7 +17,6 @@
     <main class="home-page-main">
         <div class="image horizontal-center">
             <img src="static/images/map-placeholder.jpg" class="map-image-mobile" alt="map of route">
-            <!-- <h3>Map Image Here</h3> -->
         </div>
         <form class="horizontal-center">
             <div class="form-container">
@@ -24,67 +24,37 @@
                     <div class ="address-container">
                         <section class="horizontal-center departure-date-block">
                             <div class="input-group">
-                                <label class="address departureDateTimeLabel" for="departureDateTime"><h2>Departure Date and Time</h2></label>
-                                <input class="address" type="datetime-local" id="departureDateTime" name="departureDateTime" required>
+                                <label class="address departureDateTimeLabel" for="departure_date"><h2>Departure Date and Time</h2></label>
+                                <input class="address" type="datetime-local" id="departure_date" name="departure_date" required>
                             </div>
                         </section>
-                        <section class="horizontal-center departure-block">
+                        <section id="departureDetails" class="horizontal-center departure-block">
                             <div class="input-group">
                                 <h2>Departure</h2>
-                                <label class="address" for="departureAddress1">Enter Address</label>
-                                <input class="address" type="text" id="departureAddress1" name="departureAddress1" required>
+                                <label class="address" for="departureAddress">Enter Address</label>
+                                <input class="address" type="text" id="departureAddress" name="departureAddress" required>
                             </div>
-                            <!-- <div class="input-group">
-                                <label class="address" for="departureAddress2">Apt., Suite, Etc. (Optional)</label>
-                                <input class="address" type="text" id="departureAddress2" name="departureAddress2">
+                            <div id="departureAddressMatches">
+                                <!-- Departure address matches filled in here. -->
                             </div>
-                            <div class="input-group">
-                                <label class="address" for="departureCity">City</label>
-                            <input class="address" type="text" id="departureCity" name="departureCity" required>
+                            <div>
+                                <input type="text" id="departure_latitude" name="departure_latitude" hidden>
+                                <input type="text" id="departure_longitude" name="departure_longitude" hidden>
                             </div>
-                            <div class="input-group">
-                                <label class="address" for="departureState">State</label>
-                                <select class="address" type="text" id="departureState" name="departureState" required>
-                                    <option>KS</option>
-                                    <option>MO</option>
-                                </select>   
-                            </div>
-                            <div class="input-group">
-                                <label class="address" for="departureZipCode">Zip Code (Optional)</label>
-                                <input class="address" type="text" id="departureZipCode" name="departureZipCode">
-                            </div> -->
                         </section>
-                        <section class="horizontal-center destination-block">
+                        <section id="destinationDetails" class="horizontal-center destination-block">
                             <div class="input-group">
                                 <h2>Destination</h2>
-                                <label class="address" for="destinationAddress1">Enter Address</label>
-                                <input class="address" type="text" id="destinationAddress1" name="destinationAddress1" required>
+                                <label class="address" for="destinationAddress">Enter Address</label>
+                                <input class="address" type="text" id="destinationAddress" name="destinationAddress" required>
                             </div>
-                            <!-- <div class="input-group">
-                                <label class="address" for="destinationAddress2">Apt., Suite, Etc. (Optional)</label>
-                                <input class="address" type="text" id="destinationAddress2" name="destinationAddress2">
+                            <div id="destinationAddressMatches">
+                                <!-- Departure address matches filled in here. -->
                             </div>
-                            <div class="input-group">
-                                <label class="address" for="destinationCity">City</label>
-                                <input class="address" type="text" id="destinationCity" name="destinationCity" required>
+                            <div>
+                                <input type="text" id="destination_latitude" name="departure_latitude" hidden>
+                                <input type="text" id="destination_longitude" name="departure_longitude" hidden>
                             </div>
-                            <div class="input-group">
-                                <label class="address" for="destinationState">State</label>
-                                <select class="address" type="text" id="destinationState" name="destinationState" required>
-                                    <option>KS</option>
-                                    <option>MO</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label class="address" for="destinationZipCode">Zip Code (Optional)</label>
-                                <input class="address" type="text" id="destinationZipCode" name="destinationZipCode">
-                            </div>
-                            </section>
-                        <section class="horizontal-center">
-                            <div class="input-group estimated-arrival">
-                                <label class="address" for="arrivalDateTime"><h2>Estimated Arrival</h2></label>
-                                <input class="address" type="datetime-local" id="arrivalDateTime" name="arrivalDateTime">
-                            </div> -->
                         </section>
                     </div>
                     <section class="notifications-container"> 
@@ -92,38 +62,35 @@
                         <div class="notifications-block">
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="emailCheckBox" name="emailCheckBox">
-                                <label class="notification-label" for="emailAddress">E-mail</label>
-                                <input class="notification-input" type="text" id="emailAddress" name="emailAddress" disabled>
+                                <label class="notification-label" for="email_address">E-mail</label>
+                                <input class="notification-input" type="text" id="email_address" name="email_address" disabled>
                             </div>
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="smsCheckBox" name="smsCheckBox">
-                                <label class="notification-label" for="smsAddress">Mobile Number</label>
-                                <input class="notification-input" type="text" id="smsAddress" name="smsAddress" disabled>
+                                <label class="notification-label" for="mobile_number">Mobile Number</label>
+                                <input class="notification-input" type="text" id="mobile_number" name="mobile_number" disabled>
                             </div>
                             <div class="input-group">
-                                    <label class="notification-label" for="smsProvider">Cell Provider</label>
-                                    <select class="notification-input" type="text" id="smsProvider" name="smsProvider" disabled>
+                                    <label class="notification-label" for="mobile_provider">Cell Provider</label>
+                                    <select class="notification-input" type="text" id="mobile_provider" name="mobile_provider" disabled>
                                         <option>AT&T</option>
                                         <option>Verizon</option>
                                     </select>
                             </div>
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="discordCheckbox" name="discordCheckbox">
-                                <label class="notification-label" for="discordUser">Discord</label>
-                                <input class="notification-input" type="text" id="discordUser" name="discordUser" disabled>
+                                <label class="notification-label" for="user_id_discord">Discord</label>
+                                <input class="notification-input" type="text" id="user_id_discord" name="user_id_discord" disabled>
                             </div>
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="slackCheckBox" name="slackCheckBox">
-                                <label class="notification-label" for="slackUser">Slack</label>
-                                <input class="notification-input" type="text" id="slackUser" name="slackUser" disabled>
+                                <label class="notification-label" for="user_id_slack">Slack</label>
+                                <input class="notification-input" type="text" id="user_id_slack" name="user_id_slack" disabled>
                             </div>
                         <div class="notifications-block"></div>
                     </section>
-                    <!-- <div class ="destination-container">
-                    </div> -->
                     <div class="image horizontal-center">
                         <img src="static/images/map-placeholder.jpg" class="map-image-desktop" alt="map of route">
-                        <!-- <h3>Map Image Here</h3> -->
                     </div>
                 </div>
             </div>
@@ -138,12 +105,6 @@
     </footer>
 </body>
 <script>
-    const toISOLocalDateTime = (utcDateTime) => {
-        localDateTime = new Date(utcDateTime - utcDateTime.getTimezoneOffset() * 60000);
-        return localDateTime.toISOString().slice(0,-8);
-    }
-    const dateControl = document.getElementById("departureDateTime");
-    dateControl.value = toISOLocalDateTime(new Date());
-    console.log(dateControl.value);
+
 </script>
 </html>
