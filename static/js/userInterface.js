@@ -38,6 +38,7 @@ const matchAddresses = (addressPart, elementID) => {
 
             // Create a div to hold an address match
             let div = document.createElement("div");
+            div.className = "address-dropdown";
             div.append(element.address);
 
             // Add a click event listener to the div holding the current address match
@@ -174,12 +175,58 @@ const initPage = async () => {
         // slackTextBox should be disabled if slackCheckBox is unchecked.
         else slackTextBox.disabled = true;
     });
+
+    // Function to handle form submission
+    const handleFormSubmit = () => {
+        // Get the form element
+        const form = document.querySelector('form');
+    
+        form.addEventListener('submit', (event) => {
+            // Prevent the form from being submitted in the traditional way
+            event.preventDefault();
+        
+            // Create a FormData object from the form
+            const formData = new FormData(form);
+    
+            // Create a JSON object from the FormData
+            let jsonObject = {};
+            for (let [key, value] of formData.entries()) {
+                jsonObject[key] = value;
+            }
+
+            // Send the form data to the server
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonObject)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(data => {
+                // Handle the response data
+                console.log('Form submission successful:', data);
+            })
+            .catch(error => {
+                console.error('Error during form submission:', error);
+            });
+        });
+    }
+
+    // Call handleFormSubmit to start the form submission event listener
+    handleFormSubmit();
 }
+
+
 
 // Initialize the entire User Interface.
 const initUI = () => {
     initPage();
-
 }
 
 // Add a listener to initialize the app when the DOM Content is fully loaded.

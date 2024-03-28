@@ -72,7 +72,7 @@ class AddressModel {
 
         const url = `https://api.tomtom.com/search/${AddressModel.#versionNumber}/search/
                     ${this.#address}.json
-                    ?key=${this.#apiKey}`;
+                    ?key=${this.#apiKey}&countrySet=US&typeahead=true&limit=10&minFuzzyLevel=1&maxFuzzyLevel=2`;
 
         console.log(url);
         try {
