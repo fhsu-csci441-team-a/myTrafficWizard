@@ -9,6 +9,17 @@
     margin-top: 1vh;
 }
 
+/* This applies to each address in the drop-down menu list */
+.address-dropdown {
+    padding: 5px; 
+    cursor: pointer;
+}
+
+/* This applies to addresses upon mouse hover in drop-down menu list */
+.address-dropdown:hover {
+    background-color: #f1f1f1;
+}
+
 body, html {
     font-family: Arial, sans-serif;
     margin: 0px;
@@ -29,9 +40,24 @@ button {
     margin-left: 2.3vw;
 }
 
+/* This applies to the departure address drop-down menu */
+#departureAddressMatches {
+    position: absolute; 
+    z-index: 10; 
+    min-width: 78vw;
+    max-width: 92vw; 
+    max-height: 20vh;
+    overflow-y: auto;
+    background-color: white;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
 .departureDateTimeLabel {
     margin-top: 1vh;
-    margin-bottom: 1vh;
+    /* margin-bottom: 1vh; */
 }
 
 .departure-date-block {
@@ -42,9 +68,43 @@ button {
     margin-top: 5vh;
 }
 
+#departure_latitude {
+    display: none;
+    border: none;
+}
+
+#departure_longitude {
+    display: none;
+    border: none;
+}
+
+/* This applies to the departure address drop-down menu */
+#destinationAddressMatches {
+    position: absolute; 
+    z-index: 10; 
+    min-width: 78vw;
+    max-width: 92vw; 
+    max-height: 20vh;
+    overflow-y: auto;
+    background-color: white;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
 .destination-block {
     margin-top: 5vh;
 }
+
+#destination_latitude {
+    display: none;
+}
+
+#destination_longitude {
+    display: none;
+}
+
 
 footer {
     background-color: #9a9a9a;
@@ -110,7 +170,7 @@ select {
 
 label {
     margin-top: 0.6rem;
-    margin-bottom: 0.1rem;
+    /* margin-bottom: 0.1rem; */
     text-wrap: nowrap;
 }
 
@@ -155,6 +215,13 @@ main {
     display: block;
 }
 
+.trip-details-container {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+    height: 100%;
+}
+
 @media only screen and (min-width: 601px) {
     h1 {
         font-size: 2.2rem;
@@ -170,10 +237,14 @@ main {
 @media only screen and (min-width: 1024px) {
 
     .address-container {
-        margin-right: 5%;
-        width: 40%;
+        margin-top: 0;
+        flex: 1;
+        margin-right: 2%;
+        min-width: 30%;
+        max-width: 50%;
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
     }
     
     button {
@@ -192,11 +263,20 @@ main {
         padding-bottom: 0.2rem;
     }
 
+    #departureAddressMatches {
+        min-width: 40vw;
+        max-width: 60vw;
+    }
+
     .departure-date-block {
         display: block;
         justify-content: space-between;
         max-width: 100%;
-        margin-top: 0.5vh;
+        margin-top: 0;
+    }
+
+    .departure-date-block .input-group {
+        margin-top: 0;
     }
 
     .departure-block {
@@ -207,6 +287,7 @@ main {
     }
 
     .destination-block {
+        position: relative;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -214,9 +295,10 @@ main {
         margin-top: 4.8vh;
     }
 
-    .departureDateTimeLabel {
-        margin-top: 3vh;
-        margin-bottom: 2vh;
+    #destinationAddressMatches {
+        min-width: 40vw;
+        max-width: 60vw;
+        top: 100%;
     }
 
     .estimated-arrival {
@@ -284,7 +366,7 @@ main {
         display: flex;
         padding: 1rem 0;
         margin-top: 2vh;
-        width: 70%;
+        width: 100%;
     }
 
     .map-image-mobile {
@@ -292,25 +374,36 @@ main {
     }
 
     .notifications-block {
+        flex: 1;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
         justify-content: space-between;
-        width: 100%;
+        min-width: 100%;
+        min-height: 88%;
     }
 
     .notifications-block .input-group {
-        max-width: 70%;
+        min-width: 90%;
     }
 
     .notifications-container {
-        width: 50%;
-        margin-top: 1.3vh;
+        margin-top: 0;
+        margin-left: 0;
+        flex: 1;
+        min-width: 30%;
+        max-width: 40%;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
     }
 
     .trip-details-container {
+        padding-top: 2vh;
         display: flex;
         width: 100%;
+        min-height: 50%;
+        max-height: 90%;
         flex-direction: row;
     }
 }

@@ -16,5 +16,15 @@ router.get('/', (req, res) => homeController.serveIndex(req, res));
 // define static file route for /static folder
 router.use('/static', (req, res, next) => homeController.serveStatic(req, res, next));
 
+// define route for form submissions
+router.post('/submit', (req, res) => {
+    homeController.formSubmission(req.body)
+        .then(() => res.sendStatus(200))
+        .catch((error) => {
+            console.error('Error during form submission:', error);
+            res.sendStatus(500);
+        });
+});
+
 // export the router object to allow other modules to use routes
 module.exports = router;
