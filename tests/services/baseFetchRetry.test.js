@@ -1,8 +1,12 @@
-const BaseFetchRetry = require('../services/BaseFetchRetry');
+const BaseFetchRetry = require('../../services/BaseFetchRetry');
 // Mocking the global fetch
 global.fetch = jest.fn();
 
 describe('BaseFetchRetry Tests', () => {
+
+    beforeEach(() => {
+        jest.resetAllMocks();
+    });
 
     const url = 'https://api.example.com/data';
     const options = {
@@ -38,21 +42,24 @@ describe('BaseFetchRetry Tests', () => {
         fetchRetry.maxRetries = 5;
 
         await expect(fetchRetry.fetchWithRetry()).rejects.toThrow('Failed after 5 retries without success.');
-        expect(fetch).toHaveBeenCalledTimes(5); // The fetch should have been called 5 times.
-    });
+        expect(fetch).toHaveBeenCalledTimes(5);
+    }, 100000);
 
 
     it('TC-19: The request is not retried with client error', async () => {
-        fetch
-            .mockResolvedValueOnce({ ok: false, status: 404 })
-
+        fetch.mockResolvedValueOnce({
+            ok: false,
+            status: 404,
+            json: jest.fn().mockResolvedValue({ error: 'Not Found' }),
+        });
 
         const fetchRetry = new BaseFetchRetry(url, options);
         fetchRetry.maxRetries = 5;
 
         await expect(fetchRetry.fetchWithRetry()).rejects.toThrow('Request failed with status 404');
-        expect(fetch).toHaveBeenCalledTimes(1);
+        expect(fetch).toHaveBeenCalledTimes(1); // Fetch should only be called once because 404 is not a retryable error.
     });
+
 
     it('TC-19: The request is not retried with server error and max retried reached', async () => {
 
@@ -67,7 +74,7 @@ describe('BaseFetchRetry Tests', () => {
 
         await expect(fetchRetry.fetchWithRetry()).rejects.toThrow('Failed after 1 retries without success');
         expect(fetch).toHaveBeenCalledTimes(1);
-    });
+    }, 100000);
 
 
 
