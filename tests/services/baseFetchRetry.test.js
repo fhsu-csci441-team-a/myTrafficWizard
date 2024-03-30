@@ -14,7 +14,7 @@ describe('BaseFetchRetry Tests', () => {
         headers: { 'Accept': 'application/json' },
     };
 
-    it('TC-19: Should succeed without retries on a successful response', async () => {
+    it('TC-19: The request is not retried on a successful response', async () => {
 
         fetch.mockResolvedValueOnce({
             ok: true,
