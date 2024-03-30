@@ -27,7 +27,7 @@ class HomeController {
     
     // create InputValidation and ScheduledTripsModel objects
     // this.#inputValidationObject = new InputValidation();
-    this.#scheduledTripsObject = new ScheduledTripsModel();
+    this.#scheduledTripsObject;
   }
 
   // serves the index.html home page in response to GET request
@@ -44,7 +44,28 @@ class HomeController {
     // validate form data input
     // if all validations pass, submit form data to the database
     try {
-        console.log(formSubmissionObject);
+        // create new model for each form submission
+        this.#scheduledTripsObject = new ScheduledTripsModel();
+
+        // create object with only trip data needed in database
+        const tripData = {
+          email_address: formSubmissionObject.email_address,
+          departure_latitude: formSubmissionObject.departure_latitude,
+          departure_longitude: formSubmissionObject.departure_longitude,
+          destination_latitude: formSubmissionObject.destination_latitude,
+          destination_longitude: formSubmissionObject.destination_longitude,
+          departure_date: new Date(formSubmissionObject.departure_date),
+          mobile_number: formSubmissionObject.mobile_number,
+          mobile_provider: formSubmissionObject.mobile_provider,
+          user_id_discord: formSubmissionObject.user_id_discord,
+          user_id_slack: formSubmissionObject.user_id_slack,
+          notification_status: null
+        }
+
+        // submit tripData to database
+        const resultCreateTrip = await this.#scheduledTripsObject.createTrip(tripData);
+        console.log(resultCreateTrip);
+        
         // const isAddressValid = await this.#inputValidationObject.checkAddress(formSubmissionObject.address);
         // const isEmailValid = await this.#inputValidationObject.checkEmail(formSubmissionObject.email);
         // const isPhoneValid = await this.#inputValidationObject.checkPhone(formSubmissionObject.phone);
@@ -61,6 +82,9 @@ class HomeController {
         // }
     } catch (error) {
         console.error('Error during form submission:', error);
+    } finally {
+      this.#scheduledTripsObject.close();
+      console.log("Database connection closed.");
     }
   }
 }
