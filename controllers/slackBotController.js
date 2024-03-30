@@ -54,7 +54,6 @@ class SlackBotController {
       const response = await this.#slackBotModel.postMessage(userID, formattedMessage);
 
       // if (req, res) were passed, send the response
-      // if (req, res) were passed, send the response
       if (typeof args[0] === 'object' && args[0].body) {
         args[1].status(200).send(response);
       }

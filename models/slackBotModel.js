@@ -12,6 +12,7 @@ class SlackBotModel {
   // the postMessage method sends a POST request to Slack
   // makes use of passed parameters userID and formattedMessage
   async postMessage(userID, formattedMessage) {
+    
     const response = await fetch('https://slack.com/api/chat.postMessage', {
       method: 'POST',
       headers: {
@@ -25,6 +26,7 @@ class SlackBotModel {
     });
 
     const data = await response.json();
+    console.log('Slack API response:', data);
     return data;
   }
 }
