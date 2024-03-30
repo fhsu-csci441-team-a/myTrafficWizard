@@ -40,7 +40,7 @@ class ScheduledTripsModel {
     #connection;
 
 
-    constructor() {
+    constructor(table = 'scheduled_trips') {
 
         const user = process.env.DB_USER;
         const host = process.env.DB_HOST;
@@ -50,7 +50,7 @@ class ScheduledTripsModel {
         const connectionString = `postgres://${user}:${password}@${host}:${port}/${database}?ssl=true`;
 
         this.#connection = new databaseConnection(connectionString);
-        table = 'scheduled_trips';
+        this.table = table;
 
     }
 
