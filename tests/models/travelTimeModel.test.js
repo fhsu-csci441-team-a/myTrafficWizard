@@ -13,8 +13,6 @@ describe('TC-11 TravelTimeModel', () => {
     it('Instantiates object with valid startPoint, endPoint, and API key, returns success message', async () => {
         const travelTimeModel = new TravelTimeModel(validStartPoint, validEndPoint, validApiKey);
         const result = await travelTimeModel.getTravelTimes();
-        console.log(result);
-
 
         expect(result).toHaveProperty('success', true);
         expect(result.data).toHaveProperty('historicalTravelTimeMinutes');
