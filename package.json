@@ -29,7 +29,7 @@
     "undici-types": "^5.26.5"
   },
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "start": "node app.js"
   },
   "author": "",
