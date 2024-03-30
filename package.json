@@ -29,7 +29,7 @@
     "undici-types": "^5.26.5"
   },
   "scripts": {
-    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
+    "test": "test",
     "start": "node app.js"
   },
   "author": "",
