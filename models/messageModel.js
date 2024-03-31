@@ -70,7 +70,11 @@ class messageModel {
      *  console.log(message.getTextMessage());
      */
     getTextMessage() {
-        return 'This is a text message from myTrafficWizard.';
+        return 'This is a notification message from myTrafficWizard.\n' +
+               'You may find the following traffic data useful:\n\n' +                
+               this.#tripData.text +
+               '\n\n You should also be aware of the weather:\n\n' +
+               this.#weatherData.text;
     }
 
     /**
@@ -83,17 +87,25 @@ class messageModel {
      *  console.log(message.getHTMLMessage());
      */
     getHTMLMessage() {
-        return '<!DOCTYPE html> \
-        <html lang="en"> \
-        <head> \
-            <meta charset="UTF-8"> \
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"> \
-            <title>myTrafficWizard</title> \
-        </head> \
-        <body> \
-        <h1>This is an HTML-formatted message from myTrafficWizard.</h1> \
-        </body> \
-        </html>';
+        return `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>myTrafficWizard</title>
+        </head>
+        <body>
+        <h1>This is an notification message from myTrafficWizard.</h1>
+        <div>
+            <h2>Here is traffic data for your current trip:</h2>
+            ${this.#tripData.html}
+        </div>
+        <div>
+            <h2>You might find this weather data useful too:</h2>
+            ${this.#weatherData.html}
+        </div>
+        </body>
+        </html>`;
     }
 }
 
