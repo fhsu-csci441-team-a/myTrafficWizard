@@ -2,7 +2,7 @@ const BaseFetchRetry = require('../../services/BaseFetchRetry');
 // Mocking the global fetch
 global.fetch = jest.fn();
 
-describe('BaseFetchRetry Tests', () => {
+describe('TC-19 BaseFetchRetry', () => {
 
     beforeEach(() => {
         jest.resetAllMocks();

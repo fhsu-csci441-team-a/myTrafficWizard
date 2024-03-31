@@ -10,7 +10,7 @@ describe('TC-12 TravelIncidentModel', () => {
     const invalidEndPoint = 'invalid_end';
     const invalidApiKey = 'invalid_api_key';
 
-    it('Instantiates object with valid startPoint, endPoint, and API key, returns success message', async () => {
+    it('TC-12: Instantiates object with valid startPoint, endPoint, and API key, returns success message', async () => {
         const travelIncidentModel = new TravelIncidentModel(validStartPoint, validEndPoint, validApiKey);
         const result = await travelIncidentModel.getTravelIncidents();
 
@@ -27,7 +27,7 @@ describe('TC-12 TravelIncidentModel', () => {
 
     });
 
-    it('Instantiate object with invalid startPoint and enPoint, returns failure message', async () => {
+    it('TC-12: Instantiate object with invalid startPoint and enPoint, returns failure message', async () => {
 
         const travelIncidentModel = new TravelIncidentModel(invalidStartPoint, invalidEndPoint, validApiKey);
         const result = await travelIncidentModel.getTravelIncidents();
@@ -35,7 +35,7 @@ describe('TC-12 TravelIncidentModel', () => {
 
     });
 
-    it('Instantiate object with invalid apiKey, returns failure message', async () => {
+    it('TC-12: Instantiate object with invalid apiKey, returns failure message', async () => {
 
         const travelIncidentModel = new TravelIncidentModel(validStartPoint, validEndPoint, invalidApiKey);
         const result = await travelIncidentModel.getTravelIncidents();
