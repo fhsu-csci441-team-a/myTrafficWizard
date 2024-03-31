@@ -133,7 +133,7 @@ class TravelController {
 
     }
 
-    async #getTravelMessage() {
+    async getTravelMessage() {
         const htmlMessage = await this.#generateMessageTemplateCombined('html');
         const textMessage = await this.#generateMessageTemplateCombined('text');
 
