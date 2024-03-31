@@ -180,14 +180,14 @@ const initPage = async () => {
     const handleFormSubmit = () => {
         // Get the form element
         const form = document.querySelector('form');
-    
+
         form.addEventListener('submit', (event) => {
             // Prevent the form from being submitted in the traditional way
             event.preventDefault();
         
             // Create a FormData object from the form
             const formData = new FormData(form);
-    
+
             // Create a JSON object from the FormData
             let jsonObject = {};
             for (let [key, value] of formData.entries()) {
@@ -198,29 +198,31 @@ const initPage = async () => {
             fetch('/submit', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(jsonObject)
+                body: JSON.stringify(jsonObject),
             })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                return response.text();
+                return response.json();
             })
             .then(data => {
-                // Handle the response data
-                console.log('Form submission successful:', data);
+                // Display the message from the server
+                document.getElementById('form-feedback').textContent = data.message;
             })
-            .catch(error => {
-                console.error('Error during form submission:', error);
+            .catch((error) => {
+                // Display an error message
+                document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
+                console.error('Error:', error);
             });
         });
-    }
+    };
 
     // Call handleFormSubmit to start the form submission event listener
     handleFormSubmit();
-}
+};
 
 
 
