@@ -2,10 +2,10 @@ const path = require('path');
 const NotificationController = require('../controllers/notificationController');
 const ScheduledTripsModel = require('../models/scheduledTripsModel');
 
-async function test() {
+async function test(tripId) {
   // Retrieve a trip from database
   const scheduledTripsObject = new ScheduledTripsModel();
-  const tripObject = await scheduledTripsObject.getTripsById(16);
+  const tripObject = await scheduledTripsObject.getTripsById(tripId);
   const tripData = tripObject.data[0];
 
   // Create a new NotificationController
@@ -21,4 +21,6 @@ async function test() {
     });
 }
 
-test();
+// Get tripId from command line arguments
+const tripId = process.argv[2];
+test(tripId);

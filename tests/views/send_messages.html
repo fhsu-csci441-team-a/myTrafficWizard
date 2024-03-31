@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Send Messages Test</title>
+</head>
+<body>
+  <h1>Test NotificationController Class and Message Processing</h1>
+  <input type="text" id="trip-id" placeholder="Enter trip ID">
+  <button id="send-messages-button">Send Messages</button>
+  <p id="message-result"></p>
+
+  <script>
+    document.getElementById('send-messages-button').addEventListener('click', async () => {
+      const tripId = document.getElementById('trip-id').value;
+      const response = await fetch('/send_messages_test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tripId })
+      });
+      const message = await response.text();
+      document.getElementById('message-result').textContent = message;
+    });
+  </script>
+</body>
+</html>
