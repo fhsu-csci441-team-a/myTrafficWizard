@@ -3,7 +3,8 @@ require('dotenv').config();
 const messageModel = require('../models/messageModel');
 
 // Create a message object with junk JSON data to test the gmail notification channel
-const message = new messageModel(JSON.stringify({traffic: "data"}), JSON.stringify({weather: "data"}));
+const message = new messageModel({ text: "text travel data", html: '<p>HTML travel data' }, 
+                                 { text: "text weather data", html: '<p>HTML weather data' });
 
 // /**
 //  * Create the transporter object for default SMTP transport.
