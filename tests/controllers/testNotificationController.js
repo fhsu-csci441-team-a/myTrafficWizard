@@ -1,6 +1,6 @@
 const path = require('path');
-const NotificationController = require('../controllers/notificationController');
-const ScheduledTripsModel = require('../models/scheduledTripsModel');
+const NotificationController = require('../../controllers/notificationController');
+const ScheduledTripsModel = require('../../models/scheduledTripsModel');
 
 async function test(tripId) {
   // Retrieve a trip from database
