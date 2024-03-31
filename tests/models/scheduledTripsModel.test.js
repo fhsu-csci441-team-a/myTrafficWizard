@@ -7,7 +7,6 @@ describe('TC-5:TC-7 ScheduledTripsModel', () => {
 
 
     beforeAll(() => {
-        // Initialize the model once for all tests
         tripsModel = new ScheduledTripsModel('test_scheduled_trips');
     });
 
