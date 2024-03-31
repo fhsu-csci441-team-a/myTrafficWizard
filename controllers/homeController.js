@@ -27,7 +27,6 @@ class HomeController {
     
     // create InputValidation and ScheduledTripsModel objects
     // this.#inputValidationObject = new InputValidation();
-    this.#scheduledTripsObject;
   }
 
   // serves the index.html home page in response to GET request
@@ -40,7 +39,7 @@ class HomeController {
     this.#staticPath(req, res, next);
   }
 
-  async formSubmission(formSubmissionObject) {
+  async formSubmission(req, res) {
     // validate form data input
     // if all validations pass, submit form data to the database
     try {
@@ -49,39 +48,41 @@ class HomeController {
 
         // create object with only trip data needed in database
         const tripData = {
-          email_address: formSubmissionObject.email_address,
-          departure_latitude: formSubmissionObject.departure_latitude,
-          departure_longitude: formSubmissionObject.departure_longitude,
-          destination_latitude: formSubmissionObject.destination_latitude,
-          destination_longitude: formSubmissionObject.destination_longitude,
-          departure_date: new Date(formSubmissionObject.departure_date),
-          mobile_number: formSubmissionObject.mobile_number,
-          mobile_provider: formSubmissionObject.mobile_provider,
-          user_id_discord: formSubmissionObject.user_id_discord,
-          user_id_slack: formSubmissionObject.user_id_slack,
+          email_address: req.body.email_address,
+          departure_latitude: req.body.departure_latitude,
+          departure_longitude: req.body.departure_longitude,
+          destination_latitude: req.body.destination_latitude,
+          destination_longitude: req.body.destination_longitude,
+          departure_date: new Date(req.body.departure_date),
+          mobile_number: req.body.mobile_number,
+          mobile_provider: req.body.mobile_provider,
+          user_id_discord: req.body.user_id_discord,
+          user_id_slack: req.body.user_id_slack,
           notification_status: null
         }
 
         // submit tripData to database
         const resultCreateTrip = await this.#scheduledTripsObject.createTrip(tripData);
         console.log(resultCreateTrip);
+        res.json({ message: 'Trip #' + resultCreateTrip.data + " created!" });
         
-        // const isAddressValid = await this.#inputValidationObject.checkAddress(formSubmissionObject.address);
-        // const isEmailValid = await this.#inputValidationObject.checkEmail(formSubmissionObject.email);
-        // const isPhoneValid = await this.#inputValidationObject.checkPhone(formSubmissionObject.phone);
-        // const isSlackIdValid = await this.#inputValidationObject.checkSlackId(formSubmissionObject.slackId);
-        // const isDiscordIdValid = await this.#inputValidationObject.checkDiscordId(formSubmissionObject.discordId);
+        // const isAddressValid = await this.#inputValidationObject.checkAddress(req.body.address);
+        // const isEmailValid = await this.#inputValidationObject.checkEmail(req.body.email);
+        // const isPhoneValid = await this.#inputValidationObject.checkPhone(req.body.phone);
+        // const isSlackIdValid = await this.#inputValidationObject.checkSlackId(req.body.slackId);
+        // const isDiscordIdValid = await this.#inputValidationObject.checkDiscordId(req.body.discordId);
 
         // if (isAddressValid && isEmailValid && isPhoneValid 
         //   && isSlackIdValid && isDiscordIdValid) {
         //     // submit form data for trip to the database
-        //     await this.#scheduledTripsObject.createTrip(formSubmissionObject);
+        //     await this.#scheduledTripsObject.createTrip(req.body.body);
         // } else {
         //     // handle validation errors
         //     console.error('Form validation failed');
         // }
     } catch (error) {
         console.error('Error during form submission:', error);
+        res.status(500).json({ message: 'There was an error processing your form.' });
     } finally {
       this.#scheduledTripsObject.close();
       console.log("Database connection closed.");
