@@ -8,7 +8,7 @@ describe('BaseFetchRetry Tests', () => {
         jest.resetAllMocks();
     });
 
-    const url = 'https://api.example.com/data';
+    const url = 'https://www.google.com';
     const options = {
         method: 'GET',
         headers: { 'Accept': 'application/json' },
