@@ -43,11 +43,18 @@ class TravelController {
         return message.success == true || message.data;
     }
 
+    #hasTravelIncidents(message) {
+        return message.data && message.data.length > 0;
+    }
+
     async #generateMessageTemplateTravelTime(messageType = 'text') {
         let travelTime = await this.travelTimeModel.getTravelTimes();
 
-        if (!this.#isSuccessMessage(travelTime))
-            return null;
+        if (!this.#isSuccessMessage(travelTime)) {
+            const errorMessage = `The following error occurred when retrieving travel times:\n${travelTime.message} `
+            return messageType === 'html' ? '<p>' + errorMessage + '</p>' : errorMessage;
+        }
+
 
 
         const liveTravelTime = travelTime.data.liveTrafficTravelTimeMinutes - 1;
@@ -100,9 +107,14 @@ class TravelController {
         let travelIncidentMessage = await this.travelIncidentModel.getTravelIncidents();
         let travelIncidents = travelIncidentMessage.data;
 
+        if (!this.#isSuccessMessage(travelIncidentMessage)) {
+            const errorMessage = `The following error occurred when retrieving travel incidents:\n${travelIncidentMessage.message} `
+            return messageType === 'html' ? '<p>' + errorMessage + '</p>' : errorMessage;
+        }
 
-        if (!this.#isSuccessMessage(travelIncidentMessage))
-            return null;
+        if (!this.#hasTravelIncidents(travelIncidentMessage)) {
+            return 'We have great news, no travel incidents were found in the areas close to or on your route.'
+        }
 
         return messageType.toLowerCase() === 'html' ?
             this.#generateIncidentsHTMLTemplate(travelIncidentMessage.data) :
@@ -113,11 +125,6 @@ class TravelController {
     async #generateMessageTemplateCombined(messageType = 'text') {
         const travelTimeMessage = await this.#generateMessageTemplateTravelTime(messageType);
         const travelIncidentMessage = await this.#generateMessageTemplateTravelConditions(messageType);
-
-        if (!(travelTimeMessage && travelIncidentMessage)) {
-            let emptyMessage = "Travel information could not be found, please try again."
-            return messageType === 'text' ? emptyMessage : '<p>' + emptyMessage + '</p>';
-        }
 
         let template = "";
         let travelTimeHeader = messageType.toLowerCase() === 'html' ? '<h3><b>Travel Times</b></h3>' : 'Travel Times:\n';

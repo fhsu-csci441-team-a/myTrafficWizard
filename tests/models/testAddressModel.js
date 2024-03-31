@@ -11,7 +11,7 @@ const express = require('express');
 const router = express.Router();
 
 // import the AddressModel class
-const AddressModel = require('../models/addressModel');
+const AddressModel = require('../../models/addressModel');
 
 // create AddressModel object to handle address search
 const addressModel = new AddressModel(process.env.TOMTOM_API_KEY);

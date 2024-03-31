@@ -39,7 +39,8 @@ class ScheduledTripsModel {
 
     #connection;
 
-    constructor() {
+
+    constructor(table = 'scheduled_trips') {
 
         const user = process.env.DB_USER;
         const host = process.env.DB_HOST;
@@ -49,6 +50,8 @@ class ScheduledTripsModel {
         const connectionString = `postgres://${user}:${password}@${host}:${port}/${database}?ssl=true`;
 
         this.#connection = new databaseConnection(connectionString);
+        this.table = table;
+
     }
 
 
@@ -77,7 +80,7 @@ class ScheduledTripsModel {
             trip_details.departure_longitude,
             trip_details.destination_latitude,
             trip_details.destination_longitude,
-            trip_details.departure_date.toISOString(),
+            trip_details.departure_date ? trip_details.departure_date.toISOString() : null,
             trip_details.mobile_number,
             trip_details.mobile_provider,
             trip_details.user_id_discord,
@@ -87,6 +90,10 @@ class ScheduledTripsModel {
 
     }
 
+    setTable(table) {
+        this.table = table;
+    }
+
     /**
     * Creates a new trip in the database with the given details.
     * @param {Object} tripDetails - The details of the trip to create.
@@ -94,7 +101,7 @@ class ScheduledTripsModel {
     */
     async createTrip(trip_details) {
         const query = `
-        insert into scheduled_trips
+        insert into ${this.table}
         (
             email_address, 
             departure_latitude, 
@@ -149,7 +156,7 @@ class ScheduledTripsModel {
         const query = `
         select 
         * 
-        from scheduled_trips
+        from ${this.table}
         `;
 
         try {
@@ -171,7 +178,7 @@ class ScheduledTripsModel {
         const query = `
         select 
         * 
-        from scheduled_trips 
+        from ${this.table} 
         where trip_id = $1`;
 
         const queryParams = [id]
@@ -198,7 +205,7 @@ class ScheduledTripsModel {
 
         const query = `
         select * 
-        from scheduled_trips 
+        from ${this.table} 
         where departure_date between $1 and  $1::timestamp + ($2::text || ' minutes')::interval
         `;
 
@@ -224,7 +231,7 @@ class ScheduledTripsModel {
     */
     async updateNotificationStatus(id, status) {
         const query = `
-        update scheduled_trips 
+        update ${this.table} 
         set notification_status = $2
         where trip_id = $1
         RETURNING *;
@@ -234,12 +241,41 @@ class ScheduledTripsModel {
 
         try {
             const queryResultRows = await this.#connection.query(query, queryParams);
+            if (queryResultRows.length === 0) {
+                throw new Error(`Trip with ID ${id} not found.`);
+            }
             return this.#messageOperationSuccess(queryResultRows);
         }
         catch (error) {
             return this.#messageOperationFailure(error);
         }
     }
+
+    /**
+  * Deletes the specified trip from the database.
+  * @param {number} id - The ID of the trip to delete.
+  * @returns {Promise<Object>} The successful delete message or an error message.
+  */
+    async deleteTripById(id) {
+        const query = `
+        delete 
+        from
+        ${this.table} 
+        where trip_id = $1
+        
+        `;
+
+        const queryParams = [id]
+
+        try {
+            const queryResultRows = await this.#connection.query(query, queryParams);
+            return this.#messageOperationSuccess(null);
+        }
+        catch (error) {
+            return this.#messageOperationFailure(error);
+        }
+    }
+
 
     /**
      * Closes the database connection.
