@@ -50,8 +50,11 @@ class TravelController {
     async #generateMessageTemplateTravelTime(messageType = 'text') {
         let travelTime = await this.travelTimeModel.getTravelTimes();
 
-        if (!this.#isSuccessMessage(travelTime))
-            return `The following error occured when retrieving travel times:\n${travelTime.message} `;
+        if (!this.#isSuccessMessage(travelTime)) {
+            const errorMessage = `The following error occurred when retrieving travel times:\n${travelTime.message} `
+            return messageType === 'html' ? '<p>' + errorMessage + '</p>' : errorMessage;
+        }
+
 
 
         const liveTravelTime = travelTime.data.liveTrafficTravelTimeMinutes - 1;
@@ -104,9 +107,10 @@ class TravelController {
         let travelIncidentMessage = await this.travelIncidentModel.getTravelIncidents();
         let travelIncidents = travelIncidentMessage.data;
 
-
-        if (!this.#isSuccessMessage(travelIncidentMessage))
-            return `The following error occured when retrieving travel incidents:\n${travelTime.message} `;
+        if (!this.#isSuccessMessage(travelIncidentMessage)) {
+            const errorMessage = `The following error occurred when retrieving travel incidents:\n${travelIncidentMessage.message} `
+            return messageType === 'html' ? '<p>' + errorMessage + '</p>' : errorMessage;
+        }
 
         if (!this.#hasTravelIncidents(travelIncidentMessage)) {
             return 'We have great news, no travel incidents were found in the areas close to or on your route.'
