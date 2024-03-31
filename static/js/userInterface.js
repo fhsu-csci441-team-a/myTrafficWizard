@@ -193,6 +193,7 @@ const initPage = async () => {
             for (let [key, value] of formData.entries()) {
                 jsonObject[key] = value;
             }
+            jsonObject['table'] = 'scheduled_trips';
 
             // Send the form data to the server
             fetch('/submit', {

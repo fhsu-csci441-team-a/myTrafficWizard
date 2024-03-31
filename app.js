@@ -14,7 +14,7 @@ app.use(express.json());
 // Import individual route files
 const homeRoutes = require('./routes/homeRoutes');
 const addressRoutes = require('./routes/addressRoutes');
-const testAddressModel = require('./tests/testAddressModel');
+const testAddressModel = require('./tests/models/testAddressModel');
 const gmailRoutes = require('./routes/gmailRoutes');
 const slackRoutes = require('./routes/slackRoutes');
 const discordRoutes = require('./routes/discordRoutes');
@@ -31,7 +31,7 @@ app.use(express.json());
 // routes for testing NotificationController and message sending
 app.post('/send_messages_test', (req, res) => {
   const tripId = req.body.tripId;
-  exec(`node ./tests/testNotificationController.js ${tripId}`, (error, stdout, stderr) => {
+  exec(`node ./tests/controllers/testNotificationController.js ${tripId}`, (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return res.status(500).send('Failed to run test');
