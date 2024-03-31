@@ -18,8 +18,7 @@ router.use('/static', (req, res, next) => homeController.serveStatic(req, res, n
 
 // define route for form submissions
 router.post('/submit', (req, res) => {
-    homeController.formSubmission(req.body)
-        .then(() => res.sendStatus(200))
+    homeController.formSubmission(req, res)
         .catch((error) => {
             console.error('Error during form submission:', error);
             res.sendStatus(500);

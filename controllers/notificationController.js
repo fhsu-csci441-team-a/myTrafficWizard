@@ -9,7 +9,7 @@ class NotificationController {
 
     #tripData;
     #travelObject;
-    // #weatherObject;
+    #weatherObject;
     #messageObject;
     #gmailControllerObject;
     #gmailControllerObject2;
@@ -19,8 +19,8 @@ class NotificationController {
     constructor(tripData) {
         this.#tripData = tripData;
         this.#travelObject;
-        // this.#weatherObject;
-        this.#messageObject = new MessageModel();
+        this.#weatherObject;
+        this.#messageObject;
         this.#gmailControllerObject;
         this.#gmailControllerObject2;
         this.#slackBotControllerObject = new SlackBotController();
@@ -41,10 +41,10 @@ class NotificationController {
         // get current travel and weather data
         const travelData = await this.#travelObject.getTravelMessage();
         // const weatherData = await this.#weatherObject.getWeatherMessage();
+        const weatherData = "";
         
         // set travel/weather data in mesage model
-        this.#messageObject.setTripData(travelData);
-        // this.#messageObject.setWeatherData(weatherData);
+        this.#messageObject = new MessageModel(travelData, weatherData);
         
         // retrieve formatted message versions
         const plainTextMessage = this.#messageObject.getTextMessage();
@@ -57,12 +57,12 @@ class NotificationController {
 
         // send messages to other selected channels
         // send SMS if mobile_number provided
-        // if (this.#tripData.mobile_number) {
-        //     this.#gmailControllerObject2 = new GmailController(
-        //         [this.#tripData.mobile_number + "@" + this.#tripData.mobile_provider], 
-        //         this.#messageObject);
-        //     await this.#gmailControllerObject2.sendGMail();
-        // }
+        if (this.#tripData.mobile_number) {
+            this.#gmailControllerObject2 = new GmailController(
+                [this.#tripData.mobile_number + "@" + this.#tripData.mobile_provider], 
+                this.#messageObject);
+            await this.#gmailControllerObject2.sendGMail();
+        }
 
         // send Slack message if slack ID provided
         if (this.#tripData.user_id_slack) {

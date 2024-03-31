@@ -110,13 +110,14 @@ class TravelController {
 
     }
 
-    async getTravelMessage(messageType = 'text') {
+    async #generateMessageTemplateCombined(messageType = 'text') {
         const travelTimeMessage = await this.#generateMessageTemplateTravelTime(messageType);
         const travelIncidentMessage = await this.#generateMessageTemplateTravelConditions(messageType);
 
-        if (!(travelTimeMessage && travelIncidentMessage))
-            return "Travel information could not be found, please try again.";
-
+        if (!(travelTimeMessage && travelIncidentMessage)) {
+            let emptyMessage = "Travel information could not be found, please try again."
+            return messageType === 'text' ? emptyMessage : '<p>' + emptyMessage + '</p>';
+        }
 
         let template = "";
         let travelTimeHeader = messageType.toLowerCase() === 'html' ? '<h3><b>Travel Times</b></h3>' : 'Travel Times:\n';
@@ -130,6 +131,16 @@ class TravelController {
 
         return template;
 
+    }
+
+    async getTravelMessage() {
+        const htmlMessage = await this.#generateMessageTemplateCombined('html');
+        const textMessage = await this.#generateMessageTemplateCombined('text');
+
+        return {
+            "html": htmlMessage,
+            "text": textMessage
+        }
     }
 
 
