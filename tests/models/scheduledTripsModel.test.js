@@ -118,7 +118,7 @@ describe('TC-5:TC-7 ScheduledTripsModel', () => {
         const start = new Date('2999-01-01 00:00:00Z');
         const offsetMinutes = 15;
         const returnMessage = await tripsModel.getUpcomingTrips(start, offsetMinutes);
-        console.log(returnMessage);
+
 
         expect(returnMessage).toHaveProperty('success', true);
         expect(returnMessage.data.length).toEqual(1);
