@@ -44,7 +44,7 @@ class HomeController {
     // if all validations pass, submit form data to the database
     try {
         // create new model for each form submission
-        this.#scheduledTripsObject = new ScheduledTripsModel();
+        this.#scheduledTripsObject = new ScheduledTripsModel(req.body.table);
 
         // create object with only trip data needed in database
         const tripData = {
