@@ -36,6 +36,7 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.7.0",
-    "jest-mock-extended": "^3.0.5"
+    "jest-mock-extended": "^3.0.5",
+    "supertest": "^6.3.4"
   }
 }
