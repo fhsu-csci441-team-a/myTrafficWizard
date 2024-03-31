@@ -80,7 +80,7 @@ class ScheduledTripsModel {
             trip_details.departure_longitude,
             trip_details.destination_latitude,
             trip_details.destination_longitude,
-            trip_details.departure_date.toISOString(),
+            trip_details.departure_date ? trip_details.departure_date.toISOString() : null,
             trip_details.mobile_number,
             trip_details.mobile_provider,
             trip_details.user_id_discord,
@@ -241,6 +241,9 @@ class ScheduledTripsModel {
 
         try {
             const queryResultRows = await this.#connection.query(query, queryParams);
+            if (queryResultRows.length === 0) {
+                throw new Error(`Trip with ID ${id} not found.`);
+            }
             return this.#messageOperationSuccess(queryResultRows);
         }
         catch (error) {
