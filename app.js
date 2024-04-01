@@ -9,6 +9,7 @@ const { spawn } = require('child_process');
 
 // finds current directory (local or hosted): __dirname or "."
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.json());
 
 // Import individual route files
 const homeRoutes = require('./routes/homeRoutes');
@@ -25,7 +26,6 @@ app.use('/testaddress', testAddressModel);
 app.use('/gmail', gmailRoutes);
 app.use('/slack', slackRoutes);
 app.use('/discord', discordRoutes);
-app.use(express.json());
 
 // routes for testing NotificationController and message sending
 app.post('/send_messages_test', (req, res) => {
