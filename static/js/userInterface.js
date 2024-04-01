@@ -113,16 +113,16 @@ const initPage = async () => {
      * Create an event listener for the email checkbox that controls whether the
      * email address text box is enabled or disabled.
      */
-    const emailCheckBox = document.getElementById("emailCheckBox");
-    emailCheckBox.addEventListener("click", () => {
+    // const emailCheckBox = document.getElementById("emailCheckBox");
+    // emailCheckBox.addEventListener("click", () => {
 
-        const emailTextBox = document.getElementById("email_address");
+    //     const emailTextBox = document.getElementById("email_address");
 
-        // If emailCheckBox is checked enable emailTextBox.
-        if(emailCheckBox.checked) emailTextBox.disabled = false;
-        // emailTextBox should be disabled if emailCheckBox is unchecked.
-        else emailTextBox.disabled = true;
-    });
+    //     // If emailCheckBox is checked enable emailTextBox.
+    //     if(emailCheckBox.checked) emailTextBox.disabled = false;
+    //     // emailTextBox should be disabled if emailCheckBox is unchecked.
+    //     else emailTextBox.disabled = true;
+    // });
 
     /**
      * Create an event listener for the sms checkbox that controls whether the
