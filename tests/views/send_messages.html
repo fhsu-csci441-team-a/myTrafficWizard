@@ -2,6 +2,19 @@
 <html>
 <head>
   <title>Send Messages Test</title>
+  <style>
+    #message-result {
+      color: black;
+      background-color: white; 
+      width: 100%; 
+      height: auto;
+      visibility: visible;
+      display: block; 
+      position: static;
+      z-index: 1000;
+      overflow: auto;
+    }
+  </style>
 </head>
 <body>
   <h1>Test NotificationController Class and Message Processing</h1>
@@ -11,15 +24,19 @@
 
   <script>
     document.getElementById('send-messages-button').addEventListener('click', async () => {
-      const tripId = document.getElementById('trip-id').value;
-      const response = await fetch('/send_messages_test', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tripId })
-      });
-      const message = await response.text();
-      document.getElementById('message-result').textContent = message;
+  const tripId = document.getElementById('trip-id').value;
+  try {
+    const response = await fetch('/send_messages_test', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tripId })
     });
+    const data = await response.json();
+    document.getElementById('message-result').textContent = data.message;
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
   </script>
 </body>
 </html>

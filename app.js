@@ -5,11 +5,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fetch = require('node-fetch-npm');
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
 
 // finds current directory (local or hosted): __dirname or "."
 app.use(express.static(path.join(__dirname, 'static')));
-app.use(express.json());
 
 // Import individual route files
 const homeRoutes = require('./routes/homeRoutes');
@@ -30,17 +29,54 @@ app.use(express.json());
 
 // routes for testing NotificationController and message sending
 app.post('/send_messages_test', (req, res) => {
+  console.log("Post request received.")
   const tripId = req.body.tripId;
-  exec(`node ./tests/controllers/testNotificationController.js ${tripId}`, (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return res.status(500).send('Failed to run test');
+  const test = spawn('node', [`./tests/controllers/testNotificationController.js`, tripId]);
+  test.stdin.end();
+
+  let responseSent = false;
+
+  function sendResponse(status, message, error) {
+    if (!responseSent) {
+      responseSent = true;
+      res.status(status).json({ message: message, error: error });
     }
-    console.log(`stdout: ${stdout}`);
-    console.error(`stderr: ${stderr}`);
-    res.status(200).send('Test run successfully');
+  }
+
+  test.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+    if (data.includes('Messages for TripId')) {
+      const message = data.toString().split('\n').find(line => line.includes('Messages for TripId'));
+      sendResponse(200, message);
+    }
+  });
+
+  test.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+    if (data.includes('Message Sending for tripId')) {
+      sendResponse(500, data.toString().trim());
+    }
+  });
+
+  test.on('error', (error) => {
+    console.error(`spawn error: ${error}`);
+    sendResponse(500, 'Failed to run test', error.message);
+  });
+
+  test.on('exit', (code, signal) => {
+    console.log(`child process exited with code ${code} and signal ${signal}`);
+  });
+
+  test.on('close', (code) => {
+    console.log(`child process close all stdio with code ${code}`);
+  });
+
+  test.on('disconnect', () => {
+    console.log('Child process disconnected');
   });
 });
+
+// endoint to send messages to selected channels
 app.get('/send_messages', (req, res) => {
   res.sendFile(path.join(__dirname, './tests/views/send_messages.html'));
 });
