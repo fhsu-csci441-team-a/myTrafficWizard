@@ -42,7 +42,7 @@ MyTrafficWizard follows an extended MVC design pattern, consisting of the follow
 4. Receive real-time traffic and weather updates for your planned trips.
 
 ### Live Website
-Visit the live website hosted on [Render](https://mytrafficwizard.onrender.com) to use the application without setting it up locally.
+Visit the live website hosted on [Render](https://mytrafficwizard.onrender.com) to use the application without setting it up locally. Please note, though, that the Render App sleeps after a period of inactivity. If not used recently, it may take a minute or two to load. Please be patient while the Render App wakes up.
 
 ## License
 
