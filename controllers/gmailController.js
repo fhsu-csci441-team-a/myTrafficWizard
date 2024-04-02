@@ -142,8 +142,9 @@ class GmailController {
 
     async sendGMail() {
         try {
-            await this.#gmailTransporter.sendMail(this.#mailOptions);
+            const info = await this.#gmailTransporter.sendMail(this.#mailOptions);
             console.log('Email sent!');
+            return info;
         } catch (error) {
             console.log(error);
         }
