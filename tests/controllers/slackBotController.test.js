@@ -1,35 +1,29 @@
-const SlackBotController = require('./slackBotController');
+const SlackBotController = require('../../controllers/slackBotController');
+require('dotenv').config();
 
-// send Slack message if slack ID provided
-if (this.#tripData.user_id_slack) {
-    console.log('Attempting to send Slack message to user:', this.#tripData.user_id_slack);
-    try {
-        await this.#slackBotControllerObject.postMessage(
-            this.#tripData.user_id_slack, plainTextMessage);
-        console.log('Slack message sent successfully');
-    } catch (error) {
-        console.error('Failed to send Slack message:', error);
-    }
-}
 
 
 describe('TC-17: slackBotController', () => {
 
-    const formattedMessage = 'Hello, this is a test for a properly formatted message.';
+    const validMessage = 'Hello, this is a test for a properly formatted message.';
+    const invalidMessage = undefined;
     const validUserId = 'U06HSLMJGG3';
     const invalidUserId = '';
-    const slackBot = new SlackBotController();
+    const slackBotController = new SlackBotController();
 
-    it('TC-17: A valid formattedMessage and userId are provided', async () => {
-        const result = await slackBot.postMessage(validUserId, formattedMessage);
-        console.log(result)
+    it('TC-17: A valid formattedMessage and userId are provided; response indicates message delivery to user', async () => {
+        const result = await slackBotController.postMessage(validUserId, validMessage);
 
-        expect(result).toHaveProperty('success');
+        expect(result).toHaveProperty('ok', true);
+        expect(result.message).toHaveProperty('text', validMessage);
     });
 
 
+    it('TC-17: An invalid formattedMessage and userId are provided; response indicates an error occurred', async () => {
+        const result = await slackBotController.postMessage(invalidUserId, invalidMessage);
 
-
-
+        expect(result).toHaveProperty('ok', false);
+        expect(result).toHaveProperty('error');
+    });
 
 });
