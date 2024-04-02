@@ -142,11 +142,12 @@ class GmailController {
 
     async sendGMail() {
         try {
-            const info = await this.#gmailTransporter.sendMail(this.#mailOptions);
+            const mailerResponse = await this.#gmailTransporter.sendMail(this.#mailOptions);
             console.log('Email sent!');
-            return info;
+            return mailerResponse;
         } catch (error) {
             console.log(error);
+            return { "error": `The following error occurred: ${error}` };
         }
     }
 
