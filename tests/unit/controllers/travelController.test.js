@@ -1,4 +1,4 @@
-const TravelController = require('../../controllers/travelController');
+const TravelController = require('../../../controllers/travelController');
 require('dotenv').config();
 
 describe('TC-10 TravelController', () => {

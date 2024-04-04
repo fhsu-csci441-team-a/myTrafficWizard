@@ -1,4 +1,4 @@
-const BaseFetchRetry = require('../../services/BaseFetchRetry');
+const BaseFetchRetry = require('../../../services/BaseFetchRetry');
 // Mocking the global fetch
 global.fetch = jest.fn();
 
