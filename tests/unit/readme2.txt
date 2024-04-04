@@ -7,6 +7,7 @@ Before running the tests, make sure you have the following installed
 
 * Node.js
 * NPM
+* .env file with necessary secrets
 
 
 ## Cloning the repo
@@ -17,7 +18,7 @@ git clone https://github.com/fhsu-csci441-team-a/myTrafficWizard.git
 
 ## Setup
 Before running the tests, run the following command to install all dependencies (including the Jest testing package)
-```
+```bash
 npm install
 ```
 
@@ -56,7 +57,7 @@ The following test suites are available (the names of the files correspond to th
 - travelTimeModel.test.js
 - baseFetchRetry.test.js
 
-Additional test suites can be added to the respective directories under the `tests` folder and Jest will pick them up when running the tests.
+Additional test suites can be added to the respective directories under the `tests/unit` folder and Jest will pick them up when running the tests.
 
 ## Troubleshooting
 The most common issue when running the tests is missing a .env file. This file contains all of our secrets used for API calls and database
