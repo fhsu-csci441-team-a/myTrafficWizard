@@ -1,4 +1,4 @@
-const TravelTimeModel = require('../../models/travelTimeModel');
+const TravelTimeModel = require('../../../models/travelTimeModel');
 require('dotenv').config();
 
 describe('TC-11 TravelTimeModel', () => {

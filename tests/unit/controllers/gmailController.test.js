@@ -1,5 +1,5 @@
-const GmailController = require('../../controllers/gmailController');
-const MessageModel = require('../../models/messageModel');
+const GmailController = require('../../../controllers/gmailController');
+const MessageModel = require('../../../models/messageModel');
 
 
 

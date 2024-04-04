@@ -1,4 +1,4 @@
-const messageModel = require('../../models/messageModel');
+const messageModel = require('../../../models/messageModel');
 
 describe('TC-15: messageModel', () => {
 
