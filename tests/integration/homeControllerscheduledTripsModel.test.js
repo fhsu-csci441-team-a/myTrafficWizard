@@ -2,7 +2,7 @@ const HomeController = require('../../controllers/homeController');
 const ScheduledTripsModel = require('../../models/scheduledTripsModel');
 require('dotenv').config();
 
-describe('HomeController and ScheduledTripsModel Integration Test', () => {
+describe('Integration Test: homeController=>scheduledTripsModel', () => {
     let homeController;
     let scheduledTripsModel;
     let table = 'test_scheduled_trips';
@@ -17,7 +17,7 @@ describe('HomeController and ScheduledTripsModel Integration Test', () => {
         await scheduledTripsModel.close();
     });
 
-    it('Integrate HomeController with ScheduledTripsModel by creating a new trip record', async () => {
+    it('homeController submits user entries to the database through the scheduledTripsModel', async () => {
 
         const formData = {
             email_address: 'test@test.com',
