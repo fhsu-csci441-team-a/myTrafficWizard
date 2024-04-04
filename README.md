@@ -44,6 +44,36 @@ MyTrafficWizard follows an extended MVC design pattern, consisting of the follow
 ### Live Website
 Visit the live website hosted on [Render](https://mytrafficwizard.onrender.com) to use the application without setting it up locally. Please note, though, that the Render App sleeps after a period of inactivity. If not used recently, it may take a minute or two to load. Please be patient while the Render App wakes up.
 
+#### Creating Trip Alert Requests 
+To create a trip alert request:
+   - Fill out the required fields – required fields include:
+     - Departure Date and Time
+     - Departure Address
+     - Destination Address
+     - Email - your email will be the default channel for trip alerts
+   - Choose your preferred additional notification channels (SMS, Slack, Discord)
+   - See further instructions in the Multi-Channel Notifications section
+   - Click "Submit" to save your trip alert request.
+
+#### Multi-Channel Notifications
+My Traffic Wizard supports notifications through multiple channels including:
+   - Email: Receive alerts via email.
+     - Enter the email address where you’d like to receive notifications
+   - SMS: Receive alerts on your mobile phone.
+     - Enter your mobile phone number
+     - Select your mobile service provider from the drop-down list
+   - Slack: Receive alerts in your Slack workspace.
+     - To use this option, first join our Slack workspace here: [Slack Workspace Invite Link](https://join.slack.com/t/mytrafficwizard/shared_invite/zt-2g2s9gfvauNMAbZQA8ukM_b~a2FeeZw)
+     - Then click on your profile username, go to the 3-dot drop-down menu icon, and select “Copy member ID”
+     - Now you can enter this Slack User ID into the Slack field
+   - Discord: Receive alerts in your Discord server.
+     - To use this option, first join our Discord server here: [Discord Server Invite Link](https://discord.gg/wcjQKr4NCZ)
+     - Then click on your cogwheel settings icon, navigate to the “Advanced” sub-menu in your App Settings menu, and turn on the “Developer Mode” toggle
+     - Then, when you right-click on your user profile image, you will be able to select “Copy User ID”
+     - Now you can enter this Discord User ID into the Discord field
+
+You can select one or multiple channels for receiving notifications.
+
 ## License
 
 All Rights Reserved © Nicole-Rene Newcomb, Tyler Anderson, Philip Baldwin, and Jacob Spalding
