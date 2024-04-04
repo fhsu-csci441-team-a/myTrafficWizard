@@ -1,4 +1,4 @@
-const TravelIncidentModel = require('../../models/travelIncidentModel');
+const TravelIncidentModel = require('../../../models/travelIncidentModel');
 require('dotenv').config();
 
 describe('TC-12 TravelIncidentModel', () => {

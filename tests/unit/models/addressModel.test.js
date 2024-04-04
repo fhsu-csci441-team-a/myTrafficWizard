@@ -1,4 +1,4 @@
-const AddressModel = require('../../models/addressModel');
+const AddressModel = require('../../../models/addressModel');
 require('dotenv').config();
 
 

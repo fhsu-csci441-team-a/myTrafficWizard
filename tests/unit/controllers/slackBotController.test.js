@@ -1,4 +1,4 @@
-const SlackBotController = require('../../controllers/slackBotController');
+const SlackBotController = require('../../../controllers/slackBotController');
 require('dotenv').config();
 
 

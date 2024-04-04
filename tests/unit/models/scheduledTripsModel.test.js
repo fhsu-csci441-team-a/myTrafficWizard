@@ -1,4 +1,4 @@
-const ScheduledTripsModel = require('../../models/scheduledTripsModel');
+const ScheduledTripsModel = require('../../../models/scheduledTripsModel');
 
 
 describe('TC-5:TC-7 ScheduledTripsModel', () => {
