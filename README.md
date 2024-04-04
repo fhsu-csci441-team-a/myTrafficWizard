@@ -44,7 +44,7 @@ MyTrafficWizard follows an extended MVC design pattern, consisting of the follow
 ### Live Website
 Visit the live website hosted on [Render](https://mytrafficwizard.onrender.com) to use the application without setting it up locally. Please note, though, that the Render App sleeps after a period of inactivity. If not used recently, it may take a minute or two to load. Please be patient while the Render App wakes up.
 
-#### Creating Trip Alert Requests 
+### Creating Trip Alert Requests 
 To create a trip alert request:
    - Fill out the required fields – required fields include:
      - Departure Date and Time
@@ -55,7 +55,7 @@ To create a trip alert request:
    - See further instructions in the Multi-Channel Notifications section
    - Click "Submit" to save your trip alert request.
 
-#### Multi-Channel Notifications
+### Multi-Channel Notifications
 My Traffic Wizard supports notifications through multiple channels including:
    - Email: Receive alerts via email.
      - Enter the email address where you’d like to receive notifications
