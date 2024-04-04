@@ -14,7 +14,7 @@ app.use(express.json());
 // Import individual route files
 const homeRoutes = require('./routes/homeRoutes');
 const addressRoutes = require('./routes/addressRoutes');
-const testAddressModel = require('./tests/models/testAddressModel');
+const testAddressModel = require('./tests/testAddressModel');
 const gmailRoutes = require('./routes/gmailRoutes');
 const slackRoutes = require('./routes/slackRoutes');
 const discordRoutes = require('./routes/discordRoutes');
@@ -31,7 +31,7 @@ app.use('/discord', discordRoutes);
 app.post('/send_messages_test', (req, res) => {
   console.log("Post request received.")
   const tripId = req.body.tripId;
-  const test = spawn('node', [`./tests/controllers/testNotificationController.js`, tripId]);
+  const test = spawn('node', [`./tests/testNotificationController.js`, tripId]);
   test.stdin.end();
 
   let responseSent = false;
@@ -78,7 +78,7 @@ app.post('/send_messages_test', (req, res) => {
 
 // endoint to send messages to selected channels
 app.get('/send_messages', (req, res) => {
-  res.sendFile(path.join(__dirname, './tests/views/send_messages.html'));
+  res.sendFile(path.join(__dirname, './tests/send_messages.html'));
 });
 
 app.listen(process.env.PORT || 3000, () => {
