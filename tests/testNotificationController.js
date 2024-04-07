@@ -1,9 +1,8 @@
 const path = require('path');
 const NotificationController = require('../controllers/notificationController');
-const ScheduledTripsModel = require('../../models/scheduledTripsModel');
+const ScheduledTripsModel = require('../models/scheduledTripsModel');
 
-
-
+// tests creation of NotificationController object and message sending
 async function test(tripId) {
   try {
     // Retrieve a trip from database
