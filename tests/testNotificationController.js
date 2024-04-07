@@ -1,5 +1,5 @@
 const path = require('path');
-const NotificationController = require('../../controllers/notificationController');
+const NotificationController = require('../controllers/notificationController');
 const ScheduledTripsModel = require('../../models/scheduledTripsModel');
 
 
