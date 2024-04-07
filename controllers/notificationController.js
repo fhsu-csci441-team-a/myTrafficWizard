@@ -67,7 +67,6 @@ class NotificationController {
 
     async sendMessage() {
 
-
         // get current travel and weather data
         const travelData = await this.fetchTravelData();
 
@@ -79,7 +78,6 @@ class NotificationController {
 
         // retrieve formatted message versions
         const plainTextMessage = this.#messageObject.getTextMessage();
-        const htmlMessage = this.#messageObject.getHTMLMessage();
 
         // send notification to email - default message channel
         this.createGmailObject(this.#tripData.email_address, this.#messageObject);
@@ -87,9 +85,9 @@ class NotificationController {
 
         // send messages to other selected channels
         // send SMS if mobile_number provided
-        if (this.#tripData.mobile_number) {
+        if (this.#tripData.mobile_number && this.#tripData.mobile_provider) {
             this.#gmailControllerObject2 = new GmailController(
-                [this.#tripData.mobile_number + "@" + this.#tripData.mobile_provider],
+                [this.#tripData.mobile_number + this.#tripData.mobile_provider],
                 this.#messageObject);
             await this.#gmailControllerObject2.sendGMail();
         }
