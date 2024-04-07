@@ -77,20 +77,15 @@ class NotificationController {
         this.createMessageObject(travelData, weatherData);
 
         // retrieve formatted message versions
-        const plainTextMessage = this.#messageObject.getTextMessage();
+        const plainTextMessage = await this.#messageObject.getTextMessage();
 
-        // send notification to email - default message channel
-        this.createGmailObject(this.#tripData.email_address, this.#messageObject);
-        await this.sendGMail();
-
-        // send messages to other selected channels
-        // send SMS if mobile_number provided
+        // send notification to email - default message channel - & SMS (if provided)
+        var recipients = this.#tripData.email_address
         if (this.#tripData.mobile_number && this.#tripData.mobile_provider) {
-            this.#gmailControllerObject2 = new GmailController(
-                [this.#tripData.mobile_number + this.#tripData.mobile_provider],
-                this.#messageObject);
-            await this.#gmailControllerObject2.sendGMail();
+            recipients += "," + this.#tripData.mobile_number + this.#tripData.mobile_provider;
         }
+        this.createGmailObject(recipients, this.#messageObject);
+        await this.sendGMail();
 
         // send Slack message if slack ID provided
         if (this.#tripData.user_id_slack) {
