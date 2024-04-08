@@ -1,3 +1,10 @@
+/* The notificationController.js file orchestrates message sending
+      It instantiates objects of weatherController & travelController
+      It instantiates a messageModel object to properly format messages
+      It instantiates objects of gmailController, slackBotController, 
+         and/or discordBotController to send alerts
+*/
+
 const TravelController = require('./travelController');
 // const WeatherController = require('./weatherController');
 const MessageModel = require('../models/messageModel');

@@ -1,3 +1,8 @@
+/* testNotificationController.js tests the sending of messages
+      It allows for the manual triggering of the message sending process
+      In the final product, this role is filled by the scheduleController
+*/
+
 const path = require('path');
 const NotificationController = require('../controllers/notificationController');
 const ScheduledTripsModel = require('../models/scheduledTripsModel');
