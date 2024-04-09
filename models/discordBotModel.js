@@ -5,11 +5,11 @@
 
 // import discord.js library to interact with Discord API
 const { Client, IntentsBitField } = require('discord.js');
-const express = require('express');
-const bodyParser = require('body-parser');
-const Discord = require('discord.js');
-const app = express();
-const PORT = 3000;
+//const express = require('express');
+//const bodyParser = require('body-parser');
+//const Discord = require('discord.js');
+//const app = express();
+//const PORT = 3000;
 const client = new Client({
     intents: [
         IntentsBitField.Flags.Guilds,
