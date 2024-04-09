@@ -1,62 +1,48 @@
-const { Client, IntentsBitField } = require('discord.js');
-const express = require('express');
-const bodyParser = require('body-parser');
-const Discord = require('discord.js');
-const app = express();
-const PORT = 3000;
-const client = new Client({
-    intents: [
-        IntentsBitField.Flags.Guilds,
-        IntentsBitField.Flags.GuildMembers,
-        IntentsBitField.Flags.GuildMessages,
-        IntentsBitField.Flags.MessageContent,
-        IntentsBitField.Flags.DirectMessages,
-    ],
-});
+// discordBotController responsible for controlling messages to Discord
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// import path module to work with file/directory paths
+const path = require('path');
+// import the DiscordBotModel class 
+const DiscordBotModel = require('../models/discordBotModel');
 
-// Endpoint to handle form submission
-app.post('/submit-form', (req, res) => {
-    const { discordId, name } = req.body;
+// this class controls sending messages to Discord
+class DiscordBotController {
 
-    // Send Discord ID and name to the bot
-    sendToDiscordBot(discordId, name);
+  // create private object attribute
+  #discordBotModel;
 
-    res.send('Form submitted successfully');
-});
-
-// Logic to retrieve traffic and weather information
-function retrieveInformation() {
-    // Logic to retrieve traffic and weather information
-    return {
-      traffic: 'Traffic information',
-      weather: 'Weather information'
-    };
+  constructor() {
+    // create a new DiscordBotModel object and assign to private attribute
+    this.#discordBotModel = new DiscordBotModel();
   }
 
-// Discord bot event handling
-client.on('ready', () => {
-    console.log(`Logged in as ${client.user.tag}`);
-});
+  // serves the discord_bot.html page
+  serveFormHTML(req, res) {
+    res.sendFile(path.join(__dirname, '../views/discord_bot.html'));
+  }
 
-client.login(process.env.DISCORD_API_TOKEN);
+  // serves the discord_bot.js file to process user input
+  serveFormJS(req, res) {
+    res.sendFile(path.join(__dirname, '../static/js/discord_bot.js'));
+  }
 
+  // sends a message to Discord
+  async postMessage(req, res) {
+    
+    // uses the parameters passed in request body
+    const userID = req.body.userID;
+    const formattedMessage = req.body.formattedMessage;
 
-
-// Function to send traffic and weather info to user with given Discord ID
-async function sendToDiscordBot(discordId, name) {
+    // try/catch to handle any errors
     try {
-        const user = await client.users.fetch(discordId);
-        if (user) {
-            await user.send(`Hello ${name}! Here's your traffic and weather information:`);
-            // Add logic here to retrieve and send traffic and weather info
-            console.log(`Message sent to user with Discord ID ${discordId}`);
-        } else {
-            console.error(`User with Discord ID ${discordId} not found`);
-        }
-    } catch (error) {
-        console.error(`Error sending message to user with Discord ID ${discordId}:`, error);
+      // Use the postMessage function from DiscordBotModel to send the message to Discord
+      const response = await this.#discordBotModel.postMessage(userID, formattedMessage);
+      res.status(200).send(response);
+    } catch (err) {
+      res.status(500).send(err.message);
     }
+  }
 }
+
+// export DiscordBotController class to use in other files
+module.exports = DiscordBotController;

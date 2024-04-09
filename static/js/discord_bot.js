@@ -1,34 +1,32 @@
-const { Client, Intents } = require('discord.js');
+document.getElementById('userForm').addEventListener('submit', async function(event) {
+  event.preventDefault();
 
-const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
+  const discordId = document.getElementById('discordId').value;
+  const message = document.getElementById('message').value;
 
-client.once('ready', () => {
-  console.log('Ready!');
-});
+  const payload = {
+    userID: discordId,
+    formattedMessage: message,
+  };
 
-client.on('messageCreate', async message => {
-  if (message.author.bot) return;
+  try {
+    // use '/discord/postMessage' for local run or full URL for deployed app
+    const response = await fetch('https://mytrafficwizard.onrender.com/discord/postMessage', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  if (message.content.startsWith('!postMessage')) {
-    const args = message.content.slice('!postMessage'.length).trim().split(/ +/);
-    const slackId = args.shift();
-    const formattedMessage = args.join(' ');
-
-    const payload = {
-      userID: slackId,
-      formattedMessage: formattedMessage,
-    };
-
-    try {
-      // Assuming you have a designated channel to send the message in
-      const channel = client.channels.cache.get('YOUR_CHANNEL_ID');
-      if (!channel) return console.error('Channel not found');
-
-      // Sending the message
-      const sentMessage = await channel.send({ content: formattedMessage });
-      console.log('Message sent:', sentMessage.content);
-    } catch (error) {
-      console.error('Error:', error);
+    let data;
+    if (response.headers.get('content-type').includes('application/json')) {
+      data = await response.json();
+    } else {
+      data = await response.text();
     }
+    console.log(data);
+  } catch (error) {
+    console.error('Error:', error);
   }
 });
