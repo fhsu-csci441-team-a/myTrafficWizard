@@ -1,9 +1,15 @@
-// routes for Discord functions through discordBotController.js
+const { Router } = require('express');
+const router = Router();
 
-const express = require('express');
-const router = express.Router();
-const discordBotController = require('../controllers/discordBotController');
+const DiscordBotController = require('../controllers/discordBotController');
+const discordBotController = new DiscordBotController();
 
-router.post('/send', discordBotController.sendMessage);
+// Define GET routes for serving HTML and JS files
+router.get('/discord_bot', discordBotController.serveFormHTML.bind(discordBotController));
+router.get('/discord_bot.js', discordBotController.serveFormJS.bind(discordBotController));
 
+// Define POST route for sending message to Discord using object method
+router.post('/postMessage', discordBotController.postMessage.bind(discordBotController));
+
+// Export router object
 module.exports = router;
