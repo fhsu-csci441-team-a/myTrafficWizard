@@ -31,7 +31,7 @@ class NotificationController {
         this.#gmailControllerObject;
         this.#gmailControllerObject2;
         this.#slackBotControllerObject = new SlackBotController();
-        this.#discordBotControllerObject;
+        this.#discordBotControllerObject = new DiscordBotController();
     }
 
     #instantiateTravelObject(tripData) {
@@ -72,6 +72,10 @@ class NotificationController {
         return await this.#slackBotControllerObject.postMessage(userId, message);
     }
 
+    async postDiscordMessage(userId, message) {
+        return await this.#discordBotControllerObject.postMessage(userId, message);
+    }
+
     async sendMessage() {
 
         // get current travel and weather data
@@ -98,7 +102,8 @@ class NotificationController {
         if (this.#tripData.user_id_slack) {
             console.log('Attempting to send Slack message to user:', this.#tripData.user_id_slack);
             try {
-                await this.postSlackMessage(this.#tripData.user_id_slack, plainTextMessage);
+                await this.postSlackMessage(
+                    this.#tripData.user_id_slack, plainTextMessage);
                 console.log('Slack message sent successfully');
             } catch (error) {
                 console.error('Failed to send Slack message:', error);
@@ -107,8 +112,13 @@ class NotificationController {
 
         // send Discord message if Discord ID provided
         if (this.#tripData.user_id_discord) {
-            await this.#discordBotControllerObject.sendMessage(
-                this.#tripData.user_id_discord, plainTextMessage);
+            console.log('Attempting to send message to Discord user: ', this.#tripData.user_id_discord);
+            try {
+                await this.postDiscordMessage(
+                    this.#tripData.user_id_discord, plainTextMessage);
+            } catch (error) {
+                console.error('Failed to send Discord message:', error);
+            }
         }
     }
 }

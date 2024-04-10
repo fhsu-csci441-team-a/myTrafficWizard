@@ -1,5 +1,6 @@
-const { Router } = require('express');
-const router = Router();
+// Routes for Discord Bot and page to test sending of messages
+const express = require('express');
+const router = express.Router();
 
 const DiscordBotController = require('../controllers/discordBotController');
 const discordBotController = new DiscordBotController();

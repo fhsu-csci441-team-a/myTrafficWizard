@@ -19,14 +19,12 @@ document.getElementById('userForm').addEventListener('submit', async function(ev
       body: JSON.stringify(payload),
     });
 
-    let data;
-    if (response.headers.get('content-type').includes('application/json')) {
-      data = await response.json();
+    if (response.ok) {
+      console.log('Request succeeded');
     } else {
-      data = await response.text();
+      console.log('Response is not ok', response.status);
     }
-    console.log(data);
-  } catch (error) {
-    console.error('Error:', error);
+  } catch(err) {
+    console.log("Error: " + err);
   }
 });
