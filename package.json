@@ -18,19 +18,25 @@
     "mime-db": "^1.52.0",
     "mime-types": "^2.1.35",
     "node-fetch-npm": "^2.0.4",
-    "pg":"^8.11.3",
+    "nodemailer": "^6.9.10",
     "p-finally": "^1.0.0",
     "p-queue": "^6.6.2",
     "p-retry": "^4.6.2",
     "p-timeout": "^3.2.0",
+    "pg": "^8.11.3",
     "proxy-from-env": "^1.1.0",
     "retry": "^0.13.1",
     "undici-types": "^5.26.5"
   },
   "scripts": {
-    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
+    "test": "jest",
     "start": "node app.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-mock-extended": "^3.0.5",
+    "supertest": "^6.3.4"
+  }
 }
