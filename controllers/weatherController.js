@@ -4,15 +4,6 @@ const ReverseGeoCode = require('../services/reverseGeocode');
 
 class WeatherController {
 
-    //"snowAccumulation": "mm",   
-    //windSpeed": "m/s"
-    //temperature celcius
-    //"iceAccumulation": "mm"
-    //visibilty km - distance over which one can clearly see
-    // rainAccumulation
-    // snowAccumulation
-    // sleetAccumulation
-    //weathercode
 
     #start;
     #end;
@@ -33,16 +24,16 @@ class WeatherController {
 
     }
 
-    setWayPoints() {
+    #setWayPoints() {
         this.#wayPoints = this.#routeMappingService.generateWayPoints();
     }
 
-    delay(milliseconds) {
+    #delay(milliseconds) {
         return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
 
-    async generateWeatherObjects() {
-        this.setWayPoints();
+    async #generateWeatherObjects() {
+        this.#setWayPoints();
 
         const data = []
 
@@ -72,23 +63,23 @@ class WeatherController {
 
             data.push(weatherObject);
 
-            await this.delay(5000);  // Delay for 5000 milliseconds (5 seconds)
+            await this.#delay(5000);
         }
 
         this.#weatherObjects = data;
     }
 
-    async generateTemplateText() {
+    async #generateTemplateText() {
         const data = this.#weatherObjects;
         let template = "Weather Forecast Report\n\n";
 
         data.forEach((element, index) => {
             let line = `Point ${index + 1}: `;
             line += `Address: ${element.address} | `;
-            line += `Current: ${this.formatWeather(element.current)} | `;
-            line += `30min: ${this.formatWeather(element.minutes30)} | `;
-            line += `1hr: ${this.formatWeather(element.hour1)} | `;
-            line += `2hr: ${this.formatWeather(element.hour2)}\n`;
+            line += `Current: ${this.#formatWeather(element.current)} | `;
+            line += `30min: ${this.#formatWeather(element.minutes30)} | `;
+            line += `1hr: ${this.#formatWeather(element.hour1)} | `;
+            line += `2hr: ${this.#formatWeather(element.hour2)}`;
             template += line;
             template += "\n";
         });
@@ -96,7 +87,7 @@ class WeatherController {
         return template;
     }
 
-    async generateTemplateHTML() {
+    async #generateTemplateHTML() {
 
         const data = this.#weatherObjects;
         let template = `
@@ -115,10 +106,10 @@ class WeatherController {
                 <tr>
                     <td>${index + 1}</td>
                     <td>${element.address}</td>
-                    <td>${this.formatWeather(element.current)}</td>
-                    <td>${this.formatWeather(element.minutes30)}</td>
-                    <td>${this.formatWeather(element.hour1)}</td>
-                    <td>${this.formatWeather(element.hour2)}</td>
+                    <td>${this.#formatWeather(element.current)}</td>
+                    <td>${this.#formatWeather(element.minutes30)}</td>
+                    <td>${this.#formatWeather(element.hour1)}</td>
+                    <td>${this.#formatWeather(element.hour2)}</td>
                 </tr>`;
         });
 
@@ -126,13 +117,13 @@ class WeatherController {
         return template;
     }
 
-    formatWeather(weather) {
-        const weatherSymbol = this.getWeatherSymbol(weather.weatherCode);
+    #formatWeather(weather) {
+        const weatherSymbol = this.#getWeatherSymbol(weather.weatherCode);
         return `${weatherSymbol}  ${weather.weatherCode} ${weather.temperature}°F`;
     }
 
 
-    getWeatherSymbol(weatherCode) {
+    #getWeatherSymbol(weatherCode) {
         const symbols = {
             "Unknown": "❓",
             "Clear, Sunny": "☀️",
@@ -161,14 +152,14 @@ class WeatherController {
         };
 
 
-        return symbols[weatherCode] || "❓"; // Return the symbol or a question mark if no symbol is found
+        return symbols[weatherCode] || "❓";
     }
 
     async getWeatherMessage() {
         try {
-            await this.generateWeatherObjects();
-            const htmlMessage = await this.generateTemplateHTML();
-            const textMessage = await this.generateTemplateText();
+            await this.#generateWeatherObjects();
+            const htmlMessage = await this.#generateTemplateHTML();
+            const textMessage = await this.#generateTemplateText();
 
             return { "text": textMessage, "html": htmlMessage };
         }
