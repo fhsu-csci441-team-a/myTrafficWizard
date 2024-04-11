@@ -1,16 +1,18 @@
+/**
+ * Manages weather data retrieval and processing for specific geographic points using the Tomorrow.io API.
+ * This class extends `BaseFetchRetry` to handle API requests with automatic retries on failure.
+ *
+ * Usage example:
+ *   const weatherModel = new WeatherModel("40.7128,-74.0060", "your_api_key_here");
+ *   await weatherModel.setPoint("40.7128,-74.0060");
+ *   const currentWeather = await weatherModel.getWeatherByInterval('minutely', 1);
+ *   console.log(currentWeather);
+ */
+
 const BaseFetchRetry = require('../services/BaseFetchRetry');
 
 class WeatherModel extends BaseFetchRetry {
 
-    //"snowAccumulation": "mm",   
-    //windSpeed": "m/s"
-    //temperature celcius
-    //"iceAccumulation": "mm"
-    //visibilty km - distance over which one can clearly see
-    // rainAccumulation
-    // snowAccumulation
-    // sleetAccumulation
-    //weathercode
 
     static VERSION = 'v4';
     static HEADERS = { "Accept": "application/json", "Content-Type": "application/json" };
@@ -110,12 +112,8 @@ class WeatherModel extends BaseFetchRetry {
             {
                 "time": interval.time,
                 "weatherCode": WeatherModel.#weatherCode[values.weatherCode],
-                "temperature": Math.round((WeatherModel.#celsiusToFahrenheit(values.temperature)), 0),
-                "windSpeed": values.windSpeed,
-                "rainIntensity": values.rainIntensity,
-                "sleetIntensity": values.sleetIntensity,
-                "snowIntensity": values.snowIntensity
-            }
+                "temperature": Math.round((WeatherModel.#celsiusToFahrenheit(values.temperature)), 0)
+            };
 
             return this.#messageOperationSuccess(data);
 
