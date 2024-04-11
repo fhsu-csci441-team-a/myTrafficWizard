@@ -26,7 +26,7 @@ class BaseFetchRetry {
         this.url = url;
         this.options = options;
         this.maxRetries = 5;
-        this.retryDelayMilliseconds = 1000;
+        this.retryDelayMilliseconds = 5000;
     }
 
 
@@ -51,7 +51,6 @@ class BaseFetchRetry {
             if (!this.isNetworkOrServerError(response.status)) {
                 throw new Error(`Request failed with status ${response.status}`);
             }
-
             console.log(`Retrying due to ${response.status} status after attempt ${attempt + 1}`);
             await this.delay(this.retryDelayMilliseconds);
             attempt++;
