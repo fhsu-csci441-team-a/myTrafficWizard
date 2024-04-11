@@ -3,9 +3,7 @@ const ReverseGeocode = require('../../../services/reverseGeocode');
 const RouteMappingService = require('../../../services/routeMappingService');
 require('dotenv').config();
 
-//const apiKeyWeather = 'ljBGQOoZnk05ad4M5fL8Hh9EzKsE8x9o'
-const apiKeyWeather = '66DXvEick6s22tdNJwq5NK466xltSab3';
-const apiKeyTomTom = 'EoNThFWZ8woKP8Jk0GchI42XP2GFa0C0';
+
 const start = '38.873333,-99.343333';
 const end = '38.8538652,-99.2737776';
 
@@ -21,4 +19,3 @@ async function main() {
 }
 
 
-main();
