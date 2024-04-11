@@ -1,12 +1,27 @@
+/**
+ * The WeatherController class orchestrates the gathering and presentation of weather data for specific routes.
+ * It utilizes services for mapping routes, fetching weather data, and performing reverse geocoding to enhance the data
+ * with human-readable addresses. The class is designed to fetch weather forecasts for waypoints along a defined start
+ * and end geographical point and provides the data in both text and HTML formats.
+ *
+ *
+ * Example Usage:
+ * const weatherController = new WeatherController('34.0522,-118.2437', '36.7783,-119.4179', 'weatherAPIKey', 'routeAPIKey');
+ * weatherController.getWeatherMessage()
+ *   .then(messages => {
+ *     console.log("Text Message:", messages.text);
+ *     console.log("HTML Message:", messages.html);
+ *   })
+ *   .catch(error => console.error("Error fetching weather messages:", error));
+ * 
+ */
+
 const WeatherModel = require('../models/weatherModel');
 const RouteMappingService = require('../services/routeMappingService');
 const ReverseGeoCode = require('../services/reverseGeocode');
 
 class WeatherController {
 
-
-    #start;
-    #end;
     #routeMappingService;
     #reverseGeocode;
     #weatherModel;
@@ -15,13 +30,9 @@ class WeatherController {
 
 
     constructor(start, end, weatherAPIKey, routeAPIKey) {
-        this.#start = start;
-        this.#end = end;
         this.#routeMappingService = new RouteMappingService(start, end);
         this.#weatherModel = new WeatherModel(start, weatherAPIKey);
         this.#reverseGeocode = new ReverseGeoCode(routeAPIKey);
-
-
     }
 
     #setWayPoints() {
