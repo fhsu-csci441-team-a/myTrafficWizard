@@ -2,6 +2,7 @@
  * The TravelIncidentsModel class extends BaseFetchRetry to fetch traffic incident data
  * for a specified route. It constructs a request to a traffic API, automatically handling
  * retries for transient errors and rate limits, and parses the response into a structured format.
+ * Incidents are sorted by severity with a predefined order and only the top 10 severe incidents are returned.
  *
  
  *
@@ -13,8 +14,8 @@
  *   .catch(error => console.error(error));
  * ```
  *
- * This example creates an instance of TravelIncidentsModel for a specified route and API key,
- * fetches the traffic incidents for that route, and logs the result or error.
+ * 
+ *
  */
 
 const BaseFetchRetry = require('../services/BaseFetchRetry');
@@ -45,6 +46,14 @@ class TravelIncidentsModel extends BaseFetchRetry {
         3: "Major",
         4: "Undefined"
     }
+
+    static SEVERITY_SORT_ORDER = {
+        "Major": 3,
+        "Unknown": 2,
+        "Undefined": 1,
+        "Minor": 0,
+        "Moderate": 0
+    };
 
 
     constructor(startPoint, endPoint, apiKey) {
@@ -80,6 +89,15 @@ class TravelIncidentsModel extends BaseFetchRetry {
     }
 
 
+    #sortIncidentsBySeverityDescending(incidents) {
+        incidents.sort((a, b) => {
+            const aSeverity = TravelIncidentsModel.SEVERITY_SORT_ORDER[a.magnitudeOfDelay];
+            const bSeverity = TravelIncidentsModel.SEVERITY_SORT_ORDER[b.magnitudeOfDelay];
+            return bSeverity - aSeverity;
+        });
+    }
+
+
     async getTravelIncidents() {
         try {
             const result = await this.fetchWithRetry();
@@ -91,7 +109,7 @@ class TravelIncidentsModel extends BaseFetchRetry {
 
                 for (const incident of incidents) {
 
-                    let mappedIncidents =
+                    let mappedIncident =
                     {
                         "iconCategory": TravelIncidentsModel.ICON_CATEGORY_MAP[incident.properties.iconCategory],
                         "magnitudeOfDelay": TravelIncidentsModel.MAGNITUDE_MAP[incident.properties.magnitudeOfDelay],
@@ -99,8 +117,15 @@ class TravelIncidentsModel extends BaseFetchRetry {
                         "to": incident.properties.to
                     }
 
-                    data.push(mappedIncidents);
+
+                    data.push(mappedIncident);
+
+
                 }
+
+                this.#sortIncidentsBySeverityDescending(data);
+                data = data.slice(0, 10); // Keep only the top 10 incidents
+
             }
 
 
