@@ -108,6 +108,7 @@ const initPage = async () => {
 
         matchAddresses(addressPart, "destinationAddressMatches");
     });
+    
 // Validation function for email
 const validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
@@ -143,6 +144,19 @@ const validateInputs = () => {
 
     return true;
 };
+
+// Select the error message element
+const errorMessage = document.querySelector('.error-message');
+
+// Function to remove the error message after 3 seconds
+function removeErrorMessage() {
+    setTimeout(function() {
+        errorMessage.style.display = 'none';
+    }, 3000); // 3000 milliseconds = 3 seconds
+}
+
+// Call the function to remove the error message after it's displayed
+removeErrorMessage();
 
     /**
      * Create an event listener for the email checkbox that controls whether the
