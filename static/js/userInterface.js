@@ -175,7 +175,7 @@ const initPage = async () => {
         // slackTextBox should be disabled if slackCheckBox is unchecked.
         else slackTextBox.disabled = true;
     });
-    
+
     class InputValidation {
         static validateMobileNumber(number) {
             const mobileNumberRegex = /^[0-9]{10}$/;
@@ -224,14 +224,20 @@ const initPage = async () => {
             // Create a JSON object from the FormData
         let jsonObject = {};
         let invalidField = null;
-        for (let [key, value] of formData.entries()) {
-            const validation = InputValidation[`validate${key.charAt(0).toUpperCase() + key.slice(1)}`](value);
-            if (!validation.isValid) {
-                invalidField = validation.field;
-                break;
-            }
-            jsonObject[key] = value;
+    for (let [key, value] of formData.entries()) {
+        const validationFunctionName = `validate${key.charAt(0).toUpperCase() + key.slice(1)}`;
+        if (!(validationFunctionName in InputValidation)) {
+            console.error(`Validation function ${validationFunctionName} does not exist.`);
+            continue;
         }
+        const validation = InputValidation[validationFunctionName](value);
+    if (!validation.isValid) {
+        invalidField = validation.field;
+        break;
+        }
+        jsonObject[key] = value;
+    }
+
         jsonObject['table'] = 'scheduled_trips';
 
         if (invalidField) {
