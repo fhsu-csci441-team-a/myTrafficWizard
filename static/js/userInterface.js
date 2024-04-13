@@ -130,7 +130,7 @@ const validateDiscordUserID = (userID) => {
 // Validation function for Slack user ID
 const validateSlackUserID = (userID) => {
     // Slack user ID can only contain alphanumeric characters
-    const slackRegex = /^[a-zA-Z0-9]+$/;
+    const slackRegex = /^[UW][A-Za-z0-9]+$/;
     return slackRegex.test(userID);
 };
 
