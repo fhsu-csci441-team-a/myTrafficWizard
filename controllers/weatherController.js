@@ -6,7 +6,7 @@
  *
  *
  * Example Usage:
- * const weatherController = new WeatherController('34.0522,-118.2437', '36.7783,-119.4179', 'weatherAPIKey', 'routeAPIKey');
+ * const weatherController = new WeatherController('34.0522,-118.2437', '36.7783,-119.4179', 'tommorowIOAPIKey', 'TomTomAPIKey');
  * weatherController.getWeatherMessage()
  *   .then(messages => {
  *     console.log("Text Message:", messages.text);
@@ -18,7 +18,7 @@
 
 const WeatherModel = require('../models/weatherModel');
 const RouteMappingService = require('../services/routeMappingService');
-const ReverseGeoCode = require('../services/reverseGeocode');
+const ReverseGeocode = require('../services/reverseGeocode');
 
 class WeatherController {
 
@@ -29,10 +29,10 @@ class WeatherController {
     #weatherObjects;
 
 
-    constructor(start, end, weatherAPIKey, routeAPIKey) {
+    constructor(start, end, tommorowIOAPIKey, TomTomAPIKey) {
         this.#routeMappingService = new RouteMappingService(start, end);
-        this.#weatherModel = new WeatherModel(start, weatherAPIKey);
-        this.#reverseGeocode = new ReverseGeoCode(routeAPIKey);
+        this.#weatherModel = new WeatherModel(start, tommorowIOAPIKey);
+        this.#reverseGeocode = new ReverseGeocode(TomTomAPIKey);
     }
 
     #setWayPoints() {
@@ -57,18 +57,16 @@ class WeatherController {
 
             this.#weatherModel.setPoint(point);
             let weatherCurrent = await this.#weatherModel.getWeatherByInterval('minutely', 0);
-            let weather30minutes = await this.#weatherModel.getWeatherByInterval('minutely', 29);
             let weather1hour = await this.#weatherModel.getWeatherByInterval('hourly', 0);
-            let weather2hour = await this.#weatherModel.getWeatherByInterval('hourly', 1);
+            let weather3hour = await this.#weatherModel.getWeatherByInterval('hourly', 2);
             let addressTranslation = await this.#reverseGeocode.getAddress(point);
 
 
             let weatherObject = {
                 "point": point,
                 "current": weatherCurrent.data,
-                "minutes30": weather30minutes.data,
                 "hour1": weather1hour.data,
-                "hour2": weather2hour.data,
+                "hour3": weather3hour.data,
                 "address": addressTranslation.data
             };
 
@@ -88,9 +86,8 @@ class WeatherController {
             let line = `Point ${index + 1}: `;
             line += `Address: ${element.address} | `;
             line += `Current: ${this.#formatWeather(element.current)} | `;
-            line += `30min: ${this.#formatWeather(element.minutes30)} | `;
             line += `1hr: ${this.#formatWeather(element.hour1)} | `;
-            line += `2hr: ${this.#formatWeather(element.hour2)}`;
+            line += `3hr: ${this.#formatWeather(element.hour3)}`;
             template += line;
             template += "\n";
         });
