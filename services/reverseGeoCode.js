@@ -1,3 +1,25 @@
+/**
+ * The ReverseGeocode class extends the BaseFetchRetry class to provide functionality
+ * for performing reverse geocoding operations using the TomTom API. This class handles
+ * the construction of API requests for converting geographic coordinates into human-readable
+ * addresses and managing retry logic for these requests.
+ *
+ * Example Usage:
+ * --------------
+ * const ReverseGeocode = require('./ReverseGeocode');
+ * const apiKey = 'YOUR_TOMTOM_API_KEY';
+ * const geocoder = new ReverseGeocode(apiKey);
+ *
+ * // Get the address for a specific location (latitude, longitude format)
+ *  response = await geocoder.getAddress('52.509669,13.376294');
+ *  console.log(response);
+ *
+ * // Specify a different radius
+ * response = await geocoder.getAddress('52.509669,13.376294', 500);
+ * console.log(response);
+ * 
+ * 
+ */
 const BaseFetchRetry = require('./BaseFetchRetry');
 
 class ReverseGeocode extends BaseFetchRetry {
