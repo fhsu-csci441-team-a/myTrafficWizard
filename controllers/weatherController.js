@@ -72,6 +72,7 @@ class WeatherController {
 
             data.push(weatherObject);
 
+
             await this.#delay(5000);
         }
 
@@ -80,7 +81,7 @@ class WeatherController {
 
     async #generateTemplateText() {
         const data = this.#weatherObjects;
-        let template = "Weather Forecast Report\n\n";
+        let template = "\n\n";
 
         data.forEach((element, index) => {
             let line = `Point ${index + 1}: `;
@@ -99,15 +100,34 @@ class WeatherController {
 
         const data = this.#weatherObjects;
         let template = `
-            <table>
+        <style>
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        </style>
+        <table>
+            <thead>
                 <tr>
                     <th>Point</th>
                     <th>Address</th>
                     <th>Current Weather</th>
-                    <th>Weather in 30 min</th>
                     <th>Weather in 1 hr</th>
-                    <th>Weather in 2 hrs</th>
-                </tr>`;
+                    <th>Weather in 3 hrs</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
         data.forEach((element, index) => {
             template += `
@@ -115,9 +135,8 @@ class WeatherController {
                     <td>${index + 1}</td>
                     <td>${element.address}</td>
                     <td>${this.#formatWeather(element.current)}</td>
-                    <td>${this.#formatWeather(element.minutes30)}</td>
                     <td>${this.#formatWeather(element.hour1)}</td>
-                    <td>${this.#formatWeather(element.hour2)}</td>
+                    <td>${this.#formatWeather(element.hour3)}</td>
                 </tr>`;
         });
 
@@ -172,7 +191,7 @@ class WeatherController {
             return { "text": textMessage, "html": htmlMessage };
         }
         catch (error) {
-            return { "text": null, "htmlMessage": null };
+            return { "text": error, "htmlMessage": error };
         }
 
     }
