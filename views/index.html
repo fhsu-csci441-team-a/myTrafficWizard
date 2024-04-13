@@ -63,11 +63,15 @@
                             <div class="input-group">
                                 <label class="notification-label" for="email_address">Email (Required)</label>
                                 <input class="notification-input" type="text" id="email_address" name="email_address" required>
+                                <!-- Error message for email -->
+                            <div id="emailError" class="error-message"></div>
                             </div>
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="smsCheckBox" name="smsCheckBox">
                                 <label class="notification-label" for="mobile_number">Mobile Number</label>
                                 <input class="notification-input" type="text" id="mobile_number" name="mobile_number" disabled>
+                                <!-- Error message for mobile number -->
+                            <div id="mobileError" class="error-message"></div>
                             </div>
                             <div class="input-group">
                                     <label class="notification-label" for="mobile_provider">Cell Provider</label>

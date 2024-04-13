@@ -108,6 +108,41 @@ const initPage = async () => {
 
         matchAddresses(addressPart, "destinationAddressMatches");
     });
+// Validation function for email
+const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(String(email).toLowerCase());
+};
+
+// Validation function for mobile number
+const validateMobileNumber = (number) => {
+    const re = /^[0-9]{10}$/;
+    return re.test(number);
+};
+
+// Validate email and mobile number inputs on form submission
+const validateInputs = () => {
+    const emailInput = document.getElementById("email_address");
+    const mobileInput = document.getElementById("mobile_number");
+    const emailError = document.getElementById("emailError");
+    const mobileError = document.getElementById("mobileError");
+
+    if (!validateEmail(emailInput.value)) {
+        emailError.textContent = "Please enter a valid email address.";
+        return false;
+    } else {
+        emailError.textContent = "";
+    }
+
+    if (mobileInput.value && !validateMobileNumber(mobileInput.value)) {
+        mobileError.textContent = "Please enter a valid mobile number (10 digits).";
+        return false;
+    } else {
+        mobileError.textContent = "";
+    }
+
+    return true;
+};
 
     /**
      * Create an event listener for the email checkbox that controls whether the
@@ -176,50 +211,46 @@ const initPage = async () => {
         else slackTextBox.disabled = true;
     });
 
-    // Function to handle form submission
-    const handleFormSubmit = () => {
-        // Get the form element
-        const form = document.querySelector('form');
+    // Update handleFormSubmit function to include input validation
+const handleFormSubmit = () => {
+    const form = document.querySelector('form');
 
-        form.addEventListener('submit', (event) => {
-            // Prevent the form from being submitted in the traditional way
-            event.preventDefault();
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
         
-            // Create a FormData object from the form
-            const formData = new FormData(form);
+        if (!validateInputs()) {
+            return;
+        }
 
-            // Create a JSON object from the FormData
-            let jsonObject = {};
-            for (let [key, value] of formData.entries()) {
-                jsonObject[key] = value;
+        const formData = new FormData(form);
+        let jsonObject = {};
+        for (let [key, value] of formData.entries()) {
+            jsonObject[key] = value;
+        }
+        jsonObject['table'] = 'scheduled_trips';
+
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonObject),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            jsonObject['table'] = 'scheduled_trips';
-
-            // Send the form data to the server
-            fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(jsonObject),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Display the message from the server
-                document.getElementById('form-feedback').textContent = data.message;
-            })
-            .catch((error) => {
-                // Display an error message
-                document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
-                console.error('Error:', error);
-            });
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('form-feedback').textContent = data.message;
+        })
+        .catch((error) => {
+            document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
+            console.error('Error:', error);
         });
-    };
+    });
+};
 
     // Call handleFormSubmit to start the form submission event listener
     handleFormSubmit();
