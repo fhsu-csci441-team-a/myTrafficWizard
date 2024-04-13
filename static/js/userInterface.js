@@ -145,36 +145,38 @@ const validateInputs = () => {
     const discordError = document.getElementById("discordError");
     const slackError = document.getElementById("slackError");
 
+    let isValid = true;
+
     // Email validation
     if (!validateEmail(emailInput.value)) {
         emailError.textContent = "Please enter a valid email address.";
-        return false;
+        isValid = false;
     } else {
         emailError.textContent = "";
     }
     // Mobile number validation
     if (mobileInput.value && !validateMobileNumber(mobileInput.value)) {
         mobileError.textContent = "Please enter a valid mobile number (10 digits).";
-        return false;
+        isValid = false;
     } else {
         mobileError.textContent = "";
     }
     // Discord validation
     if (discordInput.value && !validateDiscordUserID(discordInput.value)) {
         discordError.textContent = "Please enter a valid Discord user ID.";
-        return false;
+        isValid = false;
     } else {
         discordError.textContent = "";
     }
     // Slack validation
     if (slackInput.value && !validateSlackUserID(slackInput.value)) {
         slackError.textContent = "Please enter a valid Slack user ID.";
-        return false;
+        isValid = false;
     } else {
         slackError.textContent = "";
     }
 
-    return true;
+    return isValid;
 };
 
     /**
