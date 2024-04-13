@@ -176,6 +176,30 @@ const initPage = async () => {
         else slackTextBox.disabled = true;
     });
 
+    class InputValidation {
+        static validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return { isValid: regex.test(email), field: 'email_address' };
+        }
+    
+        static validateDiscord(discordID) {
+            // Assuming Discord ID consists of alphanumeric characters and may contain dashes
+            const regex = /^[A-Za-z0-9-]+$/;
+            return { isValid: regex.test(discordID), field: 'user_id_discord' };
+        }
+    
+        static validateSlack(slackID) {
+            // Assuming Slack ID consists of alphanumeric characters, periods, and underscores
+            const regex = /^[A-Za-z0-9._]+$/;
+            return { isValid: regex.test(slackID), field: 'user_id_slack' };
+        }
+    
+        static validatePhoneNumber(phoneNumber) {
+            // Assuming phone number format XXX-XXX-XXXX
+            const regex = /^\d{3}-\d{3}-\d{4}$/;
+            return { isValid: regex.test(phoneNumber), field: 'mobile_number' };
+        }
+    }
     // Function to handle form submission
     const handleFormSubmit = () => {
         // Get the form element
@@ -189,11 +213,31 @@ const initPage = async () => {
             const formData = new FormData(form);
 
             // Create a JSON object from the FormData
-            let jsonObject = {};
-            for (let [key, value] of formData.entries()) {
-                jsonObject[key] = value;
+                    let jsonObject = {};
+        let invalidField = null;
+        for (let [key, value] of formData.entries()) {
+            const validationFunctionName = `validate${key.charAt(0).toUpperCase() + key.slice(1)}`;
+            if (!(validationFunctionName in InputValidation)) {
+                console.error(`Validation function ${validationFunctionName} does not exist.`);
+                continue;
             }
-            jsonObject['table'] = 'scheduled_trips';
+            const validation = InputValidation[validationFunctionName](value);
+            if (!validation.isValid) {
+                invalidField = validation.field;
+                break;
+            }
+            jsonObject[key] = value;
+        }
+        jsonObject['table'] = 'scheduled_trips';
+
+        if (invalidField) {
+            const invalidInput = document.getElementById(invalidField);
+            invalidInput.classList.add('invalid-input');
+            setTimeout(() => {
+                invalidInput.classList.remove('invalid-input');
+            }, 3000); // Remove the red border after 3 seconds
+            return;
+        }
 
             // Send the form data to the server
             fetch('/submit', {
