@@ -175,7 +175,40 @@ const initPage = async () => {
         // slackTextBox should be disabled if slackCheckBox is unchecked.
         else slackTextBox.disabled = true;
     });
-
+    
+    class InputValidation {
+        static validateMobileNumber(number) {
+            const mobileNumberRegex = /^[0-9]{10}$/;
+            return {
+                isValid: mobileNumberRegex.test(number),
+                field: "mobile_number"
+            };
+        }
+    
+        static validateEmailAddress(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return {
+                isValid: emailRegex.test(email),
+                field: "email_address"
+            };
+        }
+    
+        static validateDiscordUserId(userId) {
+            const discordUserIdRegex = /^[0-9]+$/;
+            return {
+                isValid: discordUserIdRegex.test(userId),
+                field: "user_id_discord"
+            };
+        }
+    
+        static validateSlackUserId(userId) {
+            const slackUserIdRegex = /^[a-zA-Z0-9]+$/;
+            return {
+                isValid: slackUserIdRegex.test(userId),
+                field: "user_id_slack"
+            };
+        }
+    }
     // Function to handle form submission
     const handleFormSubmit = () => {
         // Get the form element
@@ -189,11 +222,26 @@ const initPage = async () => {
             const formData = new FormData(form);
 
             // Create a JSON object from the FormData
-            let jsonObject = {};
-            for (let [key, value] of formData.entries()) {
-                jsonObject[key] = value;
+        let jsonObject = {};
+        let invalidField = null;
+        for (let [key, value] of formData.entries()) {
+            const validation = InputValidation[`validate${key.charAt(0).toUpperCase() + key.slice(1)}`](value);
+            if (!validation.isValid) {
+                invalidField = validation.field;
+                break;
             }
-            jsonObject['table'] = 'scheduled_trips';
+            jsonObject[key] = value;
+        }
+        jsonObject['table'] = 'scheduled_trips';
+
+        if (invalidField) {
+            const invalidInput = document.getElementById(invalidField);
+            invalidInput.classList.add('invalid-input');
+            setTimeout(() => {
+                invalidInput.classList.remove('invalid-input');
+            }, 3000); // Remove the red border after 3 seconds
+            return;
+        }
 
             // Send the form data to the server
             fetch('/submit', {
