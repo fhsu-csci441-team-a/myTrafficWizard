@@ -138,8 +138,8 @@ const validateSlackUserID = (userID) => {
 const validateInputs = () => {
     const emailInput = document.getElementById("email_address");
     const mobileInput = document.getElementById("mobile_number");
-    const discordInput = document.getElementById("discord_user_id");
-    const slackInput = document.getElementById("slack_user_id");
+    const discordInput = document.getElementById("user_id_discord");
+    const slackInput = document.getElementById("user_id_slack");
     const emailError = document.getElementById("emailError");
     const mobileError = document.getElementById("mobileError");
     const discordError = document.getElementById("discordError");
