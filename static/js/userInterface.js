@@ -120,25 +120,58 @@ const validateMobileNumber = (number) => {
     return re.test(number);
 };
 
-// Validate email and mobile number inputs on form submission
+// Validation function for Discord user ID (only numbers)
+const validateDiscordUserID = (userID) => {
+    // Discord user ID should be at least 18 digits long
+    const discordRegex = /^\d{18,}$/;
+    return discordRegex.test(userID);
+};
+
+// Validation function for Slack user ID
+const validateSlackUserID = (userID) => {
+    // Slack user ID can only contain alphanumeric characters
+    const slackRegex = /^[a-zA-Z0-9]+$/;
+    return slackRegex.test(userID);
+};
+
+// Validate email, mobile number, discord and slack inputs on form submission
 const validateInputs = () => {
     const emailInput = document.getElementById("email_address");
     const mobileInput = document.getElementById("mobile_number");
+    const discordInput = document.getElementById("discord_user_id");
+    const slackInput = document.getElementById("slack_user_id");
     const emailError = document.getElementById("emailError");
     const mobileError = document.getElementById("mobileError");
+    const discordError = document.getElementById("discordError");
+    const slackError = document.getElementById("slackError");
 
+    // Email validation
     if (!validateEmail(emailInput.value)) {
         emailError.textContent = "Please enter a valid email address.";
         return false;
     } else {
         emailError.textContent = "";
     }
-
+    // Mobile number validation
     if (mobileInput.value && !validateMobileNumber(mobileInput.value)) {
         mobileError.textContent = "Please enter a valid mobile number (10 digits).";
         return false;
     } else {
         mobileError.textContent = "";
+    }
+    // Discord validation
+    if (discordInput.value && !validateDiscordUserID(discordInput.value)) {
+        discordError.textContent = "Please enter a valid Discord user ID.";
+        return false;
+    } else {
+        discordError.textContent = "";
+    }
+    // Slack validation
+    if (slackInput.value && !validateSlackUserID(slackInput.value)) {
+        slackError.textContent = "Please enter a valid Slack user ID.";
+        return false;
+    } else {
+        slackError.textContent = "";
     }
 
     return true;
