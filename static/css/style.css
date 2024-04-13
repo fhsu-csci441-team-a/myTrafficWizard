@@ -222,10 +222,6 @@ main {
     height: 100%;
 }
 
-.invalid-input {
-    border: 1px solid red; /* Red border for invalid input */
-}
-
 @media only screen and (min-width: 601px) {
     h1 {
         font-size: 2.2rem;
@@ -422,12 +418,6 @@ main {
         min-height: 50%;
         max-height: 90%;
         flex-direction: row;
-    }
-    /* Apply .invalid-input style to input fields within this media query */
-    input[type="datetime-local"].invalid-input,
-    input[type="text"].invalid-input,
-    select.invalid-input {
-        border: 1px solid red; /* Red border for invalid input */
     }
 }
 
