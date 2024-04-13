@@ -124,7 +124,7 @@ class TravelIncidentsModel extends BaseFetchRetry {
                 }
 
                 this.#sortIncidentsBySeverityDescending(data);
-                data = data.slice(0, 10); // Keep only the top 10 incidents
+                data = data.slice(0, 5); // Keep only the top 10 incidents
 
             }
 
