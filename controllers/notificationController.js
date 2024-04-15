@@ -7,7 +7,7 @@
 
 // required components
 const TravelController = require('./travelController');
-// const WeatherController = require('./weatherController');
+const WeatherController = require('./weatherController');
 const MessageModel = require('../models/messageModel');
 const GmailController = require('./gmailController');
 const SlackBotController = require('./slackBotController');
@@ -29,7 +29,7 @@ class NotificationController {
     constructor(tripData) {
         this.#tripData = tripData;
         this.#instantiateTravelObject(tripData);
-        this.#weatherObject;
+        this.#instantiateWeatherObject(tripData);
         this.#messageObject;
         this.#gmailControllerObject;
         this.#gmailControllerObject2;
@@ -44,6 +44,15 @@ class NotificationController {
             tripData.destination_latitude + "," + tripData.destination_longitude,
             process.env.TOMTOM_API_KEY);
 
+    }
+
+    // instantiate the travel object with tripData
+    #instantiateWeatherObject(tripData) {
+        this.#weatherObject = new WeatherController(
+            tripData.departure_latitude + "," + tripData.departure_longitude,
+            tripData.destination_latitude + "," + tripData.destination_longitude,
+            process.env.TOMORROW_API_KEY,
+            process.env.TOMTOM_API_KEY);
     }
 
     // create message object
@@ -79,7 +88,11 @@ class NotificationController {
     // get the travel message
     async fetchTravelData() {
         return await this.#travelObject.getTravelMessage();
+    }
 
+    // get the weather message
+    async fetchWeatherData() {
+        return await this.#weatherObject.getWeatherMessage();
     }
 
     // send messages to Gmail
@@ -103,9 +116,7 @@ class NotificationController {
         try {
             // get current travel and weather data
             const travelData = await this.fetchTravelData();
-
-            // const weatherData = await this.#weatherObject.getWeatherMessage();
-            const weatherData = "";
+            const weatherData = await this.fetchWeatherData();
 
             // set travel/weather data in mesage model
             this.createMessageObject(travelData, weatherData);
