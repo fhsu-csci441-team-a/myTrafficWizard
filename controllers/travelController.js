@@ -18,16 +18,19 @@
 
 const TravelTimeModel = require('../models/travelTimeModel');
 const TravelIncidentModel = require('../models/travelIncidentModel');
+const ReverseGeocode = require('../services/reverseGeocode');
 
 class TravelController {
+    #apiKey;
 
     constructor(start, end, apiKey) {
         this.start = start;
         this.end = end;
-        this.apiKey = apiKey;
+        this.#apiKey = apiKey;
 
-        this.travelTimeModel = new TravelTimeModel(this.start, this.end, this.apiKey);
-        this.travelIncidentModel = new TravelIncidentModel(this.start, this.end, this.apiKey);
+        this.travelTimeModel = new TravelTimeModel(this.start, this.end, this.#apiKey);
+        this.travelIncidentModel = new TravelIncidentModel(this.start, this.end, this.#apiKey);
+        this.reverseGeocode = new ReverseGeocode(this.#apiKey)
 
     }
 
@@ -47,8 +50,13 @@ class TravelController {
         return message.data && message.data.length > 0;
     }
 
+    #getAddressFromPoint(point) {
+
+    }
+
     async #generateMessageTemplateTravelTime(messageType = 'text') {
         let travelTime = await this.travelTimeModel.getTravelTimes();
+
 
         if (!this.#isSuccessMessage(travelTime)) {
             const errorMessage = `The following error occurred when retrieving travel times:\n${travelTime.message} `
@@ -61,7 +69,7 @@ class TravelController {
         const historicalTravelTime = travelTime.data.historicalTravelTimeMinutes;
         let template = "";
 
-        template = `Your estimated travel time with live traffic conditions is currently ${liveTravelTime} ${this.#getPluralityOfMinutes(liveTravelTime)},` +
+        template += `Your estimated travel time with live traffic conditions is currently ${liveTravelTime} ${this.#getPluralityOfMinutes(liveTravelTime)},` +
             ` the historical average for this route is ${historicalTravelTime} ${this.#getPluralityOfMinutes(historicalTravelTime)}.`;
 
         if (liveTravelTime > historicalTravelTime) {
@@ -125,11 +133,21 @@ class TravelController {
     async #generateMessageTemplateCombined(messageType = 'text') {
         const travelTimeMessage = await this.#generateMessageTemplateTravelTime(messageType);
         const travelIncidentMessage = await this.#generateMessageTemplateTravelConditions(messageType);
+        const startAddress = await this.reverseGeocode.getAddress(this.start);
+        const endAddress = await this.reverseGeocode.getAddress(this.end);
 
         let template = "";
+        let routeHeader = messageType.toLowerCase() === 'html' ? '<h3><b>Route</b></h3>' : 'Route:\n';
         let travelTimeHeader = messageType.toLowerCase() === 'html' ? '<h3><b>Travel Times</b></h3>' : 'Travel Times:\n';
         let travelIncidentHeader = messageType.toLowerCase() === 'html' ? '<h3><b>Travel Incidents</b></h3>' : 'Travel Incidents:\n';
         let divider = messageType.toLowerCase() === 'html' ? '<br><br>' : '\n\n';
+
+        template += routeHeader;
+        template += `Departure Address: ${startAddress.data}`
+        template += divider;
+        template += `Destination Address: ${endAddress.data}`
+        template += divider;
+
         template += travelTimeHeader;
         template += travelTimeMessage + divider;
 
