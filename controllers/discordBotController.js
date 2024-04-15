@@ -12,8 +12,8 @@ class DiscordBotController {
   #discordBotModel;
 
   constructor() {
-    // create a new DiscordBotModel object and assign to private attribute
-    this.#discordBotModel = new DiscordBotModel();
+    // create the private attribute DiscordBotModel
+    this.#discordBotModel;
   }
 
   // serves the discord_bot.html page
@@ -50,6 +50,9 @@ class DiscordBotController {
 
     // try/catch to handle any errors
     try {
+      // create new discordBotModel object
+      this.#discordBotModel = new DiscordBotModel();
+
       // Use the postMessage function from DiscordBotModel to send the message to Discord
       const response = await this.#discordBotModel.postMessage(userID, formattedMessage);
 
