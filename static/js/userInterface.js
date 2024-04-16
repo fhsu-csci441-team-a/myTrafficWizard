@@ -108,6 +108,76 @@ const initPage = async () => {
 
         matchAddresses(addressPart, "destinationAddressMatches");
     });
+// Validation function for email
+const validateEmail = (email) => {
+    const re = /\S+@\S+\.\S+/;
+    return re.test(String(email).toLowerCase());
+};
+
+// Validation function for mobile number
+const validateMobileNumber = (number) => {
+    const re = /^[0-9]{10}$/;
+    return re.test(number);
+};
+
+// Validation function for Discord user ID (only numbers)
+const validateDiscordUserID = (userID) => {
+    // Discord user ID should be at least 18 digits long
+    const discordRegex = /^\d{18,}$/;
+    return discordRegex.test(userID);
+};
+
+// Validation function for Slack user ID
+const validateSlackUserID = (userID) => {
+    // Slack user ID can only contain alphanumeric characters
+    const slackRegex = /^[UW][A-Za-z0-9]+$/;
+    return slackRegex.test(userID);
+};
+
+// Validate email, mobile number, discord and slack inputs on form submission
+const validateInputs = () => {
+    const emailInput = document.getElementById("email_address");
+    const mobileInput = document.getElementById("mobile_number");
+    const discordInput = document.getElementById("user_id_discord");
+    const slackInput = document.getElementById("user_id_slack");
+    const emailError = document.getElementById("emailError");
+    const mobileError = document.getElementById("mobileError");
+    const discordError = document.getElementById("discordError");
+    const slackError = document.getElementById("slackError");
+
+    let isValid = true;
+
+    // Email validation
+    if (!validateEmail(emailInput.value)) {
+        emailError.textContent = "Please enter a valid email address.";
+        isValid = false;
+    } else {
+        emailError.textContent = "";
+    }
+    // Mobile number validation
+    if (mobileInput.value && !validateMobileNumber(mobileInput.value)) {
+        mobileError.textContent = "Please enter a valid mobile number (10 digits).";
+        isValid = false;
+    } else {
+        mobileError.textContent = "";
+    }
+    // Discord validation
+    if (discordInput.value && !validateDiscordUserID(discordInput.value)) {
+        discordError.textContent = "Please enter a valid Discord user ID.";
+        isValid = false;
+    } else {
+        discordError.textContent = "";
+    }
+    // Slack validation
+    if (slackInput.value && !validateSlackUserID(slackInput.value)) {
+        slackError.textContent = "Please enter a valid Slack user ID.";
+        isValid = false;
+    } else {
+        slackError.textContent = "";
+    }
+
+    return isValid;
+};
 
     /**
      * Create an event listener for the email checkbox that controls whether the
@@ -176,50 +246,46 @@ const initPage = async () => {
         else slackTextBox.disabled = true;
     });
 
-    // Function to handle form submission
-    const handleFormSubmit = () => {
-        // Get the form element
-        const form = document.querySelector('form');
+    // Update handleFormSubmit function to include input validation
+const handleFormSubmit = () => {
+    const form = document.querySelector('form');
 
-        form.addEventListener('submit', (event) => {
-            // Prevent the form from being submitted in the traditional way
-            event.preventDefault();
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
         
-            // Create a FormData object from the form
-            const formData = new FormData(form);
+        if (!validateInputs()) {
+            return;
+        }
 
-            // Create a JSON object from the FormData
-            let jsonObject = {};
-            for (let [key, value] of formData.entries()) {
-                jsonObject[key] = value;
+        const formData = new FormData(form);
+        let jsonObject = {};
+        for (let [key, value] of formData.entries()) {
+            jsonObject[key] = value;
+        }
+        jsonObject['table'] = 'scheduled_trips';
+
+        fetch('/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(jsonObject),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-            jsonObject['table'] = 'scheduled_trips';
-
-            // Send the form data to the server
-            fetch('/submit', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(jsonObject),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Display the message from the server
-                document.getElementById('form-feedback').textContent = data.message;
-            })
-            .catch((error) => {
-                // Display an error message
-                document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
-                console.error('Error:', error);
-            });
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById('form-feedback').textContent = data.message;
+        })
+        .catch((error) => {
+            document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
+            console.error('Error:', error);
         });
-    };
+    });
+};
 
     // Call handleFormSubmit to start the form submission event listener
     handleFormSubmit();

@@ -419,8 +419,15 @@ main {
         max-height: 90%;
         flex-direction: row;
     }
+    
+    .error-message {
+        color: red;
+        font-size: 0.8rem;
+        margin-top: 0.2rem;
+    }
 }
 
 @media only screen and (min-width: 1260px) {
 
 }
+

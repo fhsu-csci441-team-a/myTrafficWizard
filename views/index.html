@@ -63,11 +63,15 @@
                             <div class="input-group">
                                 <label class="notification-label" for="email_address">Email (Required)</label>
                                 <input class="notification-input" type="text" id="email_address" name="email_address" required>
+                                <!-- Error message for email -->
+                            <div id="emailError" class="error-message"></div>
                             </div>
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="smsCheckBox" name="smsCheckBox">
                                 <label class="notification-label" for="mobile_number">Mobile Number</label>
                                 <input class="notification-input" type="text" id="mobile_number" name="mobile_number" disabled>
+                                <!-- Error message for mobile number -->
+                            <div id="mobileError" class="error-message"></div>
                             </div>
                             <div class="input-group">
                                     <label class="notification-label" for="mobile_provider">Cell Provider</label>
@@ -133,11 +137,13 @@
                                 <input class="notification" type="checkbox" id="discordCheckbox" name="discordCheckbox">
                                 <label class="notification-label" for="user_id_discord">Discord</label>
                                 <input class="notification-input" type="text" id="user_id_discord" name="user_id_discord" disabled>
+                                <div id="discordError" class="error-message"></div>
                             </div>
                             <div class="input-group">
                                 <input class="notification" type="checkbox" id="slackCheckBox" name="slackCheckBox">
                                 <label class="notification-label" for="user_id_slack">Slack</label>
                                 <input class="notification-input" type="text" id="user_id_slack" name="user_id_slack" disabled>
+                                <div id="slackError" class="error-message"></div>
                             </div>
                         <div class="notifications-block"></div>
                     </section>
