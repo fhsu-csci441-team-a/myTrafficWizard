@@ -1,3 +1,6 @@
+// Originally written and debugged by Nicole-Rene Newcomb
+// Updated by Tyler Anderson
+
 /* The notificationController.js file orchestrates message sending
       It instantiates objects of weatherController & travelController
       It instantiates a messageModel object to properly format messages
@@ -7,7 +10,7 @@
 
 // required components
 const TravelController = require('./travelController');
-const WeatherController = require('./weatherController');
+// const WeatherController = require('./weatherController');
 const MessageModel = require('../models/messageModel');
 const GmailController = require('./gmailController');
 const SlackBotController = require('./slackBotController');
@@ -18,7 +21,7 @@ class NotificationController {
 
     #tripData;
     #travelObject;
-    #weatherObject;
+    // #weatherObject;
     #messageObject;
     #gmailControllerObject;
     #gmailControllerObject2;
@@ -29,7 +32,7 @@ class NotificationController {
     constructor(tripData) {
         this.#tripData = tripData;
         this.#instantiateTravelObject(tripData);
-        this.#instantiateWeatherObject(tripData);
+        // this.#instantiateWeatherObject(tripData);
         this.#messageObject;
         this.#gmailControllerObject;
         this.#gmailControllerObject2;
@@ -46,14 +49,14 @@ class NotificationController {
 
     }
 
-    // instantiate the travel object with tripData
-    #instantiateWeatherObject(tripData) {
-        this.#weatherObject = new WeatherController(
-            tripData.departure_latitude + "," + tripData.departure_longitude,
-            tripData.destination_latitude + "," + tripData.destination_longitude,
-            process.env.TOMORROW_API_KEY,
-            process.env.TOMTOM_API_KEY);
-    }
+    // // instantiate the travel object with tripData
+    // #instantiateWeatherObject(tripData) {
+    //     this.#weatherObject = new WeatherController(
+    //         tripData.departure_latitude + "," + tripData.departure_longitude,
+    //         tripData.destination_latitude + "," + tripData.destination_longitude,
+    //         process.env.TOMORROW_API_KEY,
+    //         process.env.TOMTOM_API_KEY);
+    // }
 
     // create message object
     createMessageObject(travelData, weatherData) {
@@ -90,10 +93,10 @@ class NotificationController {
         return await this.#travelObject.getTravelMessage();
     }
 
-    // get the weather message
-    async fetchWeatherData() {
-        return await this.#weatherObject.getWeatherMessage();
-    }
+    // // get the weather message
+    // async fetchWeatherData() {
+    //     return await this.#weatherObject.getWeatherMessage();
+    // }
 
     // send messages to Gmail
     async sendGMail() {
@@ -116,7 +119,8 @@ class NotificationController {
         try {
             // get current travel and weather data
             const travelData = await this.fetchTravelData();
-            const weatherData = await this.fetchWeatherData();
+            // const weatherData = await this.fetchWeatherData();
+            const weatherData = "temp placeholder";
 
             // set travel/weather data in mesage model
             this.createMessageObject(travelData, weatherData);

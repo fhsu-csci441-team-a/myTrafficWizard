@@ -1,3 +1,5 @@
+// Written and debugged by Nicole-Rene Newcomb
+
 // homeController.js file is the controller for the home/index page
 // displays index.html from views and is starting place of user input/interaction
 // calls scheduledTripsModel to submit user-entered trip/user/channel data to table
@@ -6,7 +8,6 @@
 const path = require('path');
 
 // import files for other classes
-// const InputValidation = require('./InputValidation');
 const ScheduledTripsModel = require('../models/scheduledTripsModel');
 
 // import express module for Express app
@@ -24,9 +25,6 @@ class HomeController {
     // assigns middleware function to attribute for serving static files
     // initial set up process makes it more efficient to create attribute
     this.#staticPath = express.static(path.join(__dirname, '../static'));
-    
-    // create InputValidation and ScheduledTripsModel objects
-    // this.#inputValidationObject = new InputValidation();
   }
 
   // serves the index.html home page in response to GET request
@@ -40,8 +38,6 @@ class HomeController {
   }
 
   async formSubmission(req, res) {
-    // validate form data input
-    // if all validations pass, submit form data to the database
     try {
         // create new model for each form submission
         this.#scheduledTripsObject = new ScheduledTripsModel(req.body.table);
@@ -66,20 +62,6 @@ class HomeController {
         console.log(resultCreateTrip);
         res.json({ message: 'Trip #' + resultCreateTrip.data + " created!" });
         
-        // const isAddressValid = await this.#inputValidationObject.checkAddress(req.body.address);
-        // const isEmailValid = await this.#inputValidationObject.checkEmail(req.body.email);
-        // const isPhoneValid = await this.#inputValidationObject.checkPhone(req.body.phone);
-        // const isSlackIdValid = await this.#inputValidationObject.checkSlackId(req.body.slackId);
-        // const isDiscordIdValid = await this.#inputValidationObject.checkDiscordId(req.body.discordId);
-
-        // if (isAddressValid && isEmailValid && isPhoneValid 
-        //   && isSlackIdValid && isDiscordIdValid) {
-        //     // submit form data for trip to the database
-        //     await this.#scheduledTripsObject.createTrip(req.body.body);
-        // } else {
-        //     // handle validation errors
-        //     console.error('Form validation failed');
-        // }
     } catch (error) {
         console.error('Error during form submission:', error);
         res.status(500).json({ message: 'There was an error processing your form.' });

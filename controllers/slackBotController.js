@@ -1,3 +1,5 @@
+// Originally written and debugged by Nicole-Rene Newcomb
+
 // slackBotController responsible for controlling messages to Slack
 
 // import path module to work with file/directory paths

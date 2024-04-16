@@ -1,3 +1,5 @@
+// Written and debugged by Nicole-Rene Newcomb
+
 // Test of Slack postMessage functionality
 
 const http = require('http');

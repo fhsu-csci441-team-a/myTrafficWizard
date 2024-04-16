@@ -1,3 +1,5 @@
+// Written and debugged by Nicole-Rene Newcomb
+
 // routes for Slack functions through slackBotController.js
 
 // import express module for Express app and router for routes

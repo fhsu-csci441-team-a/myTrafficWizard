@@ -1,3 +1,5 @@
+// Written and debugged by Nicole-Rene Newcomb
+
 // routes for index/home page and homeController.js
 
 // import express module and create router to define routes

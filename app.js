@@ -1,3 +1,6 @@
+// Originally written and debugged by Nicole-Rene Newcomb
+// Updated and tested by Tyler Anderson
+
 // The app.js file contains the top-level routes */
 
 const dotenv = require('dotenv').config();

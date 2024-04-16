@@ -1,3 +1,7 @@
+// Written and debugged by Nicole-Rene Newcomb
+
+// used to test the sending of messages via Slack
+
 document.getElementById('userForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
