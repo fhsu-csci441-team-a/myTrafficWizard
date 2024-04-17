@@ -16,7 +16,7 @@ const GmailController = require('./gmailController');
 const SlackBotController = require('./slackBotController');
 const DiscordBotController = require('./discordBotController');
 
-// Class of the NotificationController that orchestrates message sending
+// NotificationController orchestrates message sending
 class NotificationController {
 
     #tripData;
@@ -40,7 +40,7 @@ class NotificationController {
         this.#discordBotControllerObject;
     }
 
-    // instantiate the travel object with tripData
+    // instantiate the travel object with tripData + API
     #instantiateTravelObject(tripData) {
         this.#travelObject = new TravelController(
             tripData.departure_latitude + "," + tripData.departure_longitude,
@@ -49,12 +49,12 @@ class NotificationController {
 
     }
 
-    // instantiate the travel object with tripData
+    // instantiate the weather object with tripData + APIs
     #instantiateWeatherObject(tripData) {
         this.#weatherObject = new WeatherController(
             tripData.departure_latitude + "," + tripData.departure_longitude,
             tripData.destination_latitude + "," + tripData.destination_longitude,
-            process.env.TOMORROW_API_KEY,
+            process.env.TOMMORROW_IO_API_KEY,
             process.env.TOMTOM_API_KEY);
     }
 
@@ -98,7 +98,7 @@ class NotificationController {
         return await this.#weatherObject.getWeatherMessage();
     }
 
-    // send messages to Gmail
+    // send message to Gmail
     async sendGMail() {
         return this.#gmailControllerObject.sendGMail();
     }

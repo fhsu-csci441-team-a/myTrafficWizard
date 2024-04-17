@@ -53,10 +53,12 @@ class DiscordBotController {
 
     // try/catch to handle any errors
     try {
-      // create new discordBotModel object
+      // create new discordBotModel object and login
       this.#discordBotModel = new DiscordBotModel();
+      const login = await this.#discordBotModel.login();
+      console.log(login);
 
-      // Use the postMessage function from DiscordBotModel to send the message to Discord
+      // use DiscordBotModel's postMessage() to send the message to Discord
       const response = await this.#discordBotModel.postMessage(userID, formattedMessage);
 
       // if (req, res) were passed, send the response
@@ -68,14 +70,18 @@ class DiscordBotController {
         return response;
       }
     } catch (err) {
-      // If (req, res) were passed, send the error message
+      // if (req, res) were passed, send the error message
       if (typeof args[0] === 'object' && args[0].body) {
         args[1].status(500).send(err.message);
       }
-      // Otherwise, throw the error
+      // otherwise, throw the error
       else {
         throw err;
       }
+    } finally {
+      // destroy the Discord client connection to disconnect
+      const destroy = await this.#discordBotModel.destroy();
+      console.log(destroy);
     }
   }
 }
