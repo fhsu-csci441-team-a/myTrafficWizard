@@ -54,7 +54,7 @@ class NotificationController {
         this.#weatherObject = new WeatherController(
             tripData.departure_latitude + "," + tripData.departure_longitude,
             tripData.destination_latitude + "," + tripData.destination_longitude,
-            process.env.TOMORROW_API_KEY,
+            process.env.TOMMORROW_IO_API_KEY,
             process.env.TOMTOM_API_KEY);
     }
 
