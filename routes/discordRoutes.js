@@ -1,3 +1,5 @@
+// Written by Jacob Spalding
+
 // Routes for Discord Bot and page to test sending of messages
 const express = require('express');
 const router = express.Router();

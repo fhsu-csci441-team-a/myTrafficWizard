@@ -1,3 +1,5 @@
+// Originally written and debugged by Nicole-Rene Newcomb
+
 // Processes postMessage requests to Slack
 // Expected input parameter format:
 // { "userID": "U12345678",

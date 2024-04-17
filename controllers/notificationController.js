@@ -1,3 +1,6 @@
+// Originally written and debugged by Nicole-Rene Newcomb
+// Updated by Tyler Anderson
+
 /* The notificationController.js file orchestrates message sending
       It instantiates objects of weatherController & travelController
       It instantiates a messageModel object to properly format messages

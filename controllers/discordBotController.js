@@ -1,3 +1,6 @@
+// Originally written by Jacob Spalding
+// Updated and debugged by Nicole-Rene Newcomb
+
 // discordBotController responsible for controlling messages to Discord
 
 // import path module to work with file/directory paths

@@ -1,3 +1,7 @@
+// Originally written and debugged by Nicole-Rene Newcomb
+
+// used to test the sending of messages via Discord
+
 document.getElementById('userForm').addEventListener('submit', async function(event) {
   event.preventDefault();
 
