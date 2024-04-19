@@ -80,7 +80,7 @@ class ScheduledTripsModel {
             trip_details.departure_longitude,
             trip_details.destination_latitude,
             trip_details.destination_longitude,
-            trip_details.departure_date ? trip_details.departure_date.toISOString() : null,
+            trip_details.departure_date,
             trip_details.mobile_number,
             trip_details.mobile_provider,
             trip_details.user_id_discord,
