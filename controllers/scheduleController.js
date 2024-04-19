@@ -134,7 +134,7 @@ class ScheduleController {
     #logStatusReportToConsole(statusReport) {
         const logLines = [
             "=======================================================================================================",
-            "\tScheduleController Process Log",
+            "\t\tScheduleController Process Log",
             "=======================================================================================================",
             `Start time: ${this.#currentDateTime}`,
             `Sending notifications for trips in the next ${this.#intervalMinutes} minutes`
