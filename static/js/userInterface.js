@@ -1,7 +1,14 @@
 // Convert a UTC DateTime to ISO Local DateTime
 const toISOLocalDateTime = (utcDateTime) => {
     localDateTime = new Date(utcDateTime - utcDateTime.getTimezoneOffset() * 60000);
-    return localDateTime.toISOString().slice(0,-8);
+    return localDateTime.toISOString().slice(0, -8);
+}
+
+//convert a local datetime string to a ISO string
+const convertLocalToUTCDateString = (localDateTime) => {
+    let dateField = new Date(localDateTime);
+    const utcDateString = dateField.toISOString();
+    return utcDateString;
 }
 
 // Clear all current Address Match Elements in the given Address Section
@@ -9,24 +16,24 @@ const removeAddressMatches = (elementID) => {
     const addressMatchList = document.querySelector(`#${elementID}`);
     let childNodes = addressMatchList.querySelectorAll("div");
 
-        // Remove all Address Matches from the given Address Section
-        let childNode = addressMatchList.lastElementChild;
-        while(childNode) {
-            addressMatchList.removeChild(childNode);
-            childNode = addressMatchList.lastElementChild;
-        }
+    // Remove all Address Matches from the given Address Section
+    let childNode = addressMatchList.lastElementChild;
+    while (childNode) {
+        addressMatchList.removeChild(childNode);
+        childNode = addressMatchList.lastElementChild;
+    }
 }
 
 // This function fetches a list of addresses that match addressPart.
 // When the list of addresses return, create a <div> with an address, give it an 
 // id value and add an event listener for click events.
 const matchAddresses = (addressPart, elementID) => {
-    
+
     // Fetch matches for addressPart from the address endpoint using the fetch API
     fetch(`/address/${addressPart}`).then((response) => {
 
         // Throw an error if the response returns status outside range 200-299
-        if(!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+        if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
         return response.json();
     }).then((json) => {
         // Get the list of addresses
@@ -87,7 +94,7 @@ const initPage = async () => {
     departureAddress.addEventListener("input", () => {
         const addressPart = departureAddress.value;
         console.log(addressPart);
-        if(addressPart.length % 3 != 0) return;
+        if (addressPart.length % 3 != 0) return;
 
         removeAddressMatches("departureAddressMatches");
 
@@ -102,82 +109,82 @@ const initPage = async () => {
     destinationAddress.addEventListener("input", () => {
         const addressPart = destinationAddress.value;
         console.log(addressPart);
-        if(addressPart.length % 3 != 0) return;
+        if (addressPart.length % 3 != 0) return;
 
         removeAddressMatches("destinationAddressMatches");
 
         matchAddresses(addressPart, "destinationAddressMatches");
     });
-// Validation function for email
-const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(String(email).toLowerCase());
-};
+    // Validation function for email
+    const validateEmail = (email) => {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(String(email).toLowerCase());
+    };
 
-// Validation function for mobile number
-const validateMobileNumber = (number) => {
-    const re = /^[0-9]{10}$/;
-    return re.test(number);
-};
+    // Validation function for mobile number
+    const validateMobileNumber = (number) => {
+        const re = /^[0-9]{10}$/;
+        return re.test(number);
+    };
 
-// Validation function for Discord user ID (only numbers)
-const validateDiscordUserID = (userID) => {
-    // Discord user ID should be at least 18 digits long
-    const discordRegex = /^\d{18,}$/;
-    return discordRegex.test(userID);
-};
+    // Validation function for Discord user ID (only numbers)
+    const validateDiscordUserID = (userID) => {
+        // Discord user ID should be at least 18 digits long
+        const discordRegex = /^\d{18,}$/;
+        return discordRegex.test(userID);
+    };
 
-// Validation function for Slack user ID
-const validateSlackUserID = (userID) => {
-    // Slack user ID can only contain alphanumeric characters
-    const slackRegex = /^[UW][A-Za-z0-9]+$/;
-    return slackRegex.test(userID);
-};
+    // Validation function for Slack user ID
+    const validateSlackUserID = (userID) => {
+        // Slack user ID can only contain alphanumeric characters
+        const slackRegex = /^[UW][A-Za-z0-9]+$/;
+        return slackRegex.test(userID);
+    };
 
-// Validate email, mobile number, discord and slack inputs on form submission
-const validateInputs = () => {
-    const emailInput = document.getElementById("email_address");
-    const mobileInput = document.getElementById("mobile_number");
-    const discordInput = document.getElementById("user_id_discord");
-    const slackInput = document.getElementById("user_id_slack");
-    const emailError = document.getElementById("emailError");
-    const mobileError = document.getElementById("mobileError");
-    const discordError = document.getElementById("discordError");
-    const slackError = document.getElementById("slackError");
+    // Validate email, mobile number, discord and slack inputs on form submission
+    const validateInputs = () => {
+        const emailInput = document.getElementById("email_address");
+        const mobileInput = document.getElementById("mobile_number");
+        const discordInput = document.getElementById("user_id_discord");
+        const slackInput = document.getElementById("user_id_slack");
+        const emailError = document.getElementById("emailError");
+        const mobileError = document.getElementById("mobileError");
+        const discordError = document.getElementById("discordError");
+        const slackError = document.getElementById("slackError");
 
-    let isValid = true;
+        let isValid = true;
 
-    // Email validation
-    if (!validateEmail(emailInput.value)) {
-        emailError.textContent = "Please enter a valid email address.";
-        isValid = false;
-    } else {
-        emailError.textContent = "";
-    }
-    // Mobile number validation
-    if (mobileInput.value && !validateMobileNumber(mobileInput.value)) {
-        mobileError.textContent = "Please enter a valid mobile number (10 digits).";
-        isValid = false;
-    } else {
-        mobileError.textContent = "";
-    }
-    // Discord validation
-    if (discordInput.value && !validateDiscordUserID(discordInput.value)) {
-        discordError.textContent = "Please enter a valid Discord user ID.";
-        isValid = false;
-    } else {
-        discordError.textContent = "";
-    }
-    // Slack validation
-    if (slackInput.value && !validateSlackUserID(slackInput.value)) {
-        slackError.textContent = "Please enter a valid Slack user ID.";
-        isValid = false;
-    } else {
-        slackError.textContent = "";
-    }
+        // Email validation
+        if (!validateEmail(emailInput.value)) {
+            emailError.textContent = "Please enter a valid email address.";
+            isValid = false;
+        } else {
+            emailError.textContent = "";
+        }
+        // Mobile number validation
+        if (mobileInput.value && !validateMobileNumber(mobileInput.value)) {
+            mobileError.textContent = "Please enter a valid mobile number (10 digits).";
+            isValid = false;
+        } else {
+            mobileError.textContent = "";
+        }
+        // Discord validation
+        if (discordInput.value && !validateDiscordUserID(discordInput.value)) {
+            discordError.textContent = "Please enter a valid Discord user ID.";
+            isValid = false;
+        } else {
+            discordError.textContent = "";
+        }
+        // Slack validation
+        if (slackInput.value && !validateSlackUserID(slackInput.value)) {
+            slackError.textContent = "Please enter a valid Slack user ID.";
+            isValid = false;
+        } else {
+            slackError.textContent = "";
+        }
 
-    return isValid;
-};
+        return isValid;
+    };
 
     /**
      * Create an event listener for the email checkbox that controls whether the
@@ -205,15 +212,15 @@ const validateInputs = () => {
         const smsComboBox = document.getElementById("mobile_provider");
 
         // If smsCheckBox is checked enable smsTextBox and smsComboBox.
-        if(smsCheckBox.checked) {
+        if (smsCheckBox.checked) {
             smsTextBox.disabled = false;
             smsComboBox.disabled = false;
         }
         // smsTextBox and smsComboBox should be disabled if smsCheckBox is unchecked.
-        else{
+        else {
             smsTextBox.disabled = true;
             smsComboBox.disabled = true;
-        } 
+        }
     });
 
     /**
@@ -226,7 +233,7 @@ const validateInputs = () => {
         const discordTextBox = document.getElementById("user_id_discord");
 
         // If discordCheckbox is checked enable discordTextBox.
-        if(discordCheckbox.checked) discordTextBox.disabled = false;
+        if (discordCheckbox.checked) discordTextBox.disabled = false;
         // discordTextBox should be disabled if discordCheckbox is unchecked.
         else discordTextBox.disabled = true;
     });
@@ -241,51 +248,58 @@ const validateInputs = () => {
         const slackTextBox = document.getElementById("user_id_slack");
 
         // If slackCheckBox is checked enable slackTextBox.
-        if(slackCheckBox.checked) slackTextBox.disabled = false;
+        if (slackCheckBox.checked) slackTextBox.disabled = false;
         // slackTextBox should be disabled if slackCheckBox is unchecked.
         else slackTextBox.disabled = true;
     });
 
     // Update handleFormSubmit function to include input validation
-const handleFormSubmit = () => {
-    const form = document.querySelector('form');
+    const handleFormSubmit = () => {
+        const form = document.querySelector('form');
 
-    form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        
-        if (!validateInputs()) {
-            return;
-        }
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
 
-        const formData = new FormData(form);
-        let jsonObject = {};
-        for (let [key, value] of formData.entries()) {
-            jsonObject[key] = value;
-        }
-        jsonObject['table'] = 'scheduled_trips';
-
-        fetch('/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(jsonObject),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+            if (!validateInputs()) {
+                return;
             }
-            return response.json();
-        })
-        .then(data => {
-            document.getElementById('form-feedback').textContent = data.message;
-        })
-        .catch((error) => {
-            document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
-            console.error('Error:', error);
+
+            const formData = new FormData(form);
+            let jsonObject = {};
+            for (let [key, value] of formData.entries()) {
+                if (key === 'departure_date') {
+                    let dateField = convertLocalToUTCDateString(value)
+                    jsonObject[key] = dateField;
+                }
+                else {
+                    jsonObject[key] = value;
+                }
+
+            }
+            jsonObject['table'] = 'scheduled_trips';
+
+            fetch('/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(jsonObject),
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('form-feedback').textContent = data.message;
+                })
+                .catch((error) => {
+                    document.getElementById('form-feedback').textContent = 'There was an error submitting your form.';
+                    console.error('Error:', error);
+                });
         });
-    });
-};
+    };
 
     // Call handleFormSubmit to start the form submission event listener
     handleFormSubmit();
