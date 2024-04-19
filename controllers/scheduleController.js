@@ -28,7 +28,7 @@ class ScheduleController {
     #scheduledTripsModel;
     #limiter;
 
-    constructor(intervalMinutes = 60, maxConcurrent = 1, minTime = 60000) {
+    constructor(intervalMinutes = 60, maxConcurrent = 1, minTime = 3000) {
         this.#intervalMinutes = intervalMinutes;
         this.#currentDateTime = new Date();
         this.#scheduledTripsModel = new ScheduledTripsModel();
@@ -52,7 +52,6 @@ class ScheduleController {
         try {
 
             const queryResults = await this.#scheduledTripsModel.getUpcomingTrips(this.#currentDateTime, this.#intervalMinutes);
-            console.log(queryResults);
             this.#tripQueue = queryResults.data ? queryResults.data : [];
 
         }
@@ -60,7 +59,6 @@ class ScheduleController {
             console.log(error);
         }
 
-        console.log(this.#tripQueue);
         return this.#tripQueue;
 
     }
