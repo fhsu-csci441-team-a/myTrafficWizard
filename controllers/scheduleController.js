@@ -68,7 +68,6 @@ class ScheduleController {
 
     /**
      * Processes an individual trip to send notifications.
-     * @private
      * @param {Object} trip - The trip object to process.
      * @returns {Promise<Object>} A promise that resolves to the processed trip information.
      * @throws Will throw an error if the notification sending or status update fails.
@@ -103,7 +102,6 @@ class ScheduleController {
 
     /**
      * Processes the results of trip processing tasks and compiles a status report.
-     * @private
      * @param {Array} results - The results of the trip processing tasks.
      * @returns {Array} The status report for each trip processed.
      */
@@ -130,7 +128,6 @@ class ScheduleController {
 
     /**
      * Logs the status report to the console.
-     * @private
      * @param {Array} statusReport - The status report to log.
      * @returns {string} The compiled log string.
      */
@@ -160,8 +157,10 @@ class ScheduleController {
      * @returns {Promise<string|undefined>} A promise that resolves with the status report of processed trips if `produceStatusReport` is true and no errors occur, otherwise undefined.
      */
     async run(produceStatusReport = true) {
+
         let statusReport;
         try {
+            await this.#scheduledTripsModel.setAllProcessingTripsToFailed();
             await this.#getUpcomingTrips();
             const results = await this.#dispatchTripProcessingTasks();
             statusReport = this.#processResults(results);
