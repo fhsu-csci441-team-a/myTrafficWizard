@@ -278,6 +278,30 @@ class ScheduledTripsModel {
 
 
     /**
+* Updates the notification status for all trps processing to failed.
+* @returns {Promise<Object>} The successful update message or an error message.
+*/
+    async setAllProcessingTripsToFailed() {
+        const query = `
+        
+        update ${this.table} 
+        set notification_status = 'failed'
+        where notification_status = 'processing'
+        `;
+
+
+        try {
+            const queryResultRows = await this.#connection.query(query);
+            return this.#messageOperationSuccess(null);
+        }
+        catch (error) {
+            return this.#messageOperationFailure(error);
+        }
+    }
+
+
+
+    /**
      * Closes the database connection.
      */
     async close() {
