@@ -206,7 +206,8 @@ class ScheduledTripsModel {
         const query = `
         select * 
         from ${this.table} 
-        where departure_date between $1 and  $1::timestamp + ($2::text || ' minutes')::interval
+        where (departure_date between $1 and  $1::timestamp + ($2::text || ' minutes')::interval) and
+        (notification_status is null or notification_status = 'failed')
         `;
 
 
