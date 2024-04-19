@@ -1,12 +1,12 @@
 # This GitHub Actions workflow is designed to make a scheduled HTTP POST request
-# every 15 minutes. It can also be manually triggered through the GitHub UI.
+# every 12 minutes. It can also be manually triggered through the GitHub UI.
 # It's intended to interact with a scheduling service hosted at mytrafficwizard.onrender.com.
 
 name: Scheduled HTTP Request with HTTP Client
 
 on:
   schedule:
-    - cron: '*/12 * * * *'  # Runs every 15 minutes
+    - cron: '*/12 * * * *'  # Runs every 12 minutes
   workflow_dispatch:  # Allow for manual triggering in GitHub
 
 jobs:
