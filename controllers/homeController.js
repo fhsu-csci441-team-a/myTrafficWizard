@@ -60,6 +60,11 @@ class HomeController {
       // submit tripData to database
       const resultCreateTrip = await this.#scheduledTripsObject.createTrip(tripData);
       console.log(resultCreateTrip);
+
+      if (!resultCreateTrip.success) {
+        throw new Error(resultCreateTrip.message);
+      }
+
       res.json({ message: 'Trip #' + resultCreateTrip.data + " created!" });
 
     } catch (error) {
