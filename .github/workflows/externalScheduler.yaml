@@ -19,6 +19,7 @@ jobs:
           echo "Initiating scheduler......"
 
       - name: Initiate Scheduler
+        id: initiate_scheduler
         uses: actions/http-client@v1
         with:
           url: 'https://mytrafficwizard.onrender.com/schedule'
@@ -27,4 +28,4 @@ jobs:
 
       - name: Log Result
         run: |
-          echo "Attempt details:\n ${{ steps.httpRequest.outputs.response }}"
+          echo "Attempt details:\n ${{ steps.initiate_scheduler.outputs.response }}"
