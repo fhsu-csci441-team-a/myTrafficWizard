@@ -20,6 +20,7 @@ const addressRoutes = require('./routes/addressRoutes');
 const gmailRoutes = require('./routes/gmailRoutes');
 const slackRoutes = require('./routes/slackRoutes');
 const discordRoutes = require('./routes/discordRoutes');
+const schedulerRoutes = require('./routes/schedulerRoutes');
 
 // Use route files based on relative path
 app.use('/', homeRoutes);
@@ -27,6 +28,7 @@ app.use('/address', addressRoutes);
 app.use('/gmail', gmailRoutes);
 app.use('/slack', slackRoutes);
 app.use('/discord', discordRoutes);
+app.use('/schedule', schedulerRoutes);
 
 // routes for testing NotificationController and message sending
 app.post('/send_messages_test', (req, res) => {

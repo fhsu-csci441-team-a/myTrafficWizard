@@ -206,7 +206,8 @@ class ScheduledTripsModel {
         const query = `
         select * 
         from ${this.table} 
-        where departure_date between $1 and  $1::timestamp + ($2::text || ' minutes')::interval
+        where (departure_date between $1 and  $1::timestamp + ($2::text || ' minutes')::interval) and
+        (notification_status is null or notification_status = 'failed')
         `;
 
 
@@ -275,6 +276,30 @@ class ScheduledTripsModel {
             return this.#messageOperationFailure(error);
         }
     }
+
+
+    /**
+* Updates the notification status for all trps processing to failed.
+* @returns {Promise<Object>} The successful update message or an error message.
+*/
+    async setAllProcessingTripsToFailed() {
+        const query = `
+        
+        update ${this.table} 
+        set notification_status = 'failed'
+        where notification_status = 'processing'
+        `;
+
+
+        try {
+            const queryResultRows = await this.#connection.query(query);
+            return this.#messageOperationSuccess(null);
+        }
+        catch (error) {
+            return this.#messageOperationFailure(error);
+        }
+    }
+
 
 
     /**
