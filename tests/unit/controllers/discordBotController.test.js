@@ -31,8 +31,6 @@ describe('TC-18: DiscordBotController', () => {
         expect(result).toHaveProperty('message');
         expect(result.message).toContain('Discord Bot Model Failed');
 
-
-
     });
 
 });
