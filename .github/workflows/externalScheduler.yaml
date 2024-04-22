@@ -19,12 +19,13 @@ jobs:
           echo "Initiating scheduler......"
 
       - name: Initiate Scheduler
-        uses: actions/http-client@v1
-        with:
-          url: 'https://mytrafficwizard.onrender.com/schedule'
-          method: 'POST'
-          headers: '{"Content-Type": "application/json"}'
+        id: initiate_scheduler
+        run: |
+          response=$(curl -X POST \
+               -H "Content-Type: application/json" \
+               https://mytrafficwizard.onrender.com/schedule)
+          echo "::set-output name=response::$response"
 
       - name: Log Result
         run: |
-          echo "Attempt details:\n ${{ steps.httpRequest.outputs.response }}"
+          echo "Attempt details:\n ${{ steps.initiate_scheduler.outputs.response }}"
