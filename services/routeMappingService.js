@@ -89,7 +89,7 @@ class RouteMappingService {
         const line = turf.lineString([start.geometry.coordinates, end.geometry.coordinates]);
 
         const waypoints = [start.geometry.coordinates]; // Start with the start point
-        for (let i = 1; i < numberOfPoints; i++) {
+        for (let i = 1; i <= numberOfPoints; i++) {
             const segmentDistance = interval * i;
             const waypoint = turf.along(line, segmentDistance, { units: 'meters' });
             waypoints.push(waypoint.geometry.coordinates);
