@@ -114,6 +114,7 @@ describe('TC-5:TC-7 ScheduledTripsModel', () => {
 
     it('TC-7: Set valid start and offset in minutes; success message returned with expected number of records', async () => {
 
+        await tripsModel.updateNotificationStatus(2, null);
         const start = new Date('2999-01-01 00:00:00Z');
         const offsetMinutes = 15;
         const returnMessage = await tripsModel.getUpcomingTrips(start, offsetMinutes);

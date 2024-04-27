@@ -29,9 +29,9 @@ class WeatherController {
     #weatherObjects;
 
 
-    constructor(start, end, tommorowIOAPIKey, TomTomAPIKey) {
+    constructor(start, end, tommorowIOAPIKey, TomTomAPIKey, weatherModel = null) {
         this.#routeMappingService = new RouteMappingService(start, end);
-        this.#weatherModel = new WeatherModel(start, tommorowIOAPIKey);
+        this.#weatherModel = weatherModel || new WeatherModel(start, tommorowIOAPIKey);
         this.#reverseGeocode = new ReverseGeocode(TomTomAPIKey);
     }
 

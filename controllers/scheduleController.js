@@ -28,10 +28,10 @@ class ScheduleController {
     #scheduledTripsModel;
     #limiter;
 
-    constructor(intervalMinutes = 60, maxConcurrent = 1, minTime = 3000) {
+    constructor(intervalMinutes = 60, maxConcurrent = 1, minTime = 3000, scheduledTripsModel = new ScheduledTripsModel()) {
         this.#intervalMinutes = intervalMinutes;
         this.#currentDateTime = new Date();
-        this.#scheduledTripsModel = new ScheduledTripsModel();
+        this.#scheduledTripsModel = scheduledTripsModel;
         this.#tripQueue = [];
 
         this.#limiter = new Bottleneck({
@@ -42,10 +42,23 @@ class ScheduleController {
     }
 
     /**
+    * Getter for instances current date time
+    * @returns {Date} Returns a date representing the referenced starting time of the job
+    */
+    getCurrentDateTime() {
+        return this.#currentDateTime;
+    }
+
+    closeDatabaseConnection() {
+        this.#scheduledTripsModel.close();
+    }
+
+
+    /**
     * Fetches upcoming trips and loads them into the trip queue.
     * @returns {Promise<Array>} A promise that resolves to the array of upcoming trips.
     */
-    async #getUpcomingTrips() {
+    async getUpcomingTrips(closeConnection = false) {
 
         this.#tripQueue = [];
 
@@ -63,6 +76,14 @@ class ScheduleController {
 
     }
 
+    async #updateStatus(tripId, status) {
+        try {
+            await this.#scheduledTripsModel.updateNotificationStatus(tripId, status);
+        } catch (error) {
+            console.error(`Failed to update status for trip ${tripId} to ${status}:`, error);
+        }
+    }
+
 
     /**
      * Processes an individual trip to send notifications.
@@ -70,17 +91,17 @@ class ScheduleController {
      * @returns {Promise<Object>} A promise that resolves to the processed trip information.
      * @throws Will throw an error if the notification sending or status update fails.
      */
-    async #processTrip(trip) {
+    async processTrip(trip) {
         try {
-            await this.#scheduledTripsModel.updateNotificationStatus(trip.trip_id, 'processing');
+            await this.#updateStatus(trip.trip_id, 'processing');
             const notificationController = new NotificationController(trip);
-            await notificationController.sendMessage();
-            await this.#scheduledTripsModel.updateNotificationStatus(trip.trip_id, 'sent');
-            return { trip_id: trip.trip_id, time: new Date() };
+            let notificationControllerResponse = await notificationController.sendMessage();
+            await this.#updateStatus(trip.trip_id, 'sent');
+            return { trip_id: trip.trip_id, time: new Date(), returnMessage: notificationControllerResponse };
 
         } catch (error) {
             console.error(`Error processing trip ${trip.trip_id}:`, error);
-            await this.#scheduledTripsModel.updateNotificationStatus(trip.trip_id, 'failed');
+            await this.#updateStatus(trip.trip_id, 'failed');
             throw error;
         }
     }
@@ -93,7 +114,7 @@ class ScheduleController {
      */
     async #dispatchTripProcessingTasks() {
         const notificationPromises = this.#tripQueue.map(trip => {
-            return this.#limiter.schedule(() => this.#processTrip(trip));
+            return this.#limiter.schedule(() => this.processTrip(trip));
         });
         return Promise.allSettled(notificationPromises);
     }
@@ -159,7 +180,7 @@ class ScheduleController {
         let statusReport;
         try {
             await this.#scheduledTripsModel.setAllProcessingTripsToFailed();
-            await this.#getUpcomingTrips();
+            await this.getUpcomingTrips();
             const results = await this.#dispatchTripProcessingTasks();
             statusReport = this.#processResults(results);
 
@@ -172,8 +193,7 @@ class ScheduleController {
             console.error("Error running scheduled trips:", error);
         }
         finally {
-            await this.#scheduledTripsModel.close();
-
+            this.closeDatabaseConnection();
         }
 
         return statusReport;

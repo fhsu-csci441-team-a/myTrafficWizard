@@ -17,7 +17,7 @@ describe('TC-1: HomeController', () => {
         expect(res.statusCode).toEqual(404);
     });
 
-    it('TC-2: A valid FormData object is received by the HomeController', async () => {
+    it('TC-2: A valid FormData object is received by the HomeController. the FormData object is properly assigned to the HomeController', async () => {
         const validData = {
             email_address: 'test@test.com',
             departure_latitude: '38.872944508400714',
@@ -29,7 +29,8 @@ describe('TC-1: HomeController', () => {
             mobile_provider: 'tmomail.net',
             user_id_discord: 'JohnTestDiscord',
             user_id_slack: 'JohnTestSlack',
-            notification_status: null
+            notification_status: null,
+            table: 'test_scheduled_trips'
         };
         const res = await request(app).post('/submit').send(validData);
         expect(res).toHaveProperty('body');
@@ -39,28 +40,24 @@ describe('TC-1: HomeController', () => {
         expect(res.statusCode).toEqual(200);
     });
 
-    /*
-    Will complete once inputValidation is available
-    it('TC-2: Should return an error for invalid FormData object', async () => {
+
+
+    it('TC-2: An invalid FormData object is received by the HomeController, no formSubmissionObject is assigned', async () => {
 
         const invalidData = {
             email_address: 'test@test.com',
-            departure_latitude: '38.872944508400714',
-            departure_longitude: '-99.34445344258867',
-            destination_latitude: '38.895660556826314',
-            destination_longitude: '-99.31664430129287',
-            departure_date: new Date(),
-            mobile_number: '555-555-2000',
-            mobile_provider: 'tmomail.net',
-            user_id_discord: 'JohnTestDiscord',
-            user_id_slack: 'JohnTestSlack',
-            notification_status: null
+            notification_status: null,
+            table: 'test_scheduled_trips'
         };
-     
+
+
+
         const res = await request(app).post('/submit').send(invalidData);
-        expect(res.statusCode).toEqual(400); // assuming that your form submission handling returns 400 for invalid data
+
+        expect(res.statusCode).toEqual(500);
+        expect(res.body).toHaveProperty('message', 'There was an error processing your form.');
     });
 
-    */
+
 
 });
