@@ -1,6 +1,12 @@
 /**
  * 'messageModel' maintains the formatted message output used when sending a 
  * scheduled notification to a user.
+ * 
+ * Usage Example: 
+ * const message = new messageModel(tripData, weatherData);
+ * console.log(message.getTextMessage());
+ * console.log(message.getHTMLMessage());
+ * 
  */
 
 class messageModel {
@@ -64,10 +70,6 @@ class messageModel {
      * Creates the text message when notifications are sent to the user.
      * 
      * @returns {string} The formatted text message sent to the user.
-     * 
-     * Usage Example: 
-     *  const message = new messageModel(tripData, weatherData);
-     *  console.log(message.getTextMessage());
      */
     getTextMessage() {
         return 'This is a notification message from myTrafficWizard.\n' +
@@ -81,10 +83,6 @@ class messageModel {
      * Creates the HTML message when notifications are sent to the user.
      * 
      * @returns {string} The formatted message sent to the user in HTML format.
-     * 
-     * Usage Example: 
-     *  const message = new messageModel(tripData, weatherData);
-     *  console.log(message.getHTMLMessage());
      */
     getHTMLMessage() {
         return `<!DOCTYPE html>
