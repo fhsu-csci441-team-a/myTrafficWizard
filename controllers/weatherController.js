@@ -29,9 +29,9 @@ class WeatherController {
     #weatherObjects;
 
 
-    constructor(start, end, tommorowIOAPIKey, TomTomAPIKey) {
+    constructor(start, end, tommorowIOAPIKey, TomTomAPIKey, weatherModel = null) {
         this.#routeMappingService = new RouteMappingService(start, end);
-        this.#weatherModel = new WeatherModel(start, tommorowIOAPIKey);
+        this.#weatherModel = weatherModel || new WeatherModel(start, tommorowIOAPIKey);
         this.#reverseGeocode = new ReverseGeocode(TomTomAPIKey);
     }
 
@@ -55,7 +55,7 @@ class WeatherController {
             let point = `${latitude},${longitude}`
 
 
-            this.#weatherModel.setPoint(point);
+            await this.#weatherModel.setPoint(point);
             let weatherCurrent = await this.#weatherModel.getWeatherByInterval('minutely', 0);
             let weather1hour = await this.#weatherModel.getWeatherByInterval('hourly', 0);
             let weather3hour = await this.#weatherModel.getWeatherByInterval('hourly', 2);
@@ -191,7 +191,7 @@ class WeatherController {
             return { "text": textMessage, "html": htmlMessage };
         }
         catch (error) {
-            return { "text": error, "htmlMessage": error };
+            return { "text": "No weather data could be found due to an internal error", "html": "<p>No weather could be found due to an internal error</p>" };
         }
 
     }

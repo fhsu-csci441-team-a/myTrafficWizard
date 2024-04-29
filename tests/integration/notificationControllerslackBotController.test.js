@@ -20,6 +20,7 @@ describe('Integration Test: notificationController=>slackBotController', () => {
 
     it('notificationController calls the slackBotController to send a notification via the Slack channel.', async () => {
         const notificationController = new NotificationController(tripData);
+        notificationController.createSlackObject();
         const result = await notificationController.postSlackMessage(tripData.user_id_slack, message);
 
         expect(result).toHaveProperty('ok', true);

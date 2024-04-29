@@ -39,32 +39,37 @@ class HomeController {
 
   async formSubmission(req, res) {
     try {
-        // create new model for each form submission
-        this.#scheduledTripsObject = new ScheduledTripsModel(req.body.table);
+      // create new model for each form submission
+      this.#scheduledTripsObject = new ScheduledTripsModel(req.body.table);
 
-        // create object with only trip data needed in database
-        const tripData = {
-          email_address: req.body.email_address,
-          departure_latitude: req.body.departure_latitude,
-          departure_longitude: req.body.departure_longitude,
-          destination_latitude: req.body.destination_latitude,
-          destination_longitude: req.body.destination_longitude,
-          departure_date: new Date(req.body.departure_date),
-          mobile_number: req.body.mobile_number,
-          mobile_provider: req.body.mobile_provider,
-          user_id_discord: req.body.user_id_discord,
-          user_id_slack: req.body.user_id_slack,
-          notification_status: null
-        }
+      // create object with only trip data needed in database
+      const tripData = {
+        email_address: req.body.email_address,
+        departure_latitude: req.body.departure_latitude,
+        departure_longitude: req.body.departure_longitude,
+        destination_latitude: req.body.destination_latitude,
+        destination_longitude: req.body.destination_longitude,
+        departure_date: req.body.departure_date,
+        mobile_number: req.body.mobile_number,
+        mobile_provider: req.body.mobile_provider,
+        user_id_discord: req.body.user_id_discord,
+        user_id_slack: req.body.user_id_slack,
+        notification_status: null
+      }
 
-        // submit tripData to database
-        const resultCreateTrip = await this.#scheduledTripsObject.createTrip(tripData);
-        console.log(resultCreateTrip);
-        res.json({ message: 'Trip #' + resultCreateTrip.data + " created!" });
-        
+      // submit tripData to database
+      const resultCreateTrip = await this.#scheduledTripsObject.createTrip(tripData);
+      console.log(resultCreateTrip);
+
+      if (!resultCreateTrip.success) {
+        throw new Error(resultCreateTrip.message);
+      }
+
+      res.json({ message: 'Trip #' + resultCreateTrip.data + " created!" });
+
     } catch (error) {
-        console.error('Error during form submission:', error);
-        res.status(500).json({ message: 'There was an error processing your form.' });
+      console.error('Error during form submission:', error);
+      res.status(500).json({ message: 'There was an error processing your form.' });
     } finally {
       this.#scheduledTripsObject.close();
       console.log("Database connection closed.");
