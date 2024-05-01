@@ -5,7 +5,7 @@ const ScheduleController = require('../controllers/scheduleController');
 const scheduleController = new ScheduleController();
 
 
-router.post('/schedule', async (req, res) => {
+router.post('/', async (req, res) => {
     const maxConcurrent = req.body?.maxConcurrent ? req.body.maxConcurrent : 1;
     const minTime = req.body?.minTime ? req.body.minTime : 60000;
     const interval = 60
