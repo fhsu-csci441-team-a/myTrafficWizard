@@ -5,7 +5,20 @@ on:
 
 jobs:
   integration-tests:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
+    env:
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+      DISCORD_API_TOKEN: ${{ secrets.DISCORD_API_TOKEN }}
+      GMAILAPPPASSWORD: ${{ secrets.GMAILAPPPASSWORD }}
+      GMAILUSER: ${{ secrets.GMAILUSER }}
+      SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
+      TOMMORROW_IO_API_KEY: ${{ secrets.TOMMORROW_IO_API_KEY }}
+      TOMMORROW_IO_API_KEY_TEST: ${{ secrets.TOMMORROW_IO_API_KEY_TEST }}
 
     steps:
     - name: Checkout repository
