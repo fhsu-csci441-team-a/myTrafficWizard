@@ -1,4 +1,8 @@
 /**
+ * Written By: Philip Baldwin
+ * Tested By: Team
+ * Debugged By: Team
+ * 
  * 'messageModel' maintains the formatted message output used when sending a 
  * scheduled notification to a user.
  * 

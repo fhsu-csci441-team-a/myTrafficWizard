@@ -1,5 +1,8 @@
-// responsible for controlling request for email & sms messages
-// routes for gmail messages through gmailController.js
+/**
+ * Written By: Philip Baldwin
+ * Tested By: Team
+ * Debugged By: Team
+ */
 
 const nodemailer = require('nodemailer');
 require('dotenv').config();
