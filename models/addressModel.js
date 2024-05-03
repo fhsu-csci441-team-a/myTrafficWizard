@@ -1,4 +1,8 @@
 /**
+ * Written By: Philip Baldwin
+ * Tested By: Team
+ * Debugged By: Team
+ * 
  * The addressModel class retrieves a list of near matches to an address entered by a 
  * user. It uses the TomTom Search API to handle everything from exact street addresses,  
  * streets, or intersections as well as higher-level geographies such as city centers,

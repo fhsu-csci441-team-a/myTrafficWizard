@@ -1,3 +1,23 @@
+/**
+ * Written By: Philip Baldwin, Nicole-Rene Newcomb, and Jacob Spalding
+ * Tested By: Team
+ * Debugged By: Team
+ * 
+ * userInterface.js collects a variety of functions to improve the user experience.
+ * It includes the following functions:
+ * 
+ *     toISOLocalDateTime - Convert a UTC DateTime to ISO Local DateTime
+ *     convertLocalToUTCDateString - convert a local datetime string to a ISO string
+ *     removeAddressMatches - Clear all current Address Match Elements in the given 
+ *                            Address Section
+ *     matchAddresses - fetches a list of addresses that match addressPart.
+ *     initPage - An async funtion to initialize the page. Initialization includes 
+ *                creation of numerous event handlers, a form submission handler, 
+ *                and input validation.
+ *     initUI - Initialize the entire User Interface.
+ * 
+ */
+
 // Convert a UTC DateTime to ISO Local DateTime
 const toISOLocalDateTime = (utcDateTime) => {
     localDateTime = new Date(utcDateTime - utcDateTime.getTimezoneOffset() * 60000);
@@ -185,21 +205,6 @@ const initPage = async () => {
 
         return isValid;
     };
-
-    /**
-     * Create an event listener for the email checkbox that controls whether the
-     * email address text box is enabled or disabled.
-     */
-    // const emailCheckBox = document.getElementById("emailCheckBox");
-    // emailCheckBox.addEventListener("click", () => {
-
-    //     const emailTextBox = document.getElementById("email_address");
-
-    //     // If emailCheckBox is checked enable emailTextBox.
-    //     if(emailCheckBox.checked) emailTextBox.disabled = false;
-    //     // emailTextBox should be disabled if emailCheckBox is unchecked.
-    //     else emailTextBox.disabled = true;
-    // });
 
     /**
      * Create an event listener for the sms checkbox that controls whether the

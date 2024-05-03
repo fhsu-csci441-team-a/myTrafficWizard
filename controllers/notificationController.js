@@ -137,7 +137,9 @@ class NotificationController {
             try {
                 this.createGmailObject(recipients, this.#messageObject);
                 await this.sendGMail();
+                console.log('Email successfully sent via GMail.');
             } catch (error) {
+                console.error('Failed to send email message using GMail:', error);
                 return { code: 500, message: 'Failed to send to Gmail from NC' };
             }
             
