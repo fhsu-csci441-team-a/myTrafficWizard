@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const SlackBotController = require('../../../controllers/slackBotController');
 require('dotenv').config();
 

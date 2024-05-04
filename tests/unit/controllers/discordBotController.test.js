@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const DiscordBotController = require('../../../controllers/discordBotController');
 require('dotenv').config();
 

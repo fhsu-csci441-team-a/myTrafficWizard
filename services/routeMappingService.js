@@ -1,3 +1,10 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
+
 /**
  * RouteMappingService is a class designed to handle the calculation and management
  * of routes between two geographic points. It uses geographic coordinates to determine
@@ -37,12 +44,26 @@ class RouteMappingService {
         this.setRoute(start, end);
     }
 
+
+    /**
+     * Sets the start and end points for a route and initializes the latitude and longitude for these points.
+     * This method is primarily used to configure route-specific properties based on provided geographic coordinates.
+     *
+     * @param {string} start - A string representing the starting geographic coordinates in "latitude,longitude" format.
+     * @param {string} end - A string representing the ending geographic coordinates in "latitude,longitude" format.
+     */
+
     setRoute(start, end) {
         this.#start = start;
         this.#end = end;
 
         this.#setLatitudeAndLongitude();
     }
+
+    /**
+     * Extracts latitude and longitude from the start and end properties and sets them to internal state variables.
+     * This helper method is used internally to parse and store coordinate data after setting a new route.
+     */
 
     #setLatitudeAndLongitude() {
         const splitStart = this.#start.split(',');
@@ -56,6 +77,12 @@ class RouteMappingService {
 
     }
 
+    /**
+     * Calculates the geographic distance between the start and end points of the route.
+     * This method uses geolib's getDistance function to calculate the distance based on the stored latitude and longitude values.
+     *
+     * @returns {number} The distance between the start and end points in meters.
+     */
     getRouteDistance() {
 
         const startCoordinates = { 'latitude': this.#startLatitude, 'longitude': this.#startLongitude };
@@ -67,6 +94,14 @@ class RouteMappingService {
 
     }
 
+    /**
+     * Calculates a dynamic number of waypoints along the route based on the total route distance and a specified interval.
+     * The number of waypoints generated is limited by a maximum value to ensure manageability.
+     *
+     * @param {number} routeDistanceInMeters - The total distance of the route in meters.
+     * @param {number} [interval=100000] - The interval in meters between each waypoint. Defaults to 100,000 meters.
+     * @returns {number} The calculated number of waypoints, not exceeding the predefined maximum.
+     */
     generateDynamicNumberOfPoints(routeDistanceInMeters, interval = 100000) {
         const maxIntermediateWaypoints = 2;
         const dynamicNumberOfPoints = Math.floor(routeDistanceInMeters / interval);
@@ -74,6 +109,13 @@ class RouteMappingService {
         return Math.min(dynamicNumberOfPoints, maxIntermediateWaypoints);
     }
 
+    /**
+     * Generates a series of waypoints along a defined route based on a specified interval.
+     * This method calculates intermediate points along the route that could be used for various purposes such as navigation aids.
+     *
+     * @param {number} [interval=100000] - The distance in meters between each waypoint. Defaults to 100,000 meters.
+     * @returns {Array} An array of waypoint coordinates starting with the start point, followed by intermediate points, and ending with the end point.
+     */
     generateWayPoints(interval = 100000) {
         const routeDistance = this.getRouteDistance();
         const numberOfPoints = this.generateDynamicNumberOfPoints(routeDistance, interval);

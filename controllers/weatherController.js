@@ -1,3 +1,10 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
+
 /**
  * The WeatherController class orchestrates the gathering and presentation of weather data for specific routes.
  * It utilizes services for mapping routes, fetching weather data, and performing reverse geocoding to enhance the data
@@ -35,14 +42,32 @@ class WeatherController {
         this.#reverseGeocode = new ReverseGeocode(TomTomAPIKey);
     }
 
+    /**
+     * Sets the waypoints for the current instance by generating them using the route mapping service.
+     * This method updates the internal state of the instance with newly generated waypoints.
+     */
+
     #setWayPoints() {
         this.#wayPoints = this.#routeMappingService.generateWayPoints();
     }
+
+
+    /**
+     * Creates a promise that resolves after a specified number of milliseconds, effectively pausing execution.
+     * 
+     * @param {number} milliseconds - The number of milliseconds to delay.
+     * @returns {Promise<void>} A promise that resolves after the delay, providing a simple way to implement asynchronous delays.
+     */
 
     #delay(milliseconds) {
         return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
 
+
+    /**
+     * Asynchronously generates weather objects for each waypoint by fetching weather data and associated address information.
+     * This method populates the internal state with weather data for each waypoint including current, 1-hour, and 3-hour forecasts.
+     */
     async #generateWeatherObjects() {
         this.#setWayPoints();
 
@@ -79,6 +104,12 @@ class WeatherController {
         this.#weatherObjects = data;
     }
 
+    /**
+     * Asynchronously generates a plain text template that summarizes the weather data for each waypoint.
+     * The template includes address information and weather forecasts at current, 1-hour, and 3-hour intervals.
+     * 
+     * @returns {Promise<string>} A string that represents the weather data in a structured text format.
+     */
     async #generateTemplateText() {
         const data = this.#weatherObjects;
         let template = "\n\n";
@@ -96,6 +127,12 @@ class WeatherController {
         return template;
     }
 
+    /**
+     * Asynchronously generates an HTML template that summarizes the weather data for each waypoint.
+     * The template includes a table with columns for point index, address, current weather, and forecasts for 1 and 3 hours.
+     * 
+     * @returns {Promise<string>} An HTML string that represents the weather data in a structured table format.
+     */
     async #generateTemplateHTML() {
 
         const data = this.#weatherObjects;
@@ -144,11 +181,23 @@ class WeatherController {
         return template;
     }
 
+    /**
+     * Formats a weather data object into a human-readable string including a weather symbol, code, and temperature.
+     * 
+     * @param {Object} weather - A weather data object containing at least weatherCode and temperature properties.
+     * @returns {string} A formatted string representing the weather with symbols and units.
+     */
     #formatWeather(weather) {
         const weatherSymbol = this.#getWeatherSymbol(weather.weatherCode);
         return `${weatherSymbol}  ${weather.weatherCode} ${weather.temperature}°F`;
     }
 
+    /**
+     * Retrieves a weather symbol based on a given weather code. Maps weather conditions to emojis.
+     * 
+     * @param {string} weatherCode - A code that represents a specific weather condition.
+     * @returns {string} An emoji or symbol representing the weather condition.
+     */
 
     #getWeatherSymbol(weatherCode) {
         const symbols = {
@@ -182,6 +231,12 @@ class WeatherController {
         return symbols[weatherCode] || "❓";
     }
 
+    /**
+     * Asynchronously retrieves weather information and generates both HTML and plain text messages summarizing the weather conditions.
+     * The method handles errors internally, returning a predefined error message if the data fetch fails.
+     * 
+     * @returns {Promise<Object>} An object containing both text and HTML formatted weather messages.
+     */
     async getWeatherMessage() {
         try {
             await this.#generateWeatherObjects();

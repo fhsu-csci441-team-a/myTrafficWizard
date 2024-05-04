@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const messageModel = require('../../../models/messageModel');
 
 describe('TC-15: messageModel', () => {
