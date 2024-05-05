@@ -1,3 +1,9 @@
+/*
+* written by: Nicole-Rene Newcomb
+* tested by: Team
+* debugged by: Team
+*/
+
 // routes for Gmail functions through gmailController.js
 
 const express = require('express');

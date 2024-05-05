@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 
 /**
  * Executes web API requests with retry logic on transient errors and rate limits.
@@ -29,15 +35,40 @@ class BaseFetchRetry {
         this.retryDelayMilliseconds = 1000;
     }
 
+    /**
+     * Determines whether a given HTTP status code represents a network error or a server-side error that justifies retrying a request.
+     * This function checks for status codes typical of network issues (429 Too Many Requests) or server errors (500 and above).
+     *
+     * @param {number} statusCode - The HTTP status code received from a request.
+     * @returns {boolean} True if the status code is 429, 500, or higher, indicating a retryable error; otherwise, false.
+     */
 
     isNetworkOrServerError(statusCode) {
         return statusCode === 429 || statusCode >= 500;
     }
 
+    /**
+     * Creates a promise that resolves after a specified number of milliseconds, effectively pausing execution.
+     * This utility is typically used to introduce a delay in loops or between retries in asynchronous operations.
+     *
+     * @param {number} milliseconds - The number of milliseconds to delay.
+     * @returns {Promise<void>} A promise that resolves after the specified delay, used to pause asynchronous functions.
+     */
     delay(milliseconds) {
         return new Promise(resolve => setTimeout(resolve, milliseconds));
     }
 
+    /**
+     * Attempts to fetch data from a specified URL with retries, adhering to a retry policy based on response status codes.
+     * This method uses exponential backoff or fixed delays between retries and will retry if encountering network or server errors.
+     * 
+     * @async
+     * @returns {Promise<Object>} The JSON-parsed response from the fetch call if successful.
+     * @throws {Error} Throws an error if the request fails permanently after the maximum allowed retries or due to client-side errors.
+     * 
+     * The method keeps track of attempts and will throw an error if the maximum number of retries is reached without a successful response.
+     * Network or server errors (response status 429 or 500+) trigger a retry after a delay specified by `this.retryDelayMilliseconds`.
+     */
     async fetchWithRetry() {
         let attempt = 0;
         while (attempt < this.maxRetries) {

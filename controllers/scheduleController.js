@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const Bottleneck = require("bottleneck");
 const ScheduledTripsModel = require('../models/scheduledTripsModel');
 const NotificationController = require('./notificationController');

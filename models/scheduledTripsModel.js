@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const databaseConnection = require('../config/databaseConnection');
 require('dotenv').config();
 
@@ -8,13 +14,12 @@ require('dotenv').config();
  * This class handles database interactions related to trips, such as creating new trips,
  * fetching trips, and closing the database connection.
  *
- * @example
  * const ScheduledTripsModel = require('./ScheduledTripsModel');
  * const tripsModel = new ScheduledTripsModel();
  *
  * // Create a new trip
  * const tripDetails = {
- *   email_address: 'user@example.com',
+ *   email_address: 'user@gmail.com',
  *   departure_latitude: '40.712776',
  *   departure_longitude: '-74.005974',
  *   destination_latitude: '34.052235',
@@ -56,6 +61,13 @@ class ScheduledTripsModel {
 
 
 
+    /**
+     * Constructs a success message object typically used to respond to successful operations.
+     *
+     * @param {any} data - The data payload associated with the success message, can be any type.
+     * @param {string} [message=null] - An optional message describing the success; defaults to null if not provided.
+     * @returns {Object} An object with a success status, data payload, and a message.
+     */
     #messageOperationSuccess(data, message = null) {
         return {
             success: true,
@@ -64,6 +76,12 @@ class ScheduledTripsModel {
         }
     }
 
+    /**
+     * Constructs a failure message object typically used to respond to failed operations.
+     *
+     * @param {Error|string} error - An error object or string describing what went wrong.
+     * @returns {Object} An object indicating failure, with no data and an error message.
+     */
     #messageOperationFailure(error) {
         return {
             success: false,
@@ -73,6 +91,13 @@ class ScheduledTripsModel {
     }
 
 
+    /**
+     * Unpacks trip details from an object into a flat array format.
+     *
+     * @param {Object} trip_details - An object containing various elements of trip details such as email address,
+     *                                departure and destination coordinates, dates, and user contact information.
+     * @returns {Array} An array containing the values of specified trip details, ordered according to the method's implementation.
+     */
     #unpackTripDetailsIntoArray(trip_details) {
         return [
             trip_details.email_address,
@@ -90,6 +115,11 @@ class ScheduledTripsModel {
 
     }
 
+    /**
+     * Sets the internal 'table' property of the instance, typically used to specify which database table to interact with.
+     *
+     * @param {string} table - The name of the table to be set for subsequent operations.
+     */
     setTable(table) {
         this.table = table;
     }

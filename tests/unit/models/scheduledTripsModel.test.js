@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const ScheduledTripsModel = require('../../../models/scheduledTripsModel');
 
 

@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const ScheduleController = require('../../controllers/scheduleController');
 const ScheduledTripsModel = require('../../models/scheduledTripsModel');
 
