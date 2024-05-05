@@ -1,3 +1,10 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
+
 /**
  * The TravelIncidentsModel class extends BaseFetchRetry to fetch traffic incident data
  * for a specified route. It constructs a request to a traffic API, automatically handling
@@ -72,6 +79,14 @@ class TravelIncidentsModel extends BaseFetchRetry {
         super(url, { method: "GET", headers: TravelIncidentsModel.HEADERS });
     }
 
+    /**
+     * Creates a standardized success message object for API responses.
+     * This function is typically used when an operation has completed successfully and optionally includes additional data or a descriptive message.
+     *
+     * @param {any} data - The payload to return, typically data that was requested or affected by the operation.
+     * @param {string|null} [message=null] - An optional message providing more details about the success.
+     * @returns {Object} Returns an object indicating the operation was successful, along with any data and message provided.
+ */
     #messageOperationSuccess(data, message = null) {
         return {
             success: true,
@@ -80,6 +95,13 @@ class TravelIncidentsModel extends BaseFetchRetry {
         }
     }
 
+    /**
+     * Creates a standardized failure message object for API responses.
+     * This function is used to indicate that an operation did not complete successfully, including a message about what went wrong.
+     *
+     * @param {Error|string} error - The error or string describing the failure encountered during the operation.
+     * @returns {Object} Returns an object indicating the operation failed, containing an error message and null data.
+     */
     #messageOperationFailure(error) {
         return {
             success: false,
@@ -89,6 +111,12 @@ class TravelIncidentsModel extends BaseFetchRetry {
     }
 
 
+    /**
+     * Sorts a list of traffic incidents in descending order based on their severity.
+     * The severity is determined by a predefined sort order in the TravelIncidentsModel.SEVERITY_SORT_ORDER mapping.
+     *
+     * @param {Array} incidents - An array of incident objects, each expected to contain a 'magnitudeOfDelay' property used for sorting.
+     */
     #sortIncidentsBySeverityDescending(incidents) {
         incidents.sort((a, b) => {
             const aSeverity = TravelIncidentsModel.SEVERITY_SORT_ORDER[a.magnitudeOfDelay];
@@ -97,6 +125,12 @@ class TravelIncidentsModel extends BaseFetchRetry {
         });
     }
 
+    /**
+     * Asynchronously retrieves and processes traffic incidents, returning the top five most severe incidents.
+     * This method handles fetching data, transforming incident details, sorting them by severity, and slicing the array to only include the most critical incidents.
+     *
+     * @returns {Promise<Object>} A promise that resolves to a success message object containing the top incidents or a failure message object if an error occurs.
+     */
 
     async getTravelIncidents() {
         try {

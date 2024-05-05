@@ -1,3 +1,9 @@
+/*
+* written by: Nicole-Rene Newcomb
+* tested by: Team
+* debugged by: Team
+*/
+
 /* testNotificationController.js tests the sending of messages
       It allows for the manual triggering of the message sending process
       In the final product, this role is filled by the scheduleController

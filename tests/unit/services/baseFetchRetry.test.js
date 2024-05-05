@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const BaseFetchRetry = require('../../../services/BaseFetchRetry');
 // Mocking the global fetch
 global.fetch = jest.fn();

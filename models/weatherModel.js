@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 /**
  * Manages weather data retrieval and processing for specific geographic points using the Tomorrow.io API.
  * This class extends `BaseFetchRetry` to handle API requests with automatic retries on failure.
@@ -55,10 +61,28 @@ class WeatherModel extends BaseFetchRetry {
 
     }
 
+    /**
+     * Converts a temperature from Celsius to Fahrenheit.
+     * This is a static method, meaning it can be called on the class itself rather than on instances of the class.
+     *
+     * @param {number} celsius - The temperature in degrees Celsius.
+     * @returns {number} The temperature converted to degrees Fahrenheit.
+     */
+
     static #celsiusToFahrenheit(celsius) {
         return (celsius * 9 / 5) + 32;
     }
 
+
+
+    /**
+     * Constructs a response object indicating a successful operation.
+     * This method is commonly used to standardize the format of successful responses throughout the application.
+     *
+     * @param {any} data - The payload to be included in the success message. This can be any type of data resulting from the operation.
+     * @param {string|null} [message=null] - An optional message providing more details about the success, defaults to null if not provided.
+     * @returns {Object} An object structured to indicate success, containing the provided data and an optional message.
+     */
     #messageOperationSuccess(data, message = null) {
         return {
             success: true,
@@ -67,6 +91,13 @@ class WeatherModel extends BaseFetchRetry {
         }
     }
 
+    /**
+     * Constructs a response object indicating an operation failure.
+     * This method is used to standardize the format of error responses throughout the application.
+     *
+     * @param {Error|string} error - The error encountered during the operation, described either as a string or an Error object.
+     * @returns {Object} An object structured to indicate failure, containing no data and an error message.
+     */
 
     #messageOperationFailure(error) {
         return {
@@ -76,6 +107,15 @@ class WeatherModel extends BaseFetchRetry {
         };
     }
 
+    /**
+     * Validates and potentially adjusts the interval number based on the interval type specified.
+     * Ensures that the interval number does not exceed the maximum allowable value for the given type.
+     *
+     * @param {string} type - The type of interval, such as 'minutely' or 'hourly'.
+     * @param {number} number - The interval number to validate.
+     * @returns {number} The validated interval number, adjusted if necessary to conform to maximum limits.
+     */
+
     #validateInterval(type, number) {
         if (type === 'minutely' && number > 120) return 120;
 
@@ -84,6 +124,12 @@ class WeatherModel extends BaseFetchRetry {
         return number;
     }
 
+    /**
+     * Sets the geographic point for weather data retrieval and initializes the process to fetch weather timelines.
+     *
+     * @param {string} point - A string representing a geographic location, usually in "latitude,longitude" format.
+     */
+
     async setPoint(point) {
         this.url = `https://api.tomorrow.io/${WeatherModel.VERSION}/weather/forecast?location=${point}&apikey=${this.#apiKey}`;
         await this.#getTimelines();
@@ -91,11 +137,24 @@ class WeatherModel extends BaseFetchRetry {
 
 
 
+    /**
+     * Fetches and stores weather timelines from a remote API based on the previously set geographic point.
+     * This method updates the internal state with the fetched timelines.
+     */
     async #getTimelines() {
         const result = await this.fetchWithRetry();
         this.#timelines = result.timelines;
 
     }
+
+    /**
+     * Asynchronously retrieves weather data for a specified interval and interval number.
+     * Handles fetching, validating intervals, and structuring the response.
+     *
+     * @param {string} [type='minutely'] - The type of interval to retrieve data for ('minutely', 'hourly').
+     * @param {number} [number=0] - The specific interval number to retrieve, with defaulting to the first interval.
+     * @returns {Promise<Object>} A promise that resolves to a message operation success object containing the weather data, or a failure object if an error occurs.
+     */
 
     async getWeatherByInterval(type = 'minutely', number = 0) {
         try {

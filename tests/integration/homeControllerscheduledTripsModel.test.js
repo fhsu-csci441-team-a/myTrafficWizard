@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const HomeController = require('../../controllers/homeController');
 const ScheduledTripsModel = require('../../models/scheduledTripsModel');
 require('dotenv').config();

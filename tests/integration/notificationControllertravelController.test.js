@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 const NotificationController = require('../../controllers/notificationController');
 const TravelController = require('../../controllers/travelController');
 const ScheduledTripsModel = require('../../models/scheduledTripsModel');

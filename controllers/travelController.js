@@ -1,3 +1,9 @@
+/*
+* written by: Tyler Anderson
+* tested by: Team
+* debugged by: Team
+*/
+
 /**
  * The TravelController class orchestrates fetching and presenting travel-related information,
  * including travel times and incidents along a specified route. It utilizes the TravelTimeModel
@@ -35,6 +41,12 @@ class TravelController {
     }
 
 
+    /**
+     * Determines the appropriate plurality of the word "minute" based on the provided number.
+     * 
+     * @param {number} minutes - The number of minutes to evaluate.
+     * @returns {string} Returns 'minutes' if the input is greater than 1 and not 0, otherwise returns 'minute'.
+     */
     #getPluralityOfMinutes(minutes) {
         if (minutes > 1 && !minutes !== 0)
             return 'minutes';
@@ -42,18 +54,36 @@ class TravelController {
             return 'minute';
     }
 
+    /**
+     * Checks if the given message object represents a successful operation.
+     * 
+     * @param {Object} message - The message object to evaluate, typically containing a success property and data.
+     * @returns {boolean} True if the message indicates success (either through a true success property or presence of data), otherwise false.
+     */
+
     #isSuccessMessage(message) {
         return message.success == true || message.data;
     }
+
+
+    /**
+     * Determines if the provided message object contains travel incidents data.
+     * 
+     * @param {Object} message - The message object that potentially contains travel incident data.
+     * @returns {boolean} True if there are one or more travel incidents in the data, otherwise false.
+     */
 
     #hasTravelIncidents(message) {
         return message.data && message.data.length > 0;
     }
 
-    #getAddressFromPoint(point) {
 
-    }
-
+    /**
+     * Asynchronously generates a message template describing travel times, formatted as either text or HTML.
+     * 
+     * @param {string} [messageType='text'] - The format of the output message ('text' or 'html').
+     * @returns {string} A formatted string describing current and historical travel times, potentially with additional context regarding traffic conditions.
+     */
     async #generateMessageTemplateTravelTime(messageType = 'text') {
         let travelTime = await this.travelTimeModel.getTravelTimes();
 
@@ -87,6 +117,13 @@ class TravelController {
 
     }
 
+    /**
+     * Generates an HTML formatted list describing travel incidents.
+     * 
+     * @param {Array} travelIncidents - An array of incident objects to be formatted.
+     * @returns {string} An HTML string listing travel incidents with details.
+     */
+
     #generateIncidentsHTMLTemplate(travelIncidents) {
         let listTemplate = `<ul style="list-style-type: none; padding: 0;">`;
         travelIncidents.forEach((incident, index) => {
@@ -101,6 +138,12 @@ class TravelController {
 
     }
 
+    /**
+     * Generates a plain text formatted list of travel incidents.
+     * 
+     * @param {Array} travelIncidents - An array of incident objects to be formatted.
+     * @returns {string} A plain text string listing travel incidents with details.
+     */
     #generateIncidentsTextTemplate(travelIncidents) {
         let textTemplate = '';
         travelIncidents.forEach((incident, index) => {
@@ -110,6 +153,13 @@ class TravelController {
         return textTemplate.trim();
 
     }
+
+    /**
+     * Asynchronously generates a message template describing travel conditions, formatted as either text or HTML based on provided incidents.
+     * 
+     * @param {string} [messageType='text'] - The format of the output message ('text' or 'html').
+     * @returns {string} A formatted string describing travel incidents, or a notification of no incidents.
+     */
 
     async #generateMessageTemplateTravelConditions(messageType = 'text') {
         let travelIncidentMessage = await this.travelIncidentModel.getTravelIncidents();
@@ -130,6 +180,12 @@ class TravelController {
 
     }
 
+    /**
+     * Asynchronously combines travel time and incident messages into a single template, formatted as either text or HTML.
+     * 
+     * @param {string} [messageType='text'] - The format of the output message ('text' or 'html').
+     * @returns {string} A comprehensive template that includes both route details and travel conditions.
+     */
     async #generateMessageTemplateCombined(messageType = 'text') {
         const travelTimeMessage = await this.#generateMessageTemplateTravelTime(messageType);
         const travelIncidentMessage = await this.#generateMessageTemplateTravelConditions(messageType);
@@ -157,6 +213,12 @@ class TravelController {
         return template;
 
     }
+
+    /**
+     * Asynchronously retrieves both HTML and text travel messages using combined templates for travel times and incidents.
+     * 
+     * @returns {Object} An object containing both HTML and text formatted messages regarding travel conditions.
+     */
 
     async getTravelMessage() {
         const htmlMessage = await this.#generateMessageTemplateCombined('html');

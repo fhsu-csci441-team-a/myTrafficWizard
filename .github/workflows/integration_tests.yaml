@@ -1,3 +1,25 @@
+#written by: Tyler Anderson
+# tested by: Team
+# debugged by: Team
+
+# Run Integration Tests
+#
+# This GitHub Actions workflow is triggered manually via workflow_dispatch. It is configured to perform
+# integration testing on the latest Ubuntu runner environment. It aims to verify the interactions between
+# integrated modules of the application within a Node.js environment.
+#
+# Jobs:
+# - integration-tests: Defines the job that runs on an Ubuntu latest environment.
+#   Steps:
+#   - Checkout repository: Ensures the latest version of the code is used for testing by cloning the repo.
+#   - Set up Node.js: Prepares the Node.js environment specified by version 20.11.0 to ensure consistency across test runs.
+#   - Install dependencies: Installs all Node.js dependencies necessary for running the integration tests.
+#   - Run Integration Tests: Executes the integration tests specified in the tests/integration directory. This step is configured to continue even if errors occur.
+#   - Upload HTML Integration Test Report: Saves the generated HTML integration test reports as an artifact for later review, aiding in troubleshooting and validation of test results.
+#
+# Usage:
+# This workflow can be initiated manually from the GitHub repository's Actions tab, providing flexibility in when integration tests are conducted.
+
 name: Run Integration Tests
 
 on:
